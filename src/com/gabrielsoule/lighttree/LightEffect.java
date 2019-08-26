@@ -1,15 +1,17 @@
 package com.gabrielsoule.lighttree;
 
-import processing.core.PApplet;
-
 public abstract class LightEffect {
-    private PApplet p;
+    public LightTree p;
 
-    public LightEffect(PApplet applet) {
+    public LightEffect(LightTree applet) {
         this.p = applet;
     }
 
     public LightEffect() { }
 
+    public abstract void draw();
 
+    public void setLight(int index, int color) {
+        p.setLight(index,  color);
+    }
 }
