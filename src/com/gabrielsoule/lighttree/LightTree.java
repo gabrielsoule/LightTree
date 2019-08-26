@@ -44,13 +44,18 @@ public class LightTree extends PApplet {
     }
 
     @Override
+    public void stop() {
+        minim.stop();
+        super.stop();
+    }
+
+    @Override
     public void draw() {
         opc.writePixels();
 
         background(0);
         stroke(255);
         activeEffect.draw();
-        println(audioInput.bufferSize());
 //        strokeWeight(1);
 //        for(int i = 0; i < audioInput.bufferSize() - 1; i++)
 //        {
