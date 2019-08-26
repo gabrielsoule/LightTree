@@ -16,7 +16,7 @@ public class LightTree extends PApplet {
 
     @Override
     public void settings() {
-        size(1000, 400);
+        size(1200, 400);
     }
 
     public OPC opc;
