@@ -39,7 +39,7 @@ public class LightTree extends PApplet {
         frameRate(60);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
-        colorMode(HSB, 360, 255, 255);
+        colorMode(HSB, 360, 255, 255, 255);
         this.activeEffect = new TestEffectGradient(this);
         for(int i = 0; i < 512; i++) {
             lightColors[i] = color(0, 0, 48);
@@ -144,8 +144,8 @@ public class LightTree extends PApplet {
     }
 
     void setLight(int index, int c) {
-        c = fixColor(c);
         lightColors[index] = c;
+        c = fixColor(c);
         int segment = (int) (index / 64f);
         switch(segment) {
             case 0:
@@ -166,10 +166,26 @@ public class LightTree extends PApplet {
         opc.setPixel(index, c);
     }
 
+
+//    /**
+//     * Fadecandy server ignores alpha values, but often we want to use alpha values to indicate brightness.
+//     * This method manually applies the color's alpha to its RGB channels so it can be used to control dimness
+//     */
+//    public int applyAlpha(int color)  {
+//        int alphaFrac = ((color >> 24) & 0xFF) / 255;
+//
+//    }
+
     private int fixColor(int oldRGB) {
 //        int oldRGB = parent.color(hue, saturation, brightness);
         //bunch of bit shifting fuckery to turn AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBB into AAAAAAAAGGGGGGGGRRRRRRRRBBBBBBBB
-        return (((oldRGB >> 24) & 0xFF) << 24) | (((oldRGB >> 8) & 0xFF) << 16) | (((oldRGB >> 16) & 0xFF) << 8) | (oldRGB & 0xFF);
+        //also, since fadecandy doesn't do alpha values, simulate transparency by applying blackness that corresponds
+        //to the alpha value
+        float alphaFrac = ((oldRGB >> 24) & 0xFF) / (float) 255;
+        return (((oldRGB >> 24) & 0xFF) << 24) |
+                ((int)(((oldRGB >> 8) & 0xFF) * alphaFrac) << 16) |
+                ((int)(((oldRGB >> 16) & 0xFF) * alphaFrac) << 8) |
+                ((int) ((oldRGB & 0xFF) * alphaFrac));
     }
 
 

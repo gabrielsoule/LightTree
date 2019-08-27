@@ -15,8 +15,4 @@ public class EffectSimpleVisualizer extends LightEffect {
         }
     }
 
-    @Override
-    public void setup() {
-
-    }
 }

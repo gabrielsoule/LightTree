@@ -8,8 +8,4 @@ public class EffectSimpleBeat extends LightEffect {
 
     }
 
-    @Override
-    public void setup() {
-
-    }
 }
