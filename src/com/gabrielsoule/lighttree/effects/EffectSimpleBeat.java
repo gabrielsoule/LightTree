@@ -7,4 +7,9 @@ public class EffectSimpleBeat extends LightEffect {
     public void draw() {
 
     }
+
+    @Override
+    public void setup() {
+
+    }
 }

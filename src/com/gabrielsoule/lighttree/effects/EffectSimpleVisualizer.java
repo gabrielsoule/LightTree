@@ -14,4 +14,9 @@ public class EffectSimpleVisualizer extends LightEffect {
             setLight((i + (p.millis() / 5)) % 256, p.color((i / 512f) * 360, 255, 255));
         }
     }
+
+    @Override
+    public void setup() {
+
+    }
 }

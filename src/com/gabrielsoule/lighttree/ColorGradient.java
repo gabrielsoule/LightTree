@@ -6,6 +6,8 @@ public class ColorGradient {
 
     private HashMap<Float, Integer> colors;
 
+//    private float farLeft, farRight; //cache the furthest left and right colors just to make things fast on addcolor
+
     public ColorGradient(int... args) {
         if(args.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of arguments. Each color must be paired with a float in between 0 and 1");
@@ -38,7 +40,7 @@ public class ColorGradient {
 
         return lerpColor(position, colors.get(leftIndex), colors.get(rightIndex), leftIndex, rightIndex);
     }
-
+    //lerp RGB values
     private int lerpColor(float index, int lColor, int rColor, float leftIndex, float rightIndex) {
         float t = (index - leftIndex) / (rightIndex - leftIndex);
         float r1 = (lColor >> 16) & 0xFF;
@@ -49,12 +51,10 @@ public class ColorGradient {
         float b2 = rColor & 0xFF;
 
         return  (0xFF << 24) |
-                ((int) (r1 + (r2 - r1) * t) << 16) |
-                ((int) (g1 + (g2 - g1) * t) << 8) |
-                ((int) (b1 + (b2 - b1) * t));
+                (Math.round(r1 + (r2 - r1) * t) << 16) |
+                (Math.round(g1 + (g2 - g1) * t) << 8) |
+                (Math.round(b1 + (b2 - b1) * t));
     }
-
-
 
     public ColorGradient addColor(int color, float position) {
         colors.put(position, color);

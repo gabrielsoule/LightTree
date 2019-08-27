@@ -1,6 +1,7 @@
 package com.gabrielsoule.lighttree;
 
 import com.gabrielsoule.lighttree.effects.EffectSimpleVisualizer;
+import com.gabrielsoule.lighttree.effects.TestEffectGradient;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
@@ -18,6 +19,8 @@ public class LightTree extends PApplet {
     public void settings() {
         size(1200, 400);
     }
+
+    public final int NUM_LIGHTS = 256;
 
     public OPC opc;
     public final int numLights = 512;
@@ -37,7 +40,7 @@ public class LightTree extends PApplet {
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255);
-        this.activeEffect = new EffectSimpleVisualizer(this);
+        this.activeEffect = new TestEffectGradient(this);
         for(int i = 0; i < 512; i++) {
             lightColors[i] = color(0, 0, 48);
         }
