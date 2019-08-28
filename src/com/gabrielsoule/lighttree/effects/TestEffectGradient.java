@@ -11,7 +11,12 @@ public class TestEffectGradient extends LightEffect {
 
     public TestEffectGradient(LightTree p) {
         super(p);
-        gradient = new ColorGradient(p.color(240, 255, 255), 0, p.color(0, 255, 255, 120), 1);
+        gradient = new ColorGradient(
+                p.color(40, 255, 255), 0,
+                p.color(40, 255, 255), 0.2f,
+                p.color(120, 255, 255), 0.5f,
+                p.color(270, 255, 255, 255), 0.8f,
+                p.color(270, 255, 255, 255), 1);
     }
 
     @Override

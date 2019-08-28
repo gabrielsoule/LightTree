@@ -5,6 +5,8 @@ import java.util.HashMap;
 public class ColorGradient {
 
     private HashMap<Float, Integer> colors;
+    private boolean fixBrightness = true;
+    private float curveLerpExponent = 2f;
 
     public ColorGradient(float... args) {
         if(args.length % 2 != 0) {
@@ -50,15 +52,29 @@ public class ColorGradient {
         float g2 = (rColor >>  8) & 0xFF;
         float b1 = lColor & 0xFF;
         float b2 = rColor & 0xFF;
+        
+        int a =  Math.round(fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
+//        System.out.println(a);
 
-        return  (Math.round(a1 + (a2 - a1) * t) << 24) |
-                (Math.round(r1 + (r2 - r1) * t) << 16) |
-                (Math.round(g1 + (g2 - g1) * t) << 8) |
-                (Math.round(b1 + (b2 - b1) * t));
+        return  a << 24 |
+                    (Math.round(r1 + (r2 - r1) * t) << 16) |
+                    (Math.round(g1 + (g2 - g1) * t) << 8) |
+                    (Math.round(b1 + (b2 - b1) * t));
+
     }
 
     public ColorGradient addColor(int color, float position) {
         colors.put(position, color);
+        return this;
+    }
+    
+    public ColorGradient linearApparentBrightness(boolean toggle) {
+        this.fixBrightness = true;
+        return this;
+    }
+    
+    public ColorGradient brightnessCurveExponent(float curve) {
+        this.curveLerpExponent = curve;
         return this;
     }
 }
