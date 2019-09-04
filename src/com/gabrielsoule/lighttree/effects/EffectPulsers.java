@@ -13,7 +13,7 @@ public class EffectPulsers extends LightEffect {
     public ColorGradient color;
     public float gradientFalloff;
     public int[] foci;
-
+    public int[] collisionArray;
     public ArrayList<Pulser> pulsers = new ArrayList<>();
 
     public EffectPulsers(LightTree p, float speed, ColorGradient color, float gradientFalloff, int... foci) {
@@ -24,6 +24,7 @@ public class EffectPulsers extends LightEffect {
         this.color = color;
         this.gradientFalloff = gradientFalloff;
         this.foci = foci;
+        this.collisionArray = new int[p.numLights];
     }
 
     @Override
