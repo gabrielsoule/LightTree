@@ -1,5 +1,6 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.effects.EffectChasers;
 import com.gabrielsoule.lighttree.effects.EffectSimpleVisualizer;
 import com.gabrielsoule.lighttree.effects.TestEffectGradient;
 import ddf.minim.AudioInput;
@@ -30,20 +31,23 @@ public class LightTree extends PApplet {
     public int[] lightColors = new int[512];
     public HashMap<Character, LightEffect> effects;
     public LightEffect activeEffect;
+    public BeatDetector beatDetector;
 
     @Override
     public void setup() {
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
-        frameRate(60);
+        frameRate(30);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
-        this.activeEffect = new TestEffectGradient(this);
+        this.activeEffect = new EffectChasers(this);
         for(int i = 0; i < 512; i++) {
             lightColors[i] = color(0, 0, 48);
         }
+
+        beatDetector = new BeatDetector(this, audioInput);
     }
 
     @Override
@@ -58,14 +62,10 @@ public class LightTree extends PApplet {
 
         background(0);
         stroke(255);
-        activeEffect.draw();
-//        strokeWeight(1);
-//        for(int i = 0; i < audioInput.bufferSize() - 1; i++)
-//        {
-//            line(i, 400 + audioInput.left.get(i)*50, i+1, 400 + audioInput.left.get(i+1)*50);
-//            line(i, 150 + audioInput.right.get(i)*50, i+1, 150 + audioInput.right.get(i+1)*50);
-//        }
 
+        beatDetector.tick();
+//        if(beatDetector.beat()) System.out.println(beat);
+        activeEffect.draw();
         drawSimulator();
         opc.writePixels();
     }
@@ -164,6 +164,36 @@ public class LightTree extends PApplet {
                 break;
         }
         opc.setPixel(index, c);
+    }
+
+    int lastPress;
+    int totalTime;
+    int presses;
+    float avg;
+
+    @Override
+    public void keyPressed() {
+
+        activeEffect.key = key;
+        activeEffect.keyPressed();
+
+        if(key == 'c') {
+            presses++;
+//            if(presses > 3) {
+//                totalTime += millis() - lastPress;
+//                print(millis() - lastPress);
+//                avg = totalTime / (presses - 1);
+//            }
+            System.out.println(millis() - lastPress);
+
+            lastPress = millis();
+
+//            System.out.println(avg);
+//            System.out.println(60000 / avg);
+
+        } else if (key == 'b') {
+            beatDetector.handleKeyPress();
+        }
     }
 
 

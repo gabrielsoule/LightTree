@@ -2,6 +2,7 @@ package com.gabrielsoule.lighttree;
 
 public abstract class LightEffect {
     public LightTree p;
+    public char key;
 
     public LightEffect(LightTree applet) {
         this.p = applet;
