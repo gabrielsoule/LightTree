@@ -14,7 +14,7 @@ public class BeatDetector {
     private int BEATS_TO_IGNORE = 3;
     private int BEATS_BEFORE_AUTO_GENERATE = 8;
     private int SYNC_NEW_BEAT_THRESHOLD;
-    private int TUNING = -1;
+    private float TUNING = -0.6f;
 
     private boolean beat = false;
     private int lastManualBeatTime = 0;
@@ -108,7 +108,11 @@ public class BeatDetector {
             }
         }
 
-        public float getEstBPM() {
-            return 60000 / estPeriod;
+        public boolean ready() {
+            return estPeriod != 0;
+        }
+
+        public int getEstBPM() {
+            return (int) (60000 / estPeriod);
         }
 }

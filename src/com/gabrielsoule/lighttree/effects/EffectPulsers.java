@@ -13,7 +13,7 @@ public class EffectPulsers extends LightEffect {
     public ColorGradient color;
     public float gradientFalloff;
     public int[] foci;
-    public int[] collisionArray;
+    public Pulser[] collisionArray;
     public ArrayList<Pulser> pulsers = new ArrayList<>();
 
     public EffectPulsers(LightTree p, float speed, ColorGradient color, float gradientFalloff, int... foci) {
@@ -24,23 +24,23 @@ public class EffectPulsers extends LightEffect {
         this.color = color;
         this.gradientFalloff = gradientFalloff;
         this.foci = foci;
-        this.collisionArray = new int[p.numLights];
+        this.collisionArray = new Pulser[p.numLights];
     }
 
     @Override
     public void draw() {
         //spawn new
-        if(p.beatDetector.beat()) {
-            pulsers.add(new Pulser(focusPoint, speed, ))
+        if(p.beatDetector.beat() && p.beatDetector.ready()) {
+            for(int focus : foci) {
+                pulsers.add(new Pulser(focus, speed,  1, color, gradientFalloff));
+                pulsers.add(new Pulser(focus, speed, -1, color, gradientFalloff));
+            }
         }
-    }
-
-    private void setLight(int index, int color) {
-
     }
 
     private class Pulser {
         public float birthDate;
+        public float startingPos;
         public float position;
         public float speed;
         public int direction;
@@ -55,7 +55,7 @@ public class EffectPulsers extends LightEffect {
             this.length = (int) ((speed * 60) / (float) p.beatDetector.getEstBPM() + 1);
             this.speed = speed / p.frameRate; //easier to work with distance per frame rather than per second
             this.birthDate = p.millis();
-            this.position = startingPos;
+            this.position = this.startingPos = startingPos;
             this.direction = direction;
             this.color = color;
             this.gradientFalloff = gradientFalloff;
@@ -63,10 +63,28 @@ public class EffectPulsers extends LightEffect {
 
         public void moveAndDraw() {
             this.position += speed;
-            int startPosition = Math.round(position);
+            int drawPos = Math.round(position);
+            if(position < 0 || position > p.NUM_LIGHTS) {
+                this.destroy();
+            }
+
+            if(collisionArray[drawPos] != null && drawPos != this.startingPos) {
+                collisionArray[drawPos].destroy();
+                this.destroy();
+                collisionArray[drawPos] = null;
+            }
+
             for(int i = 0; i <  length; i++) {
-                setLight(startPosition, color.get(i / (float) length));
-                startPosition += direction;
+                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
+                    //if it is NOT the case that the pulser has been destroyed and the desired light to turn on is ahead
+                    //of the point at which the pulser was destroyed, set the light
+                    setLight(drawPos, color.get(i / (float) length));
+                }
+                drawPos += direction;
+            }
+
+            if(drawPos > destroyPos) {
+                pulsers.remove(this); //cleanup
             }
         }
 
