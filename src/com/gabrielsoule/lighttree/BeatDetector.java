@@ -17,6 +17,7 @@ public class BeatDetector {
     private float TUNING = -0.6f;
 
     private boolean beat = false;
+//    private boolean enqueueBeat = false;
     private int lastManualBeatTime = 0;
 //    private int lastAutoBeatTime;
     private int manualBeatCount;

@@ -1,6 +1,7 @@
 package com.gabrielsoule.lighttree;
 
 import com.gabrielsoule.lighttree.effects.EffectChasers;
+import com.gabrielsoule.lighttree.effects.EffectPulsers;
 import com.gabrielsoule.lighttree.effects.EffectSimpleVisualizer;
 import com.gabrielsoule.lighttree.effects.TestEffectGradient;
 import ddf.minim.AudioInput;
@@ -42,7 +43,13 @@ public class LightTree extends PApplet {
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
-        this.activeEffect = new EffectChasers(this);
+//        this.activeEffect = new EffectChasers(this);
+        this.activeEffect = new EffectPulsers(
+                this,
+                10,
+                new ColorGradient(color(100, 255, 255), 0, color(200, 255, 255, 0), 0),
+                1,
+                NUM_LIGHTS / 2);
         for(int i = 0; i < 512; i++) {
             lightColors[i] = color(0, 0, 48);
         }
@@ -62,10 +69,12 @@ public class LightTree extends PApplet {
 
         background(0);
         stroke(255);
+        if(beatDetector.beat()) System.out.println("beat detected!");
+        activeEffect.draw();
 
         beatDetector.tick();
-//        if(beatDetector.beat()) System.out.println(beat);
-        activeEffect.draw();
+//        if(beatDetector.beat()) System.out.println("beat detected!");
+//        activeEffect.draw();
         drawSimulator();
         opc.writePixels();
     }
@@ -193,6 +202,7 @@ public class LightTree extends PApplet {
 
         } else if (key == 'b') {
             beatDetector.handleKeyPress();
+            System.out.println(beatDetector.beat());
         }
     }
 

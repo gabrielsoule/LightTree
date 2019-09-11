@@ -5,9 +5,10 @@ import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class EffectPulsers extends LightEffect {
-    public float speed;
+    public float speed; //lights per second
     public int direction; // 1 indicates moving left,
     public int focusPoint;
     public ColorGradient color;
@@ -36,6 +37,13 @@ public class EffectPulsers extends LightEffect {
                 pulsers.add(new Pulser(focus, speed, -1, color, gradientFalloff));
             }
         }
+
+        for(Iterator<Pulser> iterator = pulsers.iterator(); iterator.hasNext();) {
+            Pulser p = iterator.next();
+            if(p.markForRemoval) {
+                iterator.remove();
+            }
+        }
     }
 
     private class Pulser {
@@ -49,6 +57,7 @@ public class EffectPulsers extends LightEffect {
         public int length;
 
         boolean destroyed = false;
+        boolean markForRemoval = false;
         int destroyPos;
 
         public Pulser(float startingPos, float speed, int direction, ColorGradient color, float gradientFalloff) {
@@ -75,7 +84,9 @@ public class EffectPulsers extends LightEffect {
             }
 
             for(int i = 0; i <  length; i++) {
-                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
+                if(!destroyed || (destroyed && ((direction == 1 && drawPos <= destroyPos) || (direction == -1 && drawPos >= destroyPos))))
+                {
+//                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
                     //if it is NOT the case that the pulser has been destroyed and the desired light to turn on is ahead
                     //of the point at which the pulser was destroyed, set the light
                     setLight(drawPos, color.get(i / (float) length));
@@ -84,7 +95,8 @@ public class EffectPulsers extends LightEffect {
             }
 
             if(drawPos > destroyPos) {
-                pulsers.remove(this); //cleanup
+//                pulsers.remove(this); //cleanup
+                this.markForRemoval = true;
             }
         }
 
