@@ -188,7 +188,7 @@ public class OPC implements Runnable
         packet[5] = (byte)0x01; // System ID low byte
         packet[6] = (byte)0x00; // Command ID high byte
         packet[7] = (byte)0x02; // Command ID low byte
-        packet[8] = (byte)firmwareConfig;
+        packet[8] = firmwareConfig;
 
         try {
             pending.write(packet);

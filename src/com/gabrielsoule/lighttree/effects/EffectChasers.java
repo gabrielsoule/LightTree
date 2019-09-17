@@ -2,6 +2,7 @@ package com.gabrielsoule.lighttree.effects;
 
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
+import processing.core.PApplet;
 
 public class EffectChasers extends LightEffect {
 
@@ -14,11 +15,11 @@ public class EffectChasers extends LightEffect {
         super(p);
         chasers = new Chase[numNodes];
         for(int i=0; i<numNodes; i++){
-            float dirF = p.round(p.random(0,2));
+            float dirF = PApplet.round(p.random(0,2));
             int dir;
             if(dirF > 1) dir =1;
             else dir = -1;
-            chasers[i] = new Chase(p.round(p.random(0, 255)), dir, p.round(p.random(2, 20)));
+            chasers[i] = new Chase(PApplet.round(p.random(0, 255)), dir, PApplet.round(p.random(2, 20)));
         }
     }
 
@@ -37,7 +38,7 @@ public class EffectChasers extends LightEffect {
                 else{
                     brightness = (chasers[k].leng - (i+1)) * ((float)255/chasers[k].leng);
                 }
-                int bright = p.round(brightness);
+                int bright = PApplet.round(brightness);
                 setLight(index, p.color(hue, 200, bright));
             }
             chasers[k].move();
@@ -48,16 +49,16 @@ public class EffectChasers extends LightEffect {
     @Override
     public void keyPressed(){
         if(key == 'q'){
-            float dirF = p.round(p.random(0,2));
+            float dirF = PApplet.round(p.random(0,2));
             int dir;
             if(dirF > 1) dir =1;
             else dir = -1;
-            Chase newC = new Chase(p.round(p.random(0, 254)), dir, p.round(p.random(2, 20)));
-            chasers = (Chase[])p.append(chasers, newC);
+            Chase newC = new Chase(PApplet.round(p.random(0, 254)), dir, PApplet.round(p.random(2, 20)));
+            chasers = (Chase[]) PApplet.append(chasers, newC);
             numNodes = chasers.length;
         }
         if(key == 'a'){
-            chasers = (Chase[])p.shorten(chasers);
+            chasers = (Chase[]) PApplet.shorten(chasers);
             numNodes = chasers.length;
         }
     }
@@ -67,7 +68,7 @@ public class EffectChasers extends LightEffect {
         int curr;
 
         Chase(int s, int d, int l){
-            hue = p.round(p.random(360));
+            hue = PApplet.round(p.random(360));
             start = s;
             curr = s;
             dir = d;

@@ -46,8 +46,8 @@ public class LightTree extends PApplet {
 //        this.activeEffect = new EffectChasers(this);
         this.activeEffect = new EffectPulsers(
                 this,
-                10,
-                new ColorGradient(color(100, 255, 255), 0, color(200, 255, 255, 0), 0),
+                50,
+                new ColorGradient(color(100, 255, 255), 0, color(200, 255, 255, 0), 1),
                 1,
                 NUM_LIGHTS / 2);
         for(int i = 0; i < 512; i++) {

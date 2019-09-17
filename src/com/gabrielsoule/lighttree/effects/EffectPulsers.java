@@ -38,11 +38,10 @@ public class EffectPulsers extends LightEffect {
             }
         }
 
-        for(Iterator<Pulser> iterator = pulsers.iterator(); iterator.hasNext();) {
-            Pulser p = iterator.next();
-            if(p.markForRemoval) {
-                iterator.remove();
-            }
+        pulsers.removeIf(p -> p.markForRemoval);
+
+        for(Pulser p : pulsers) {
+            p.moveAndDraw();
         }
     }
 
@@ -94,7 +93,7 @@ public class EffectPulsers extends LightEffect {
                 drawPos += direction;
             }
 
-            if(drawPos > destroyPos) {
+            if(destroyed && drawPos > destroyPos) {
 //                pulsers.remove(this); //cleanup
                 this.markForRemoval = true;
             }
