@@ -31,7 +31,7 @@ public class EffectPulsers extends LightEffect {
     @Override
     public void draw() {
         //spawn new
-        if(p.beatDetector.beat() && p.beatDetector.ready()) {
+        if((p.beatDetector.beat() && p.beatDetector.ready()) || (p.beatDetector.beat() && p.beatDetector.manualMode)) {
             for(int focus : foci) {
                 pulsers.add(new Pulser(focus, speed,  1, color, gradientFalloff));
                 pulsers.add(new Pulser(focus, speed, -1, color, gradientFalloff));
@@ -60,7 +60,7 @@ public class EffectPulsers extends LightEffect {
         int destroyPos;
 
         public Pulser(float startingPos, float speed, int direction, ColorGradient color, float gradientFalloff) {
-            this.length = (int) ((speed * 60) / (float) p.beatDetector.getEstBPM() + 1);
+            this.length = p.beatDetector.manualMode ? 15 : (int) ((speed * 60) / (float) p.beatDetector.getEstBPM() + 1);
             this.speed = speed / p.frameRate; //easier to work with distance per frame rather than per second
             this.birthDate = p.millis();
             this.position = this.startingPos = startingPos;
@@ -70,15 +70,16 @@ public class EffectPulsers extends LightEffect {
         }
 
         public void moveAndDraw() {
-            this.position += speed;
+            this.position += speed * direction;
             int drawPos = Math.round(position);
-            if(position < 0 || position > p.NUM_LIGHTS) {
+            if(!destroyed && (position < 0 || position > p.NUM_LIGHTS)) {
                 this.destroy();
+                System.out.println("Destroying due to out of bounds");
             }
-
-            if(collisionArray[drawPos] != null && drawPos != this.startingPos) {
+            else if(!destroyed && collisionArray[drawPos] != null && drawPos != this.startingPos) {
                 collisionArray[drawPos].destroy();
                 this.destroy();
+                System.out.println("Destroying due to collision");
                 collisionArray[drawPos] = null;
             }
 
@@ -90,11 +91,13 @@ public class EffectPulsers extends LightEffect {
                     //of the point at which the pulser was destroyed, set the light
                     setLight(drawPos, color.get(i / (float) length));
                 }
-                drawPos += direction;
+                drawPos -= direction;
             }
 
-            if(destroyed && drawPos > destroyPos) {
+
+            if(destroyed && (direction == 1 ? drawPos > destroyPos : drawPos < destroyPos)) {
 //                pulsers.remove(this); //cleanup
+                System.out.println("Marking for full removal");
                 this.markForRemoval = true;
             }
         }

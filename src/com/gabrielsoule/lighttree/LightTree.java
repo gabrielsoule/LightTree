@@ -39,15 +39,15 @@ public class LightTree extends PApplet {
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
-        frameRate(30);
+        frameRate(240);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
 //        this.activeEffect = new EffectChasers(this);
         this.activeEffect = new EffectPulsers(
                 this,
-                50,
-                new ColorGradient(color(100, 255, 255), 0, color(200, 255, 255, 0), 1),
+                14,
+                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
                 1,
                 NUM_LIGHTS / 2);
         for(int i = 0; i < 512; i++) {
@@ -77,6 +77,12 @@ public class LightTree extends PApplet {
 //        activeEffect.draw();
         drawSimulator();
         opc.writePixels();
+        for (int i = 0; i < lightColors.length; i++) {
+            lightColors[i] = 0;
+        }
+//        for(int i = 0; i < lightColors.length; i++) {
+//            lightColors[i] = 0;
+//        }
     }
 
     private void drawSimulator() {
@@ -153,6 +159,9 @@ public class LightTree extends PApplet {
     }
 
     void setLight(int index, int c) {
+        if(index < 0 || index >= NUM_LIGHTS) {
+            return;
+        }
         lightColors[index] = c;
         c = fixColor(c);
         int segment = (int) (index / 64f);

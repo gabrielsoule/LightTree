@@ -14,7 +14,7 @@ public class BeatDetector {
     private int BEATS_BEFORE_AUTO_GENERATE = 8;
     private int SYNC_NEW_BEAT_THRESHOLD;
     private float TUNING = -0.6f;
-    boolean manualMode = true;
+    public boolean manualMode = true;
     private boolean beat = false;
     //    private boolean enqueueBeat = false;
     private int lastManualBeatTime = 0;
