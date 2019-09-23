@@ -22,14 +22,13 @@ public class LightTree extends PApplet {
         size(1200, 400);
     }
 
-    public final int NUM_LIGHTS = 256;
+    public final int NUM_LIGHTS = 512;
 
     public OPC opc;
-    public final int numLights = 512;
     public Minim minim;
     public AudioInput audioInput;
     public BeatDetect beat;
-    public int[] lightColors = new int[512];
+    public int[] lightColors = new int[NUM_LIGHTS];
     public HashMap<Character, LightEffect> effects;
     public LightEffect activeEffect;
     public BeatDetector beatDetector;
@@ -39,19 +38,19 @@ public class LightTree extends PApplet {
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
-        frameRate(240);
+        frameRate(30);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
-//        this.activeEffect = new EffectChasers(this);
-        this.activeEffect = new EffectPulsers(
-                this,
-                14,
-                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
-                1,
-                NUM_LIGHTS / 2);
-        for(int i = 0; i < 512; i++) {
-            lightColors[i] = color(0, 0, 48);
+        this.activeEffect = new EffectChasers(this);
+//        this.activeEffect = new EffectPulsers(
+//                this,
+//                14,
+//                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
+//                1,
+//                NUM_LIGHTS / 2);
+        for(int i = 0; i < NUM_LIGHTS; i++) {
+            lightColors[i] = color(0, 0, 0);
         }
 
         beatDetector = new BeatDetector(this, audioInput);
@@ -69,20 +68,14 @@ public class LightTree extends PApplet {
 
         background(0);
         stroke(255);
-        if(beatDetector.beat()) System.out.println("beat detected!");
         activeEffect.draw();
 
         beatDetector.tick();
-//        if(beatDetector.beat()) System.out.println("beat detected!");
-//        activeEffect.draw();
         drawSimulator();
         opc.writePixels();
         for (int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
         }
-//        for(int i = 0; i < lightColors.length; i++) {
-//            lightColors[i] = 0;
-//        }
     }
 
     private void drawSimulator() {
@@ -135,29 +128,6 @@ public class LightTree extends PApplet {
         rectMode(CORNER);
     }
 
-
-    void setGradient(int x, int y, float w, float h, int c1, int c2, int axis ) {
-
-        noFill();
-
-        if (axis == 1) {  // Top to bottom gradient
-            for (int i = y; i <= y+h; i++) {
-                float inter = map(i, y, y+h, 0, 1);
-                int c = lerpColor(c1, c2, inter);
-                stroke(c);
-                line(x, i, x+w, i);
-            }
-        }
-        else if (axis == 2) {  // Left to right gradient
-            for (int i = x; i <= x+w; i++) {
-                float inter = map(i, x, x+w, 0, 1);
-                int c = lerpColor(c1, c2, inter);
-                stroke(c);
-                line(i, y, i, y+h);
-            }
-        }
-    }
-
     void setLight(int index, int c) {
         if(index < 0 || index >= NUM_LIGHTS) {
             return;
@@ -184,52 +154,24 @@ public class LightTree extends PApplet {
         opc.setPixel(index, c);
     }
 
-    int lastPress;
-    int totalTime;
-    int presses;
-    float avg;
-
     @Override
     public void keyPressed() {
 
         activeEffect.key = key;
         activeEffect.keyPressed();
 
-        if(key == 'c') {
-            presses++;
-//            if(presses > 3) {
-//                totalTime += millis() - lastPress;
-//                print(millis() - lastPress);
-//                avg = totalTime / (presses - 1);
-//            }
-            System.out.println(millis() - lastPress);
-
-            lastPress = millis();
-
-//            System.out.println(avg);
-//            System.out.println(60000 / avg);
-
-        } else if (key == 'b') {
+        if (key == 'b') {
             beatDetector.handleKeyPress();
-            System.out.println(beatDetector.beat());
         }
     }
 
-
-//    /**
-//     * Fadecandy server ignores alpha values, but often we want to use alpha values to indicate brightness.
-//     * This method manually applies the color's alpha to its RGB channels so it can be used to control dimness
-//     */
-//    public int applyAlpha(int color)  {
-//        int alphaFrac = ((color >> 24) & 0xFF) / 255;
-//
-//    }
-
+    /**
+     * Lots of cheap Chinese LEDs use GRB, not RGB like you'd expect. This function converts RGB -> GRB, and also
+     * bakes the alpha value into the RGB values of the input color as blackness, since the FC server doesn't use alpha
+     * @param oldRGB color to convert
+     * @return  the fixed color, ready to be directly fed into the OPC
+     */
     private int fixColor(int oldRGB) {
-//        int oldRGB = parent.color(hue, saturation, brightness);
-        //bunch of bit shifting fuckery to turn AAAAAAAARRRRRRRRGGGGGGGGBBBBBBBB into AAAAAAAAGGGGGGGGRRRRRRRRBBBBBBBB
-        //also, since fadecandy doesn't do alpha values, simulate transparency by applying blackness that corresponds
-        //to the alpha value
         float alphaFrac = ((oldRGB >> 24) & 0xFF) / (float) 255;
         return (((oldRGB >> 24) & 0xFF) << 24) |
                 ((int)(((oldRGB >> 8) & 0xFF) * alphaFrac) << 16) |

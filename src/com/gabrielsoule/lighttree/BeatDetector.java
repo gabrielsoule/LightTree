@@ -14,14 +14,13 @@ public class BeatDetector {
     private int BEATS_BEFORE_AUTO_GENERATE = 8;
     private int SYNC_NEW_BEAT_THRESHOLD;
     private float TUNING = -0.6f;
-    public boolean manualMode = true;
+    public boolean manualMode = false;
     private boolean beat = false;
-    //    private boolean enqueueBeat = false;
     private int lastManualBeatTime = 0;
-    //    private int lastAutoBeatTime;
     private int manualBeatCount;
     private int lastBeatTime;
     private int elapsed;
+    private float lastDelta;
     private float estPeriod;
     private DetectionPhase phase = DetectionPhase.SLEEPING;
     private boolean debug = true;
@@ -33,11 +32,14 @@ public class BeatDetector {
         minimDetector.detectMode(BeatDetect.SOUND_ENERGY);
     }
 
+    /**
+     * @return True on the tick that a beat is active. if(beat()) -> do something cool
+     */
     public boolean beat() {
         return beat;
     }
 
-    public void tick() {
+    void tick() {
         beat = false;
         if(!manualMode) {
             if (phase == DetectionPhase.ADJUSTING && p.millis() - lastManualBeatTime > ENGAGE_LOCK_TIME) {
@@ -57,16 +59,17 @@ public class BeatDetector {
                     && p.millis() - lastBeatTime > estPeriod) {
                 beat = true;
                 print("Auto beat: " + p.millis());
+                lastDelta = p.millis() - lastBeatTime;
                 lastBeatTime = p.millis();
             }
         }
     }
 
     private void print(String message) {
-        if (debug) System.out.println("[BeatGEN] " + message);
+        if (debug) System.out.println("[Beat Generator] " + message);
     }
 
-    public void handleKeyPress() {
+    void handleKeyPress() {
         if(manualMode) {
             this.beat = true;
         } else {
@@ -74,6 +77,7 @@ public class BeatDetector {
                 case SLEEPING:  //nothing has happened yet
                     print("Waking up. Keypress detected. Synchronizing beat to future keypresses...");
                     phase = DetectionPhase.SYNCHRONIZING;
+                    lastDelta = p.millis() - lastBeatTime;
                     lastBeatTime = lastManualBeatTime = p.millis();
                     break;
                 case SYNCHRONIZING:
@@ -88,6 +92,7 @@ public class BeatDetector {
                         estPeriod = elapsed / (manualBeatCount - BEATS_TO_IGNORE);
                         print("Est. Period: " + estPeriod);
                     }
+                    lastDelta = p.millis() - lastBeatTime;
                     lastBeatTime = lastManualBeatTime = p.millis();
                     break;
                 case ADJUSTING:
@@ -101,24 +106,41 @@ public class BeatDetector {
                     phase = DetectionPhase.ADJUSTING;
                     if (p.millis() - lastBeatTime < estPeriod / 2) {
                         print("Estimated BPM too fast, or out of sync. Re-synchronizing to keypress.");
-                        lastBeatTime = lastManualBeatTime = p.millis();
                     } else {
                         print("Estimated BPM too slow, or out of sync. Re-synchronizing to keypress.");
                         beat = true; //play beat
-                        lastBeatTime = lastManualBeatTime = p.millis();
                     }
+
+                    lastDelta = p.millis() - lastBeatTime;
+                    lastBeatTime = lastManualBeatTime = p.millis();
                     break;
             }
 
         }
     }
 
+    /**
+     *
+     * @return true if a beat is active, false otherwise
+     */
     public boolean ready() {
         return estPeriod != 0;
     }
 
+    /**
+     *
+     * @return the estimated BPM based on user beat input
+     */
     public int getEstBPM() {
         return (int) (60000 / estPeriod);
+    }
+
+    /**
+     *
+     * @return the time in ms between the last two beats, manual or auto. Will by necessity return zero before the second beat
+     */
+    public float getLastBeatDelta() {
+        return lastDelta;
     }
 
     private enum DetectionPhase {SLEEPING, ADJUSTING, SYNCHRONIZING, ENGAGED}
