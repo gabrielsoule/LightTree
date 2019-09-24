@@ -25,7 +25,12 @@ public class EffectPulsers extends LightEffect {
         this.color = color;
         this.gradientFalloff = gradientFalloff;
         this.foci = foci;
-        this.collisionArray = new Pulser[p.numLights];
+        this.collisionArray = new Pulser[p.NUM_LIGHTS];
+    }
+
+    @Override
+    public void setup() {
+
     }
 
     @Override
@@ -84,7 +89,7 @@ public class EffectPulsers extends LightEffect {
             }
 
             for(int i = 0; i <  length; i++) {
-                if(!destroyed || (destroyed && ((direction == 1 && drawPos <= destroyPos) || (direction == -1 && drawPos >= destroyPos))))
+                if(!destroyed || ((direction == 1 && drawPos <= destroyPos) || (direction == -1 && drawPos >= destroyPos)))
                 {
 //                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
                     //if it is NOT the case that the pulser has been destroyed and the desired light to turn on is ahead

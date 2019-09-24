@@ -62,7 +62,7 @@ public class BeatDetector {
                 lastDelta = p.millis() - lastBeatTime;
                 lastBeatTime = p.millis();
             }
-        }
+        } 
     }
 
     private void print(String message) {

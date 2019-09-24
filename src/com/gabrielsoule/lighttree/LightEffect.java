@@ -10,6 +10,8 @@ public abstract class LightEffect {
 
     public LightEffect() { }
 
+    public abstract void setup();
+
     public abstract void draw();
 
     public void keyPressed() {}

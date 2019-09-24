@@ -128,12 +128,26 @@ public class LightTree extends PApplet {
         rectMode(CORNER);
     }
 
+    public void color(float v1) {
+
+    }
+
     void setLight(int index, int c) {
+
+        //quietly fail if desired light is invalid
         if(index < 0 || index >= NUM_LIGHTS) {
             return;
         }
+
+        //Use the color value of -1 to indicate a RANDOM color (with full saturation)
+        if(c == -1) {
+            c = color(random(0, 360), 255, 255);
+        }
+
         lightColors[index] = c;
         c = fixColor(c);
+
+        //tree-specific mapping, since segments are out of order
         int segment = (int) (index / 64f);
         switch(segment) {
             case 0:

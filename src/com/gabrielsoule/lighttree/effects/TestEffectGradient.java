@@ -20,6 +20,11 @@ public class TestEffectGradient extends LightEffect {
     }
 
     @Override
+    public void setup() {
+
+    }
+
+    @Override
     public void draw() {
         for(int i = 0; i < p.NUM_LIGHTS; i++) {
             setLight(i, gradient.get(i / (float) p.NUM_LIGHTS));

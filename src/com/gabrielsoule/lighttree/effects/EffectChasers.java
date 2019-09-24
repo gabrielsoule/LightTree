@@ -24,6 +24,11 @@ public class EffectChasers extends LightEffect {
     }
 
     @Override
+    public void setup() {
+
+    }
+
+    @Override
     public void draw() {
         for(int k=0; k<chasers.length; k++){
             for (int i = 0; i < chasers[k].leng; i++) {
