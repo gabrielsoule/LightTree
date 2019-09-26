@@ -23,6 +23,7 @@ public class LightTree extends PApplet {
     }
 
     public final int NUM_LIGHTS = 512;
+    public final int FRAME_RATE = 90;
 
     public OPC opc;
     public Minim minim;
@@ -38,7 +39,7 @@ public class LightTree extends PApplet {
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
-        frameRate(30);
+        frameRate(FRAME_RATE);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
@@ -52,7 +53,7 @@ public class LightTree extends PApplet {
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
-
+        Color.p = this;
         beatDetector = new BeatDetector(this, audioInput);
     }
 
