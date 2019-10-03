@@ -3,6 +3,7 @@ package com.gabrielsoule.lighttree.effects;
 import com.gabrielsoule.lighttree.ColorGradient;
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
+import com.gabrielsoule.lighttree.MathUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -60,24 +61,31 @@ public class EffectPulsers extends LightEffect {
         public float gradientFalloff;
         public int length;
 
+        public int spawnBound;
+        public int destroyBound;
+
         boolean destroyed = false;
         boolean markForRemoval = false;
         int destroyPos;
 
-        public Pulser(float startingPos, float speed, int direction, ColorGradient color, float gradientFalloff) {
-            this.length = p.beatDetector.manualMode ? 15 : (int) ((speed * 60) / (float) p.beatDetector.getEstBPM() + 1);
+        public Pulser(int startingPos, float speed, int direction, ColorGradient color, float gradientFalloff) {
+            this.length = p.beatDetector.manualMode ? 50 : (int) ((speed * 60) / (float) p.beatDetector.getEstBPM() + 1);
             this.speed = speed / p.frameRate; //easier to work with distance per frame rather than per second
             this.birthDate = p.millis();
             this.position = this.startingPos = startingPos;
             this.direction = direction;
             this.color = color;
             this.gradientFalloff = gradientFalloff;
+
+            this.spawnBound = startingPos;
+            this.destroyBound = direction == 1 ? p.NUM_LIGHTS : 0;
+
         }
 
         public void moveAndDraw() {
             this.position += speed * direction;
             int drawPos = Math.round(position);
-            if(!destroyed && (position < 0 || position > p.NUM_LIGHTS)) {
+            if(!destroyed && (position < 0 || visualPosition() >= p.NUM_LIGHTS)) {
                 this.destroy();
                 System.out.println("Destroying due to out of bounds");
             }
@@ -89,11 +97,15 @@ public class EffectPulsers extends LightEffect {
             }
 
             for(int i = 0; i <  length; i++) {
-                if(!destroyed || ((direction == 1 && drawPos <= destroyPos) || (direction == -1 && drawPos >= destroyPos)))
-                {
-//                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
-                    //if it is NOT the case that the pulser has been destroyed and the desired light to turn on is ahead
-                    //of the point at which the pulser was destroyed, set the light
+//                if(!destroyed || ((direction == 1 && drawPos <= destroyPos) || (direction == -1 && drawPos >= destroyPos)))
+//                {
+////                if(!(destroyed && ((direction == 1 && drawPos > destroyPos) || ((direction == -1 && drawPos < destroyPos))))) {
+//                    //if it is NOT the case that the pulser has been destroyed and the desired light to turn on is ahead
+//                    //of the point at which the pulser was destroyed, set the light
+//                    setLight(drawPos, color.get(i / (float) length));
+//                }
+
+                if(MathUtil.between(drawPos, spawnBound, destroyBound)) {
                     setLight(drawPos, color.get(i / (float) length));
                 }
                 drawPos -= direction;
@@ -107,9 +119,6 @@ public class EffectPulsers extends LightEffect {
             }
         }
 
-        public void draw() {
-
-        }
 
         public int visualPosition() {
             return Math.round(position);
@@ -118,6 +127,7 @@ public class EffectPulsers extends LightEffect {
         public void destroy() {
             if(!destroyed) {
                 destroyPos = visualPosition();
+                destroyBound = visualPosition();
                 destroyed = true;
             }
         }

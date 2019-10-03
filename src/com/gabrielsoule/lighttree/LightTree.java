@@ -1,9 +1,6 @@
 package com.gabrielsoule.lighttree;
 
-import com.gabrielsoule.lighttree.effects.EffectChasers;
-import com.gabrielsoule.lighttree.effects.EffectPulsers;
-import com.gabrielsoule.lighttree.effects.EffectSimpleVisualizer;
-import com.gabrielsoule.lighttree.effects.TestEffectGradient;
+import com.gabrielsoule.lighttree.effects.*;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
@@ -43,18 +40,20 @@ public class LightTree extends PApplet {
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         colorMode(HSB, 360, 255, 255, 255);
-        this.activeEffect = new EffectChasers(this);
-//        this.activeEffect = new EffectPulsers(
-//                this,
-//                14,
-//                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
-//                1,
-//                NUM_LIGHTS / 2);
+//        this.activeEffect = new EffectChasers(this);
+        this.activeEffect = new EffectPulsers(
+                this,
+                90,
+                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
+                1,
+                NUM_LIGHTS / 2);
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
         Color.p = this;
         beatDetector = new BeatDetector(this, audioInput);
+//        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
+
     }
 
     @Override
@@ -127,10 +126,6 @@ public class LightTree extends PApplet {
 
         rect(x - (boxHeight + boxMargin), y - (boxHeight + boxMargin), boxHeight, boxHeight,0);
         rectMode(CORNER);
-    }
-
-    public void color(float v1) {
-
     }
 
     void setLight(int index, int c) {

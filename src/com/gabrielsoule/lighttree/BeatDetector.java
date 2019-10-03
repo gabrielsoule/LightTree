@@ -13,7 +13,7 @@ public class BeatDetector {
     private int BEATS_TO_IGNORE = 3;
     private int BEATS_BEFORE_AUTO_GENERATE = 8;
     private int SYNC_NEW_BEAT_THRESHOLD;
-    private float TUNING = -0.6f;
+    private float TUNING = 0f;
     public boolean manualMode = false;
     private boolean beat = false;
     private int lastManualBeatTime = 0;
@@ -33,7 +33,7 @@ public class BeatDetector {
     }
 
     /**
-     * @return True on the tick that a beat is active. if(beat()) -> do something cool
+     * @return True on the frame that a beat is active. if(beat()) -> do something cool
      */
     public boolean beat() {
         return beat;

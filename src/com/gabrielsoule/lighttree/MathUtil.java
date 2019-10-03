@@ -50,4 +50,8 @@ public class MathUtil {
         float x = (b - a) * t;
         return (float) (-20 * Math.pow(x, 7) + 70 * Math.pow(x, 6) - 84 * Math.pow(x, 5) + 35 * Math.pow(x, 4));
     }
+
+    public static boolean between(int a, int b1, int b2) {
+        return (b1 <= a && b2 >= a) || (b2 <= a && b1 >= a);
+    }
 }
