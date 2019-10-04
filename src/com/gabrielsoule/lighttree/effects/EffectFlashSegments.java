@@ -16,18 +16,18 @@ public class EffectFlashSegments extends LightEffect {
 
     //we scramble this array during setup so that segments turn on randomly
     private Deque<Segment> segments;
-    public EffectFlashSegments(LightTree p, int startColor, int endColor) {
-        super(p);
-        this.gradient = new ColorGradient(startColor, 0, endColor, 1);
-
-        ArrayList<Segment> segmentArray = new ArrayList<>();
-
-        for(int i = 0; i < p.NUM_LIGHTS / LIGHTS_PER_SEGMENT; i++) {
-            segmentArray.add(new Segment(i * LIGHTS_PER_SEGMENT, gradient));
-        }
-        Collections.shuffle(segmentArray);
-        segments = new ArrayDeque<>(segmentArray);
-    }
+//    public EffectFlashSegments(LightTree p, int startColor, int endColor) {
+//        super(p);
+//        this.gradient = new ColorGradient(startColor, 0, endColor, 1);
+//
+//        ArrayList<Segment> segmentArray = new ArrayList<>();
+//
+//        for(int i = 0; i < p.NUM_LIGHTS / LIGHTS_PER_SEGMENT; i++) {
+//            segmentArray.add(new Segment(i * LIGHTS_PER_SEGMENT, gradient));
+//        }
+//        Collections.shuffle(segmentArray);
+//        segments = new ArrayDeque<>(segmentArray);
+//    }
 
     @Override
     public void setup() {
@@ -46,7 +46,7 @@ public class EffectFlashSegments extends LightEffect {
         this.gradient = new ColorGradient(
                 colorConfig.length >= 1 ? colorConfig[0] : new Color("RANDOM"),
                 0,
-                colorConfig.length >= 2 ? colorConfig[1] : new Color(0);
+                colorConfig.length >= 2 ? colorConfig[1] : new Color(0)
         )
     }
 

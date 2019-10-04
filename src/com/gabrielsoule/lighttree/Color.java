@@ -28,6 +28,9 @@ public class Color {
         this.color = pColor;
     }
 
+    public Color(Color color) {
+        this.color = color.get();
+    }
 
     public Color(int hue, int saturation, int value) {
         this.color = p.color(hue, saturation, value);

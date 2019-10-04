@@ -11,6 +11,7 @@ import java.util.Map;
 public class Config {
 
     private Map<String, String> keybinds;
+    private Map<String, Color> colors;
 
     public Config(String filePath) {
         Yaml yaml = new Yaml();
@@ -19,6 +20,10 @@ public class Config {
         try {
             yamlObject = yaml.load(new FileInputStream(new File(filePath)));
             keybinds = (Map<String, String>) yamlObject.get("general-keybinds");
+            Map<String, String> hexColors = (Map<String, String>) yamlObject.get("color-names");
+            for(String key : hexColors.keySet()) {
+                hexColors.put(key, new Color(Integer.decode(hexColors.get(key)));
+            }
         } catch (FileNotFoundException e) {
             System.out.println("Unable to find configuration file at " + filePath);
         } catch (Exception e) {

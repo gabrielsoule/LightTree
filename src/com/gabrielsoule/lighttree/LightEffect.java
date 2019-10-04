@@ -4,6 +4,7 @@ public abstract class LightEffect {
     public LightTree p;
     public char key;
     public BeatDetector beatDetector;
+    private boolean instant;
 
     public LightEffect(LightTree applet) {
         this.p = applet;
@@ -17,6 +18,8 @@ public abstract class LightEffect {
     public abstract void configure(int[] integerConfig, Color[] colorConfig);
 
     public abstract void draw();
+
+    public boolean instant() {return false;}
 
     public void keyPressed() {}
 
