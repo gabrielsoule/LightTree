@@ -8,6 +8,7 @@ public class ColorGradient {
     private boolean fixBrightness = true;
     private float curveLerpExponent = 2f;
 
+    @Deprecated
     public ColorGradient(float... args) {
         if(args.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of arguments. Each color must be paired with a float in between 0 and 1");
@@ -19,6 +20,15 @@ public class ColorGradient {
             colors.put(args[i+1], (int) args[i]);
         }
     }
+
+    public ColorGradient(Color... colors) {
+        this.colors = new HashMap<>();
+
+
+    }
+
+    public ColorGradient setPositions(Float... positions) {}
+
 
     public int get(float position) {
         if(position < 0 || position > 1) {

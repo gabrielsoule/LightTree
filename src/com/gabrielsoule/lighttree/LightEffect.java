@@ -12,9 +12,9 @@ public abstract class LightEffect {
 
     public LightEffect() { }
 
-    public abstract void setup(int[] integerConfig, Color[] colorConfig);
+    public abstract void setup();
 
-    public abstract void reconfigure(int[] integerConfig, Color[] colorConfig);
+    public abstract void configure(int[] integerConfig, Color[] colorConfig);
 
     public abstract void draw();
 

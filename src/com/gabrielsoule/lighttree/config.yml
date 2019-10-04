@@ -15,10 +15,12 @@ color-names:
 
 general-keybinds:
   - z: KEY_NEW_EFFECT
-  - x: KEY_DO_BEAT
-  - c: KEY_TOGGLE_BEAT
-  - v: KEY_TOGGLE_LIGHTS
-
+  - x: KEY_TOGGLE_LIGHTS
+  - c: KEY_DO_BEAT
+  - v: KEY_DO_BEAT
+  - b: KEY_TOGGLE_BEAT
+  - n: KEY_DOUBLE_BEAT
+  - m: KEY_QUADRUPLE_BEAT
 color-keybinds:
   - q: RANDOM
   - w: WHITE

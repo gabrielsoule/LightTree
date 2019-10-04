@@ -1,6 +1,171 @@
 {
   "color-names": [
-    {"white" : "FFFFFF"},
-    { }
+    {
+      "WHITE": "FFFFFF"
+    },
+    {
+      "PINK": "FFC3C3"
+    },
+    {
+      "RED": "FF0000"
+    },
+    {
+      "ORANGE": "FF7F00"
+    },
+    {
+      "GOLD": "FFDA00"
+    },
+    {
+      "YELLOW": "FFFF00"
+    },
+    {
+      "GREEN": "00FF00"
+    },
+    {
+      "TEAL": "00FFC3"
+    },
+    {
+      "SKY": "00DDFF"
+    },
+    {
+      "BLUE": "0000FF"
+    },
+    {
+      "VIOLET": "4B0082"
+    },
+    {
+      "PURPLE": "9400D3"
+    },
+    {
+      "RANDOM": "RANDOM"
+    }
+  ],
+  "general-keybinds": [
+    {
+      "z": "KEY_NEW_EFFECT"
+    },
+    {
+      "x": "KEY_DO_BEAT"
+    },
+    {
+      "c": "KEY_TOGGLE_BEAT"
+    },
+    {
+      "v": "KEY_TOGGLE_LIGHTS"
+    }
+  ],
+  "color-keybinds": [
+    {
+      "q": "RANDOM"
+    },
+    {
+      "w": "WHITE"
+    },
+    {
+      "e": "PINK"
+    },
+    {
+      "r": "RED"
+    },
+    {
+      "t": "ORANGE"
+    },
+    {
+      "true": "GOLD"
+    },
+    {
+      "u": "YELLOW"
+    },
+    {
+      "i": "GREEN"
+    },
+    {
+      "o": "TEAL"
+    },
+    {
+      "p": "SKY"
+    },
+    {
+      "]": "BLUE"
+    },
+    {
+      "[": "VIOLET"
+    },
+    {
+      "\\": "PURPLE"
+    }
+  ],
+  "effects": [
+    {
+      "a": [
+        "EffectVisualizer",
+        [
+          0
+        ],
+        [
+          "RED",
+          "ORANGE",
+          "YELLOW"
+        ]
+      ]
+    },
+    {
+      "s": [
+        "EffectChasers",
+        [
+          0
+        ],
+        [
+          "RANDOM"
+        ]
+      ]
+    },
+    {
+      "d": [
+        "EffectPulsers",
+        [
+          6,
+          9,
+          5
+        ],
+        [
+          "GOLD",
+          "PURPLE"
+        ]
+      ]
+    },
+    {
+      "f": [
+        "EffectFLashSegments",
+        [
+          1
+        ],
+        [
+          "RANDOM"
+        ]
+      ]
+    },
+    {
+      "g": [
+        "EffectStrobe",
+        [
+          0
+        ],
+        [
+          "WHITE"
+        ]
+      ]
+    },
+    {
+      "h": [
+        "EffectSplash",
+        [
+          0
+        ],
+        [
+          "RANDOM"
+        ]
+      ]
+    }
   ]
 }
