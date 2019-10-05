@@ -4,7 +4,7 @@ public abstract class LightEffect {
     public LightTree p;
     public char key;
     public BeatDetector beatDetector;
-    private boolean instant;
+    private boolean sleeping = false;
 
     public LightEffect(LightTree applet) {
         this.p = applet;
@@ -14,6 +14,14 @@ public abstract class LightEffect {
     public LightEffect() { }
 
     public abstract void setup();
+
+    public void sleep() {
+        this.sleeping = true;
+    }
+
+    public boolean isSleeping() {
+        return sleeping;
+    }
 
     public abstract void configure(int[] integerConfig, Color[] colorConfig);
 

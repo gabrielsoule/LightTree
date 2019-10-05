@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 public class LightTree extends PApplet {
 
+    private static boolean DEBUG = true;
+
     public static void main(String[] args) {
         PApplet.main("com.gabrielsoule.lighttree.LightTree");
     }
@@ -30,6 +32,7 @@ public class LightTree extends PApplet {
     public HashMap<Character, LightEffect> effects;
     public LightEffect activeEffect;
     public BeatDetector beatDetector;
+    public KeyboardListener keyboardListener;
 
     @Override
     public void setup() {
@@ -52,6 +55,7 @@ public class LightTree extends PApplet {
         }
         Color.p = this;
         beatDetector = new BeatDetector(this, audioInput);
+        keyboardListener = new KeyboardListener();
 //        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
 
     }
@@ -75,6 +79,14 @@ public class LightTree extends PApplet {
         opc.writePixels();
         for (int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
+        }
+
+        b
+    }
+
+    public static void debug(String msg) {
+        if(DEBUG) {
+            System.out.println(msg);
         }
     }
 
@@ -173,6 +185,13 @@ public class LightTree extends PApplet {
         if (key == 'b') {
             beatDetector.handleKeyPress();
         }
+
+        keyboardListener.handleKeyPressed(keyCode);
+    }
+
+    @Override
+    public void keyReleased() {
+        keyboardListener.handleKeyReleased(keyCode);
     }
 
     /**
