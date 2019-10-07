@@ -4,11 +4,13 @@ public abstract class LightEffect {
     public LightTree p;
     public char key;
     public BeatDetector beatDetector;
+    private int[] lightColors;
     private boolean sleeping = false;
 
     public LightEffect(LightTree applet) {
         this.p = applet;
         this.beatDetector = p.beatDetector;
+        this.lightColors = new int[p.NUM_LIGHTS];
     }
 
     public LightEffect() { }
@@ -18,6 +20,8 @@ public abstract class LightEffect {
     public void sleep() {
         this.sleeping = true;
     }
+
+    public void wake() {this.sleeping = false;}
 
     public boolean isSleeping() {
         return sleeping;
@@ -31,7 +35,19 @@ public abstract class LightEffect {
 
     public void keyPressed() {}
 
-    public void setLight(int index, int color) {
+    public void setLight(int index, int color)
+    {
+        this.lightColors[index] = color;
         p.setLight(index,  color);
+    }
+
+    int[] getLightColors() {
+        return this.lightColors;
+    }
+
+    void flushColors() {
+        for(int i = 0; i < lightColors.length; i++) {
+            lightColors[i] = 0;
+        }
     }
 }

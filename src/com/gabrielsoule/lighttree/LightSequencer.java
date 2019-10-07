@@ -30,9 +30,34 @@ public class LightSequencer {
             effects.put(key, e);
         }
     }
-//
-//    int[] sequence() {
-//
-//    }
+
+
+    int[] sequence() {
+        for(String key : effects.keySet()) {
+            if(p.keyboardListener.keyPressed(key)) {
+                LightEffect effect = effects.get(key);
+                if(activeEffects.contains(effect)) {
+                    LightTree.debug("Deactivating effect " + effect.getClass().getSimpleName());
+                    activeEffects.remove(effect);
+                    effect.sleep();
+                } else {
+                    LightTree.debug("Activating effect " + effect.getClass().getSimpleName());
+                    activeEffects.add(effect);
+                    effect.wake();
+                }
+            }
+
+            for(LightEffect effect : activeEffects) {
+                if(effect.isSleeping()) {
+                    LightTree.debug("Deactivating sleeping effect " + effect.getClass().getSimpleName());
+                    activeEffects.remove(effect);
+                }
+
+                effect.draw();
+            }
+        }
+
+        return null; //TODO literally anything but this
+    }
 
 }
