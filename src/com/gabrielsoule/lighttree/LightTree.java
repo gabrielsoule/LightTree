@@ -11,6 +11,21 @@ import java.util.HashMap;
 public class LightTree extends PApplet {
 
     private static boolean DEBUG = true;
+    public final int NUM_LIGHTS = 256;
+    public final int FRAME_RATE = 90;
+
+    public OPC opc;
+    public Minim minim;
+    public AudioInput audioInput;
+    public BeatDetect beat;
+    public int[] lightColors = new int[512];
+    public HashMap<Character, LightEffect> effects;
+    public LightEffect activeEffect;
+    public BeatDetector beatDetector;
+    public KeyboardListener keyboardListener;
+    public LightSequencer sequencer;
+    public Config config;
+
 
     public static void main(String[] args) {
         PApplet.main("com.gabrielsoule.lighttree.LightTree");
@@ -21,42 +36,35 @@ public class LightTree extends PApplet {
         size(1200, 400);
     }
 
-    public final int NUM_LIGHTS = 512;
-    public final int FRAME_RATE = 90;
-
-    public OPC opc;
-    public Minim minim;
-    public AudioInput audioInput;
-    public BeatDetect beat;
-    public int[] lightColors = new int[NUM_LIGHTS];
-    public HashMap<Character, LightEffect> effects;
-    public LightEffect activeEffect;
-    public BeatDetector beatDetector;
-    public KeyboardListener keyboardListener;
 
     @Override
     public void setup() {
+        new EffectPulsers(this);
+        System.out.println(System.getProperty("user.dir"));
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
         frameRate(FRAME_RATE);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
+        this.config = new Config(System.getProperty("user.dir") + "\\src\\com\\gabrielsoule\\lighttree\\config.yml");
         colorMode(HSB, 360, 255, 255, 255);
 //        this.activeEffect = new EffectChasers(this);
-        this.activeEffect = new EffectPulsers(
-                this,
-                90,
-                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
-                1,
-                NUM_LIGHTS / 2);
+//        this.activeEffect = new EffectPulsers(
+//                this,
+//                180,
+//                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
+//                1,
+//                NUM_LIGHTS / 2);
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
         Color.p = this;
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
-//        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
+        this.sequencer = new LightSequencer(this);
+        this.sequencer.loadFromConfig(config);
+        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
 
     }
 
@@ -73,7 +81,6 @@ public class LightTree extends PApplet {
         background(0);
         stroke(255);
         activeEffect.draw();
-
         beatDetector.tick();
         drawSimulator();
         opc.writePixels();
@@ -81,7 +88,7 @@ public class LightTree extends PApplet {
             lightColors[i] = 0;
         }
 
-        b
+        keyboardListener.tick();
     }
 
     public static void debug(String msg) {

@@ -27,7 +27,7 @@ public class ColorGradient {
 
     }
 
-    public ColorGradient setPositions(Float... positions) {}
+//    public ColorGradient setPositions(Float... positions) {}
 
 
     public int get(float position) {

@@ -1,64 +1,59 @@
 color-names:
-  - WHITE: FFFFFF
-  - PINK: FFC3C3
-  - RED: FF0000
-  - ORANGE: FF7F00
-  - GOLD: FFDA00
-  - YELLOW: FFFF00
-  - GREEN: 00FF00
-  - TEAL: 00FFC3
-  - SKY: 00DDFF
-  - BLUE: 0000FF
-  - VIOLET: 4B0082
-  - PURPLE: 9400D3
-  - RANDOM: RANDOM
+  WHITE: FFFFFF
+  PINK: FFC3C3
+  RED: FF0000
+  ORANGE: FF7F00
+  GOLD: FFDA00
+  YELLOW: FFFF00
+  GREEN: 00FF00
+  TEAL: 00FFC3
+  SKY: 00DDFF
+  BLUE: 0000FF
+  VIOLET: 4B0082
+  PURPLE: 9400D3
+#  RANDOM: RANDOM
 
 general-keybinds:
-  - z: KEY_NEW_EFFECT
-  - x: KEY_TOGGLE_LIGHTS
-  - c: KEY_DO_BEAT
-  - v: KEY_DO_BEAT
-  - b: KEY_TOGGLE_BEAT
-  - n: KEY_DOUBLE_BEAT
-  - m: KEY_QUADRUPLE_BEAT
+  z: KEY_NEW_EFFECT
+  x: KEY_TOGGLE_LIGHTS
+  c: KEY_DO_BEAT
+  v: KEY_DO_BEAT
+  b: KEY_TOGGLE_BEAT
+  n: KEY_DOUBLE_BEAT
+  m: KEY_QUADRUPLE_BEAT
 color-keybinds:
-  - q: RANDOM
-  - w: WHITE
-  - e: PINK
-  - r: RED
-  - t: ORANGE
-  - y: GOLD
-  - u: YELLOW
-  - i: GREEN
-  - o: TEAL
-  - p: SKY
-  - ']': BLUE
-  - '[': VIOLET
-  - '\': PURPLE
+  q: RANDOM
+  w: WHITE
+  e: PINK
+  r: RED
+  t: ORANGE
+  y: GOLD
+  u: YELLOW
+  i: GREEN
+  o: TEAL
+  p: SKY
+  ']': BLUE
+  '[': VIOLET
+  '\': PURPLE
 
-effects:
-  - a:
-      - EffectVisualizer
-      - [0]
-      - [RED, ORANGE, YELLOW]
-  - s:
-      - EffectChasers
-      - [0]
-      - [RANDOM]
-  - d:
-      - EffectPulsers
-      - [6, 9, 5]
-      - [GOLD, PURPLE]
-  - f:
-      - EffectFLashSegments
-      - [1]
-      - [RANDOM]
-  - g:
-      - EffectStrobe
-      - [0]
-      - [WHITE]
-  - h:
-      - EffectSplash
-      - [0]
-      - [RANDOM]
-      -
+effect-keybinds:
+#  a:
+#    name: EffectVisualizer
+#    options: [0]
+#    colors: [RED, ORANGE, YELLOW]
+  s:
+    name: EffectChasers
+    options: [0]
+    colors: [RED]
+  d:
+    name: EffectPulsers
+    options: [6, 9, 5]
+    colors: [GOLD, PURPLE]
+  f:
+    name: EffectFlashSegments
+    options: [1]
+    colors: [RED]
+#  g:
+#    name: EffectStrobe
+#    options: [0]
+#    colors: [WHITE]

@@ -1,5 +1,6 @@
 package com.gabrielsoule.lighttree.effects;
 
+import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
 import processing.core.PApplet;
@@ -25,6 +26,11 @@ public class EffectChasers extends LightEffect {
 
     @Override
     public void setup() {
+
+    }
+
+    @Override
+    public void configure(int[] integerConfig, Color[] colorConfig) {
 
     }
 

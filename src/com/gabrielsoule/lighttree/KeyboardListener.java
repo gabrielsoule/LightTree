@@ -8,24 +8,30 @@ public class KeyboardListener {
     private boolean[] activeKeys;
     private boolean[] pressedKeys;
     public  boolean[] releasedKeys;
-    private HashMap<String, Integer> keyCodes;
+    private HashMap<String, Integer> keycodes;
 
     private final int KEYCODE_RANGE = 223;
 
     public KeyboardListener() {
-        this.keyCodes = new HashMap<>();
+        this.keycodes = new HashMap<>();
         this.activeKeys = new boolean[KEYCODE_RANGE];
         this.pressedKeys = new boolean[KEYCODE_RANGE];
         this.releasedKeys = new boolean[KEYCODE_RANGE];
+        LightTree.debug("Importing keyboard codes from KeyEvent.class");
         for(Field f : KeyEvent.class.getFields()) {
             if(f.getName().startsWith("VK_")) {
                 try {
-                    keyCodes.put(f.getName().substring(3), f.getInt(null));
+                    keycodes.put(f.getName().substring(3), f.getInt(null));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    int getKeycode(String keyName) {
+        Integer keycode = keycodes.get(keyName);
+        return keycode;
     }
 
     void tick() {
@@ -55,14 +61,14 @@ public class KeyboardListener {
     }
 
     public boolean keyPressed(String key) {
-        return activeKeys[keyCodes.get(key.toUpperCase())];
+        return activeKeys[keycodes.get(key.toUpperCase())];
     }
 
     public boolean keyDown(String key) {
-        return pressedKeys[keyCodes.get(key.toUpperCase())];
+        return pressedKeys[keycodes.get(key.toUpperCase())];
     }
 
     public boolean keyReleased(String key) {
-        return releasedKeys[keyCodes.get(key.toUpperCase())];
+        return releasedKeys[keycodes.get(key.toUpperCase())];
     }
 }

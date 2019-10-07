@@ -1,9 +1,6 @@
 package com.gabrielsoule.lighttree.effects;
 
-import com.gabrielsoule.lighttree.ColorGradient;
-import com.gabrielsoule.lighttree.LightEffect;
-import com.gabrielsoule.lighttree.LightTree;
-import com.gabrielsoule.lighttree.MathUtil;
+import com.gabrielsoule.lighttree.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,19 +15,24 @@ public class EffectPulsers extends LightEffect {
     public Pulser[] collisionArray;
     public ArrayList<Pulser> pulsers = new ArrayList<>();
 
-    public EffectPulsers(LightTree p, float speed, ColorGradient color, float gradientFalloff, int... foci) {
-        super(p);
-        this.speed = speed;
-        this.direction = direction;
-        this.focusPoint = focusPoint;
-        this.color = color;
-        this.gradientFalloff = gradientFalloff;
-        this.foci = foci;
-        this.collisionArray = new Pulser[p.NUM_LIGHTS];
-    }
+//    public EffectPulsers(LightTree p, float speed, ColorGradient color, float gradientFalloff, int... foci) {
+//        super(p);
+//        this.speed = speed;
+//        this.direction = direction;
+//        this.focusPoint = focusPoint;
+//        this.color = color;
+//        this.gradientFalloff = gradientFalloff;
+//        this.foci = foci;
+//        this.collisionArray = new Pulser[p.NUM_LIGHTS];
+//    }
 
     @Override
     public void setup() {
+
+    }
+
+    @Override
+    public void configure(int[] integerConfig, Color[] colorConfig) {
 
     }
 
