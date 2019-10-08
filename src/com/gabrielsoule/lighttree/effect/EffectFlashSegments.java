@@ -1,4 +1,4 @@
-package com.gabrielsoule.lighttree.effects;
+package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.ColorGradient;
@@ -17,7 +17,7 @@ public class EffectFlashSegments extends LightEffect {
     //we scramble this array during setup so that segments turn on randomly
     private Deque<Segment> segments;
     public EffectFlashSegments(LightTree p, int startColor, int endColor) {
-        super(p);
+        super();
         this.gradient = new ColorGradient(startColor, 0, endColor, 1);
 
         ArrayList<Segment> segmentArray = new ArrayList<>();
@@ -42,6 +42,11 @@ public class EffectFlashSegments extends LightEffect {
 
     @Override
     public void configure(int[] integerConfig, Color[] colorConfig) {
+
+    }
+
+    @Override
+    public void configure(int[] integerConfig, int[] colorConfig) {
 
     }
 

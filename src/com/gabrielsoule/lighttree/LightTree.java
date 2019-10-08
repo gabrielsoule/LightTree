@@ -1,17 +1,19 @@
 package com.gabrielsoule.lighttree;
 
-import com.gabrielsoule.lighttree.effects.*;
+import com.gabrielsoule.lighttree.effect.*;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
+import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
 import java.util.HashMap;
 
 public class LightTree extends PApplet {
 
+    private static LightTree instance;
     private static boolean DEBUG = true;
-    public final int NUM_LIGHTS = 256;
+    public final int NUM_LIGHTS = 512;
     public final int FRAME_RATE = 90;
 
     public OPC opc;
@@ -25,6 +27,7 @@ public class LightTree extends PApplet {
     public KeyboardListener keyboardListener;
     public LightSequencer sequencer;
     public Config config;
+    public FFT fft;
 
 
     public static void main(String[] args) {
@@ -39,7 +42,7 @@ public class LightTree extends PApplet {
 
     @Override
     public void setup() {
-        new EffectPulsers(this);
+        instance = this;
         System.out.println(System.getProperty("user.dir"));
         this.opc = new OPC(this, "10.0.1.198", 7890);
         minim = new Minim(this);
@@ -47,6 +50,8 @@ public class LightTree extends PApplet {
         frameRate(FRAME_RATE);
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
+        this.fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
+        fft.window(FFT.BARTLETT);
         this.config = new Config(System.getProperty("user.dir") + "\\src\\com\\gabrielsoule\\lighttree\\config.yml");
         colorMode(HSB, 360, 255, 255, 255);
 //        this.activeEffect = new EffectChasers(this);
@@ -63,10 +68,11 @@ public class LightTree extends PApplet {
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
-        this.sequencer.loadFromConfig(config);
-        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
-
+//        this.sequencer.loadFromConfig(config);
+//        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
+        this.activeEffect = new EffectMitchellVisualizer();
     }
+
 
     @Override
     public void stop() {
@@ -79,11 +85,17 @@ public class LightTree extends PApplet {
         opc.writePixels();
 
         background(0);
+
         stroke(255);
+
         activeEffect.draw();
+
         beatDetector.tick();
+
         drawSimulator();
+
         opc.writePixels();
+
         for (int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
         }
@@ -215,5 +227,7 @@ public class LightTree extends PApplet {
                 ((int) ((oldRGB & 0xFF) * alphaFrac));
     }
 
-
+    public static LightTree getInstance() {
+        return instance;
+    }
 }

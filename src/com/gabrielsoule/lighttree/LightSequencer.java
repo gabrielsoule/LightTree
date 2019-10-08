@@ -3,6 +3,7 @@ package com.gabrielsoule.lighttree;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class LightSequencer {
     private LightTree p;
@@ -20,14 +21,14 @@ public class LightSequencer {
         HashMap<String, HashMap<String, String>> effectConfigSection = (HashMap<String, HashMap<String, String>>) config.getYamlObject().get("effect-keybinds");
         for(String key : effectConfigSection.keySet()) {
             HashMap<String, String> effectConfig = effectConfigSection.get(key);
-            LightEffect e = null;
             try {
-                e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effects." + effectConfig.get("name")).getConstructor(LightTree.class).newInstance(p);
+                LightEffect e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectConfig.get("name")).getConstructor().newInstance();
+                e.p = this.p;
+                List<String> colors;
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
                 ex.printStackTrace();
             }
 
-            effects.put(key, e);
         }
     }
 

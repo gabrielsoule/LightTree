@@ -11,8 +11,6 @@ color-names:
   BLUE: 0000FF
   VIOLET: 4B0082
   PURPLE: 9400D3
-#  RANDOM: RANDOM
-
 general-keybinds:
   z: KEY_NEW_EFFECT
   x: KEY_TOGGLE_LIGHTS

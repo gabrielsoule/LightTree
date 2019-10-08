@@ -6,15 +6,13 @@ public abstract class LightEffect {
     public BeatDetector beatDetector;
     private int[] lightColors;
     private boolean sleeping = false;
+    public ColorProvider colorProvider;
 
-    public LightEffect(LightTree applet) {
-        this.p = applet;
+    public LightEffect() {
+        this.p = LightTree.getInstance();
         this.beatDetector = p.beatDetector;
         this.lightColors = new int[p.NUM_LIGHTS];
     }
-
-    public LightEffect() { }
-
     public abstract void setup();
 
     public void sleep() {
@@ -28,6 +26,8 @@ public abstract class LightEffect {
     }
 
     public abstract void configure(int[] integerConfig, Color[] colorConfig);
+
+    public abstract void configure(int[] integerConfig, int[] colorConfig);
 
     public abstract void draw();
 

@@ -1,4 +1,4 @@
-package com.gabrielsoule.lighttree.effects;
+package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.LightEffect;
@@ -13,7 +13,7 @@ public class EffectChasers extends LightEffect {
     Chase[] chasers;
 
     public EffectChasers(LightTree p) {
-        super(p);
+        super();
         chasers = new Chase[numNodes];
         for(int i=0; i<numNodes; i++){
             float dirF = PApplet.round(p.random(0,2));
@@ -31,6 +31,11 @@ public class EffectChasers extends LightEffect {
 
     @Override
     public void configure(int[] integerConfig, Color[] colorConfig) {
+
+    }
+
+    @Override
+    public void configure(int[] integerConfig, int[] colorConfig) {
 
     }
 

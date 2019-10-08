@@ -1,9 +1,8 @@
-package com.gabrielsoule.lighttree.effects;
+package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class EffectPulsers extends LightEffect {
     public float speed; //lights per second
@@ -33,6 +32,11 @@ public class EffectPulsers extends LightEffect {
 
     @Override
     public void configure(int[] integerConfig, Color[] colorConfig) {
+
+    }
+
+    @Override
+    public void configure(int[] integerConfig, int[] colorConfig) {
 
     }
 
