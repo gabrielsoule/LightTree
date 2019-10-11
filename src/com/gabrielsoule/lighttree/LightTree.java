@@ -88,7 +88,7 @@ public class LightTree extends PApplet {
 
         stroke(255);
 
-        activeEffect.  draw();
+        activeEffect.draw();
 
         beatDetector.tick();
 
