@@ -12,8 +12,20 @@ public class EffectChasers extends LightEffect {
     int numNodes = 1;
     Chase[] chasers;
 
-    public EffectChasers(LightTree p) {
-        super();
+//    public EffectChasers(LightTree p) {
+//        super();
+//        chasers = new Chase[numNodes];
+//        for(int i=0; i<numNodes; i++){
+//            float dirF = PApplet.round(p.random(0,2));
+//            int dir;
+//            if(dirF > 1) dir =1;
+//            else dir = -1;
+//            chasers[i] = new Chase(PApplet.round(p.random(0, 255)), dir, PApplet.round(p.random(2, 20)));
+//        }
+//    }
+
+    @Override
+    public void setup() {
         chasers = new Chase[numNodes];
         for(int i=0; i<numNodes; i++){
             float dirF = PApplet.round(p.random(0,2));
@@ -22,11 +34,6 @@ public class EffectChasers extends LightEffect {
             else dir = -1;
             chasers[i] = new Chase(PApplet.round(p.random(0, 255)), dir, PApplet.round(p.random(2, 20)));
         }
-    }
-
-    @Override
-    public void setup() {
-
     }
 
     @Override

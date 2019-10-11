@@ -27,7 +27,7 @@ public class EffectPulsers extends LightEffect {
 
     @Override
     public void setup() {
-
+        this.collisionArray = new Pulser[p.NUM_LIGHTS];
     }
 
     @Override
@@ -35,8 +35,12 @@ public class EffectPulsers extends LightEffect {
 
     }
 
+    //arguments: SPEED, GRADIENTFALLOFF, FOCI...
     @Override
     public void configure(int[] integerConfig, int[] colorConfig) {
+        this.speed = 50 + integerConfig[0] * 60;
+        this.gradientFalloff = integerConfig[1] * 0.3f;
+        this.foci = new int[]{integerConfig[2]};
 
     }
 
@@ -93,12 +97,12 @@ public class EffectPulsers extends LightEffect {
             int drawPos = Math.round(position);
             if(!destroyed && (position < 0 || visualPosition() >= p.NUM_LIGHTS)) {
                 this.destroy();
-                System.out.println("Destroying due to out of bounds");
+//                System.out.println("Destroying due to out of bounds");
             }
             else if(!destroyed && collisionArray[drawPos] != null && drawPos != this.startingPos) {
                 collisionArray[drawPos].destroy();
                 this.destroy();
-                System.out.println("Destroying due to collision");
+//                System.out.println("Destroying due to collision");
                 collisionArray[drawPos] = null;
             }
 
@@ -120,7 +124,7 @@ public class EffectPulsers extends LightEffect {
 
             if(destroyed && (direction == 1 ? drawPos > destroyPos : drawPos < destroyPos)) {
 //                pulsers.remove(this); //cleanup
-                System.out.println("Marking for full removal");
+//                System.out.println("Marking for full removal");
                 this.markForRemoval = true;
             }
         }

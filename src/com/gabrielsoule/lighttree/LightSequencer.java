@@ -18,13 +18,15 @@ public class LightSequencer {
     }
 
     public void loadFromConfig(Config config) {
-        HashMap<String, HashMap<String, String>> effectConfigSection = (HashMap<String, HashMap<String, String>>) config.getYamlObject().get("effect-keybinds");
+        HashMap<String, Object> effectConfigSection = (HashMap<String, Object>) config.getYamlObject().get("effect-keybinds");
         for(String key : effectConfigSection.keySet()) {
-            HashMap<String, String> effectConfig = effectConfigSection.get(key);
+            HashMap<String, Object> effectConfig = (HashMap<String, Object>) effectConfigSection.get(key);
             try {
+                LightTree.debug("Instantiating LightEffect: com.gabrielsoulr.lighttree.effect." + effectConfig.get("name"));
                 LightEffect e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectConfig.get("name")).getConstructor().newInstance();
                 e.p = this.p;
-                List<String> colors;
+                List<Integer> integerConfig = (List<Integer>) effectConfig.get("options");
+
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
                 ex.printStackTrace();
             }

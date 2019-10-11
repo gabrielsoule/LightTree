@@ -68,9 +68,9 @@ public class LightTree extends PApplet {
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
-//        this.sequencer.loadFromConfig(config);
+        this.sequencer.loadFromConfig(config);
 //        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
-        this.activeEffect = new EffectMitchellVisualizer();
+        this.activeEffect = new EffectChasers();
     }
 
 
@@ -88,7 +88,7 @@ public class LightTree extends PApplet {
 
         stroke(255);
 
-        activeEffect.draw();
+        activeEffect.  draw();
 
         beatDetector.tick();
 

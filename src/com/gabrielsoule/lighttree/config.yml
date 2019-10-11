@@ -49,8 +49,8 @@ effect-keybinds:
     colors: [GOLD, PURPLE]
   f:
     name: EffectFlashSegments
-    options: [1]
-    colors: [RED]
+    options: [2, 1]
+    colors: [-1]
 #  g:
 #    name: EffectStrobe
 #    options: [0]
