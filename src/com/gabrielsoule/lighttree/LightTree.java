@@ -13,8 +13,8 @@ public class LightTree extends PApplet {
 
     private static LightTree instance;
     private static boolean DEBUG = true;
-    public final int NUM_LIGHTS = 512;
-    public final int FRAME_RATE = 90;
+    public final int NUM_LIGHTS = 512 - 64;
+    public final int FRAME_RATE = 30;
 
     public OPC opc;
     public Minim minim;
@@ -44,7 +44,7 @@ public class LightTree extends PApplet {
     public void setup() {
         instance = this;
         System.out.println(System.getProperty("user.dir"));
-        this.opc = new OPC(this, "10.0.1.198", 7890);
+        this.opc = new OPC(this, "lightpi.local", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
         frameRate(FRAME_RATE);
@@ -68,9 +68,10 @@ public class LightTree extends PApplet {
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
-        this.sequencer.loadFromConfig(config);
+        this.sequencer.testLoad();
+        //        this.sequencer.loadFromConfig(config);
 //        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
-        this.activeEffect = new EffectChasers();
+//        this.activeEffect = new EffectChasers();
     }
 
 
@@ -88,12 +89,14 @@ public class LightTree extends PApplet {
 
         stroke(255);
 
-        activeEffect.draw();
+//        activeEffect.draw();
 
         beatDetector.tick();
-
+        int[] sequencerResult = sequencer.sequence();
+//        for(int i = 0; i < sequencerResult.length; i++) {
+//            this.lightColors[i] = sequencerResult[i];
+//        }
         drawSimulator();
-
         opc.writePixels();
 
         for (int i = 0; i < lightColors.length; i++) {
@@ -167,30 +170,42 @@ public class LightTree extends PApplet {
         }
 
         //Use the color value of -1 to indicate a RANDOM color (with full saturation)
-        if(c == -1) {
-            c = color(random(0, 360), 255, 255);
-        }
+//        if(c == -1) {
+//            c = color(random(0, 360), 255, 255);
+//        }
 
         lightColors[index] = c;
         c = fixColor(c);
 
         //tree-specific mapping, since segments are out of order
         int segment = (int) (index / 64f);
-        switch(segment) {
+        switch(segment){
             case 0:
-                index = 255 - index;
+                index = 319 - index;
                 break;
+
             case 1:
-                index = 128 + (index - 64);
+                index = 320 + (index - 64);
                 break;
+
             case 2:
-                index = 64 - (index - 128);
+                index = 255 - (index - 128);
                 break;
+
             case 3:
-                index = index - 128;
+                index = index - 64;
                 break;
-            default:
+
+            case 4:
+                index = 127 - (index - 256);
                 break;
+
+            case 5:
+                index = index - 320;
+                break;
+
+            case 6:
+                index = index;
         }
         opc.setPixel(index, c);
     }
@@ -198,13 +213,15 @@ public class LightTree extends PApplet {
     @Override
     public void keyPressed() {
 
-        activeEffect.key = key;
-        activeEffect.keyPressed();
-
+//        activeEffect.key = key;
+//        activeEffect.keyPressed();
+        System.out.println(key);
         if (key == 'b') {
             beatDetector.handleKeyPress();
         }
-
+        for(LightEffect e : sequencer.getActiveEffects()) {
+            e.keyPressed();
+        }
         keyboardListener.handleKeyPressed(keyCode);
     }
 

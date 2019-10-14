@@ -37,8 +37,10 @@ public abstract class LightEffect {
 
     public void setLight(int index, int color)
     {
-        this.lightColors[index] = color;
-        p.setLight(index,  color);
+        if(index < p.NUM_LIGHTS) {
+            this.lightColors[index] = color;
+            p.setLight(index,  color);
+        }
     }
 
     int[] getLightColors() {

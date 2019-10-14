@@ -39,7 +39,7 @@ public class EffectPulsers extends LightEffect {
     @Override
     public void configure(int[] integerConfig, int[] colorConfig) {
         this.speed = 50 + integerConfig[0] * 60;
-        this.gradientFalloff = integerConfig[1] * 0.3f;
+        this.gradientFalloff = integerConfig[1] * 0.333f;
         this.foci = new int[]{integerConfig[2]};
 
     }

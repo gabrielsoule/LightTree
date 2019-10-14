@@ -22,6 +22,7 @@ public class KeyboardListener {
             if(f.getName().startsWith("VK_")) {
                 try {
                     keycodes.put(f.getName().substring(3), f.getInt(null));
+                    LightTree.debug("Binding " + f.getName().substring(3) + " to " + f.getInt(null));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

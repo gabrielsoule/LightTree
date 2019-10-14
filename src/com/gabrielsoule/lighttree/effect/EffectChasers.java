@@ -11,6 +11,7 @@ public class EffectChasers extends LightEffect {
     int current2 = 300;
     int numNodes = 1;
     Chase[] chasers;
+    int frames = 0;
 
 //    public EffectChasers(LightTree p) {
 //        super();
@@ -32,7 +33,7 @@ public class EffectChasers extends LightEffect {
             int dir;
             if(dirF > 1) dir =1;
             else dir = -1;
-            chasers[i] = new Chase(PApplet.round(p.random(0, 255)), dir, PApplet.round(p.random(2, 20)));
+            chasers[i] = new Chase(PApplet.round(p.random(0, 511 - 64)), dir, PApplet.round(p.random(2, 20)));
         }
     }
 
@@ -48,6 +49,7 @@ public class EffectChasers extends LightEffect {
 
     @Override
     public void draw() {
+        frames++;
         for(int k=0; k<chasers.length; k++){
             for (int i = 0; i < chasers[k].leng; i++) {
 
@@ -64,14 +66,16 @@ public class EffectChasers extends LightEffect {
                 int bright = PApplet.round(brightness);
                 setLight(index, p.color(hue, 200, bright));
             }
-            chasers[k].move();
+            if(frames % 2 == 0) chasers[k].move();
         }
 
     }
 
     @Override
     public void keyPressed(){
-        if(key == 'q'){
+//        System.out.println(key);
+        if(p.key == 'q'){
+//            System.out.println("key press");
             float dirF = PApplet.round(p.random(0,2));
             int dir;
             if(dirF > 1) dir =1;
@@ -80,7 +84,7 @@ public class EffectChasers extends LightEffect {
             chasers = (Chase[]) PApplet.append(chasers, newC);
             numNodes = chasers.length;
         }
-        if(key == 'a'){
+        if(p.key == 'a'){
             chasers = (Chase[]) PApplet.shorten(chasers);
             numNodes = chasers.length;
         }
@@ -100,8 +104,8 @@ public class EffectChasers extends LightEffect {
 
         void move(){
             curr += dir;
-            if(curr < 0) curr = 255;
-            if(curr > 255) curr = 0;
+            if(curr < 0) curr = 447;
+            if(curr > 446) curr = 0;
         }
     }
 }

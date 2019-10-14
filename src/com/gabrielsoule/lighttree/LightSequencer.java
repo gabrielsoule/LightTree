@@ -1,5 +1,7 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.effect.*;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,20 +36,45 @@ public class LightSequencer {
         }
     }
 
+    public void testLoad() {
+        EffectChasers chasers = new EffectChasers();
+        chasers.setup();
+        EffectFlashSegments flashSegments = new EffectFlashSegments();
+        flashSegments.setup();
+        EffectMitchellVisualizer visualizer = new EffectMitchellVisualizer();
+        visualizer.setup();
+        EffectPulsers pulsers = new EffectPulsers();
+        pulsers.setup();
+        EffectStrobe strobe = new EffectStrobe();
+        strobe.setup();
+
+        flashSegments.configure(new int[]{2, 2}, new int[]{0, 0});
+        pulsers.configure(new int[]{5, 3, 0}, new int[]{0, 0});
+        effects.put("1", visualizer);
+        effects.put("2", chasers);
+        effects.put("3", strobe);
+        effects.put("4", pulsers);
+        effects.put("5", flashSegments);
+
+    }
+
 
     int[] sequence() {
         for(String key : effects.keySet()) {
             if(p.keyboardListener.keyPressed(key)) {
+                LightTree.debug("Activating effect bound to " + key);
                 LightEffect effect = effects.get(key);
-                if(activeEffects.contains(effect)) {
-                    LightTree.debug("Deactivating effect " + effect.getClass().getSimpleName());
-                    activeEffects.remove(effect);
-                    effect.sleep();
-                } else {
-                    LightTree.debug("Activating effect " + effect.getClass().getSimpleName());
-                    activeEffects.add(effect);
-                    effect.wake();
-                }
+                activeEffects.clear();
+                activeEffects.add(effect);
+//                if(activeEffects.contains(effect)) {
+//                    LightTree.debug("Deactivating effect " + effect.getClass().getSimpleName());
+//                    activeEffects.remove(effect);
+//                    effect.sleep();
+//                } else {
+//                    LightTree.debug("Activating effect " + effect.getClass().getSimpleName());
+//                    activeEffects.add(effect);
+//                    effect.wake();
+//                }
             }
 
             for(LightEffect effect : activeEffects) {
@@ -63,4 +90,12 @@ public class LightSequencer {
         return null; //TODO literally anything but this
     }
 
+
+    public HashMap<String, LightEffect> getEffects() {
+        return effects;
+    }
+
+    public ArrayList<LightEffect> getActiveEffects() {
+        return activeEffects;
+    }
 }
