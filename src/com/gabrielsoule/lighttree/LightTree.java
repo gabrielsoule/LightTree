@@ -14,7 +14,7 @@ public class LightTree extends PApplet {
     private static LightTree instance;
     private static boolean DEBUG = true;
     public final int NUM_LIGHTS = 512 - 64;
-    public final int FRAME_RATE = 30;
+    public final int FRAME_RATE = 60;
 
     public OPC opc;
     public Minim minim;
@@ -54,13 +54,6 @@ public class LightTree extends PApplet {
         fft.window(FFT.BARTLETT);
         this.config = new Config(System.getProperty("user.dir") + "\\src\\com\\gabrielsoule\\lighttree\\config.yml");
         colorMode(HSB, 360, 255, 255, 255);
-//        this.activeEffect = new EffectChasers(this);
-//        this.activeEffect = new EffectPulsers(
-//                this,
-//                180,
-//                new ColorGradient(color(100, 255, 255), 0, color(250, 255, 255, 0), 1),
-//                1,
-//                NUM_LIGHTS / 2);
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
@@ -68,10 +61,7 @@ public class LightTree extends PApplet {
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
-        this.sequencer.testLoad();
-        //        this.sequencer.loadFromConfig(config);
-//        this.activeEffect = new EffectFlashSegments(this, color(0, 255, 255), color(140, 255, 0));
-//        this.activeEffect = new EffectChasers();
+        this.sequencer.loadFromConfig(config);
     }
 
 
@@ -86,29 +76,19 @@ public class LightTree extends PApplet {
         opc.writePixels();
 
         background(0);
-
         stroke(255);
-
-//        activeEffect.draw();
 
         beatDetector.tick();
         int[] sequencerResult = sequencer.sequence();
-//        for(int i = 0; i < sequencerResult.length; i++) {
-//            this.lightColors[i] = sequencerResult[i];
-//        }
         drawSimulator();
         opc.writePixels();
-
-//        for (int i = 0; i < lightColors.length; i++) {
-//            lightColors[i] = 0;
-//        }
 
         keyboardListener.tick();
     }
 
-    public static void debug(String msg) {
+    public static void log(String msg, Object... args) {
         if(DEBUG) {
-            System.out.println(msg);
+            System.out.println(String.format(msg, args));
         }
     }
 

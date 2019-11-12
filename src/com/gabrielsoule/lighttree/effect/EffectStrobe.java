@@ -38,12 +38,16 @@ public class EffectStrobe extends LightEffect {
     public void draw() {
         int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloat("frequency")));
         int numLightsToFlash = config.getInt("lights-per-segment") * config.getInt("segments-per-flash");
+        int turnOffLightsFrame = (int) ((p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("strobe-on-mult"));
+        if(turnOffLightsFrame == 0) {
+            turnOffLightsFrame = 1;
+        }
         if (frameModPeriod == 0) {
             //green light
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
                 setLight(i % p.NUM_LIGHTS, config.nextColor());
             }
-        } else if(frameModPeriod == ((int) (p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("remain-on-mult"))) {
+        } else if(frameModPeriod == turnOffLightsFrame) {
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
                 setLight(i % p.NUM_LIGHTS, 0);
             }

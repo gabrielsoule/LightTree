@@ -36,6 +36,10 @@ public class LightEffectConfig {
         colors.add(index, color);
     }
 
+    public void setOption(String key, Object value) {
+        this.options.put(key, value);
+    }
+
     public void addColor(int color){
         colors.add(color);
     }

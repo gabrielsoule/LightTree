@@ -20,14 +20,19 @@ public class LightSequencer {
     }
 
     public void loadFromConfig(Config config) {
-        HashMap<String, Object> effectConfigSection = (HashMap<String, Object>) config.getYamlObject().get("effect-keybinds");
-        for(String key : effectConfigSection.keySet()) {
-            HashMap<String, Object> effectConfig = (HashMap<String, Object>) effectConfigSection.get(key);
+        LightTree.log("Loading effects from config... OK");
+        HashMap<String, Object> effectKeybindsSection = (HashMap<String, Object>) config.getYamlObject().get("effect-keybinds");
+        for(String key : effectKeybindsSection.keySet()) {
+            HashMap<String, Object> effectSection = (HashMap<String, Object>) effectKeybindsSection.get(key);
             try {
-                LightTree.debug("Instantiating LightEffect: com.gabrielsoulr.lighttree.effect." + effectConfig.get("name"));
-                LightEffect e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectConfig.get("name")).getConstructor().newInstance();
+                LightTree.log("Instantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("name") + " and binding to key \'" + key + "\'");
+                LightEffect e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("name")).getConstructor().newInstance();
                 e.p = this.p;
-                List<Integer> integerConfig = (List<Integer>) effectConfig.get("options");
+                HashMap<String, Object> effectOptions = (HashMap<String, Object>) effectSection.get("options");
+                for(String optionName : effectOptions.keySet()) {
+                    LightTree.log(String.format("Setting option \'%s\' to value \'%s\'",optionName, effectOptions.get(optionName)));
+                    e.config.setOption(optionName, effectOptions.get(optionName));
+                }
 
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
                 ex.printStackTrace();
@@ -55,23 +60,22 @@ public class LightSequencer {
         effects.put("3", strobe);
         effects.put("4", pulsers);
         effects.put("5", flashSegments);
-
     }
 
 
     int[] sequence() {
         for(String key : effects.keySet()) {
             if(p.keyboardListener.keyPressed(key)) {
-                LightTree.debug("Activating effect bound to " + key);
+                LightTree.log("Activating effect bound to " + key);
                 LightEffect effect = effects.get(key);
                 activeEffects.clear();
                 activeEffects.add(effect);
 //                if(activeEffects.contains(effect)) {
-//                    LightTree.debug("Deactivating effect " + effect.getClass().getSimpleName());
+//                    LightTree.log("Deactivating effect " + effect.getClass().getSimpleName());
 //                    activeEffects.remove(effect);
 //                    effect.sleep();
 //                } else {
-//                    LightTree.debug("Activating effect " + effect.getClass().getSimpleName());
+//                    LightTree.log("Activating effect " + effect.getClass().getSimpleName());
 //                    activeEffects.add(effect);
 //                    effect.wake();
 //                }
@@ -79,11 +83,10 @@ public class LightSequencer {
 
             for(LightEffect effect : activeEffects) {
                 if(effect.isSleeping()) {
-                    LightTree.debug("Deactivating sleeping effect " + effect.getClass().getSimpleName());
+                    LightTree.log("Deactivating sleeping effect " + effect.getClass().getSimpleName());
                     activeEffects.remove(effect);
                 }
-
-                effect. draw();
+                effect.draw();
             }
         }
 

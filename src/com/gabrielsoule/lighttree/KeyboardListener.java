@@ -17,12 +17,12 @@ public class KeyboardListener {
         this.activeKeys = new boolean[KEYCODE_RANGE];
         this.pressedKeys = new boolean[KEYCODE_RANGE];
         this.releasedKeys = new boolean[KEYCODE_RANGE];
-        LightTree.debug("Importing keyboard codes from KeyEvent.class");
+        LightTree.log("Importing keyboard codes from KeyEvent.class");
         for(Field f : KeyEvent.class.getFields()) {
             if(f.getName().startsWith("VK_")) {
                 try {
                     keycodes.put(f.getName().substring(3), f.getInt(null));
-                    LightTree.debug("Binding " + f.getName().substring(3) + " to " + f.getInt(null));
+//                    LightTree.log("Binding " + f.getName().substring(3) + " to " + f.getInt(null));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

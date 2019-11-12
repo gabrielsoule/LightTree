@@ -73,7 +73,7 @@ public abstract class LightEffect {
 //        return this.lightColors;
 //    }
 
-    public void flushColors() {
+    public  void flushColors() {
         for(int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
         }
