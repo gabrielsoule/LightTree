@@ -46,6 +46,9 @@ public class EffectPulsers extends LightEffect {
 
     @Override
     public void draw() {
+
+        this.flushColors();
+
         //spawn new
         if((p.beatDetector.beat() && p.beatDetector.ready()) || (p.beatDetector.beat() && p.beatDetector.manualMode)) {
             for(int focus : foci) {
@@ -93,6 +96,7 @@ public class EffectPulsers extends LightEffect {
         }
 
         public void moveAndDraw() {
+
             this.position += speed * direction;
             int drawPos = Math.round(position);
             if(!destroyed && (position < 0 || visualPosition() >= p.NUM_LIGHTS)) {

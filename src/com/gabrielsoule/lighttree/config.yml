@@ -41,11 +41,15 @@ effect-keybinds:
 #    colors: [RED, ORANGE, YELLOW]
   s:
     name: EffectChasers
-    options: [0]
-    colors: [RED]
+    options:
+      speed: 20
+      count: 10
+      length: 5
+    colors: [-1]
   d:
     name: EffectPulsers
-    options: [6, 9, 5]
+#    options: [6, 9, 5]
+    opti
     colors: [GOLD, PURPLE]
   f:
     name: EffectFlashSegments

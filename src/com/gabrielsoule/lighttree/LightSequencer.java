@@ -45,7 +45,7 @@ public class LightSequencer {
         visualizer.setup();
         EffectPulsers pulsers = new EffectPulsers();
         pulsers.setup();
-        EffectStrobe strobe = new EffectStrobe();
+        EffectMitchellStrobe strobe = new EffectMitchellStrobe();
         strobe.setup();
 
         flashSegments.configure(new int[]{2, 2}, new int[]{0, 0});
@@ -83,7 +83,7 @@ public class LightSequencer {
                     activeEffects.remove(effect);
                 }
 
-                effect.draw();
+                effect. draw();
             }
         }
 

@@ -20,6 +20,10 @@ public class EffectFlashSegments extends LightEffect {
 
 //    public EffectFlashSegments(LightTree p, int startColor, int endColor) {
 //        super();
+//        Collections.shuffle(segmentArray);
+//        segments = new ArrayDeque<>(segmentArray);
+//    }
+
 //        this.gradient = new ColorGradient(startColor, 0, endColor, 1);
 //
 //        ArrayList<Segment> segmentArray = new ArrayList<>();
@@ -27,10 +31,6 @@ public class EffectFlashSegments extends LightEffect {
 //        for (int i = 0; i < p.NUM_LIGHTS / LIGHTS_PER_SEGMENT; i++) {
 //            segmentArray.add(new Segment(i * LIGHTS_PER_SEGMENT, gradient));
 //        }
-//        Collections.shuffle(segmentArray);
-//        segments = new ArrayDeque<>(segmentArray);
-//    }
-
     @Override
     public void setup() {
         ArrayList<Segment> segmentArray = new ArrayList<>();

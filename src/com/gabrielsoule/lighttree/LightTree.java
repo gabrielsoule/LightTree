@@ -99,9 +99,9 @@ public class LightTree extends PApplet {
         drawSimulator();
         opc.writePixels();
 
-        for (int i = 0; i < lightColors.length; i++) {
-            lightColors[i] = 0;
-        }
+//        for (int i = 0; i < lightColors.length; i++) {
+//            lightColors[i] = 0;
+//        }
 
         keyboardListener.tick();
     }

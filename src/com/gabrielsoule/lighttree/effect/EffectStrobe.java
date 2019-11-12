@@ -3,12 +3,24 @@ package com.gabrielsoule.lighttree.effect;
 import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.LightEffect;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+
 public class EffectStrobe extends LightEffect {
 
-    private int frameCount = 0;
+    int[] segments;
+    int segmentPointer = 0;
 
     @Override
     public void setup() {
+//        ArrayList<Integer> segmentArray = new ArrayList<>();
+//        for(int i = 0; i < p.NUM_LIGHTS; i += config.getInt("lights-per-segment")) {
+//            segmentArray.add(i);
+//        }
+//
+//        Collections.shuffle(segmentArray);
+//        this.segments = segmentArray.toArray();
 
     }
 
@@ -24,40 +36,19 @@ public class EffectStrobe extends LightEffect {
 
     @Override
     public void draw() {
-        frameCount++;
-        for(int i=0; i<p.NUM_LIGHTS; i++){
-            if(frameCount%16==0){
-                if(i > 0 && i <64)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
+        int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloat("frequency")));
+        int numLightsToFlash = config.getInt("lights-per-segment") * config.getInt("segments-per-flash");
+        if (frameModPeriod == 0) {
+            //green light
+            for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
+                setLight(i % p.NUM_LIGHTS, config.nextColor());
             }
-            else if(frameCount%16==2){
-                if(i > 64 && i <128)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
+        } else if(frameModPeriod == ((int) (p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("remain-on-mult"))) {
+            for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
+                setLight(i % p.NUM_LIGHTS, 0);
             }
-            else if(frameCount%16==4){
-                if(i > 128 && i <192)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
-            else if(frameCount%16==6){
-                if(i > 192 && i <256)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
-            if(frameCount%16==8){
-                if(i > 256 && i <320)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
-            else if(frameCount%16==10){
-                if(i > 320 && i <384)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
-            else if(frameCount%16==12){
-                if(i > 384 && i <448)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
-            else if(frameCount%16==14){
-                if(i > 448 && i < p.NUM_LIGHTS)setLight(i, p.color(0, 0, 255));
-                else setLight(i, p.color(0, 0, 0));
-            }
+
+            segmentPointer = (segmentPointer + numLightsToFlash);
         }
     }
 }
