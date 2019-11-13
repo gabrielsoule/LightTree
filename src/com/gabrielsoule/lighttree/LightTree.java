@@ -1,6 +1,5 @@
 package com.gabrielsoule.lighttree;
 
-import com.gabrielsoule.lighttree.effect.*;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
@@ -195,14 +194,14 @@ public class LightTree extends PApplet {
 
 //        activeEffect.key = key;
 //        activeEffect.keyPressed();
-        System.out.println(key);
+        System.out.println("key: ["+key+"]");
         if (key == 'b') {
             beatDetector.handleKeyPress();
         }
         for(LightEffect e : sequencer.getActiveEffects()) {
             e.keyPressed();
         }
-        keyboardListener.handleKeyPressed(keyCode);
+        keyboardListener.handleKeyPress(keyCode);
     }
 
     @Override

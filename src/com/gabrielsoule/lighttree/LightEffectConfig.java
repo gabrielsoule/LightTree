@@ -4,40 +4,48 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LightEffectConfig {
-    private HashMap<String, Object> options = new HashMap<>();
+    private HashMap<String, Float> floatOptions     = new HashMap<>();
+    private HashMap<String, Boolean> booleanOptions = new HashMap<>();
+    private HashMap<String, String> stringOptions   = new HashMap<>();
+
     private ArrayList<Integer> colors = new ArrayList<>();
+
     private int nextColorIndex = -1;
 
-    private Object get(String key) {
-        if(options.containsKey(key)) {
-            return options.get(key);
-        } else {
-            throw new IllegalArgumentException("Unable to find option " + key + ", did you make a typo?");
-        }
-    }
-
-    public int getInt(String key) {
-        return (int) get(key);
-    }
+//    private Object get(String key) {
+//        if(options.containsKey(key)) {
+//            return options.get(key);
+//        } else {
+//            throw new IllegalArgumentException("Unable to find option " + key + ", did you make a typo?");
+//        }
+//    }
 
     public boolean getBoolean(String key) {
-        return (boolean) get(key);
+        return booleanOptions.get(key);
     }
 
     public float getFloat(String key) {
-        return (float) get(key);
+        return floatOptions.get(key);
     }
 
     public String getString(String key) {
-        return (String) get(key);
+        return stringOptions.get(key);
+    }
+
+    public void setBoolean(String key, boolean value) {
+        booleanOptions.put(key, value);
+    }
+
+    public void setFloat(String key, float value) {
+        floatOptions.put(key, value);
+    }
+
+    public void setString(String key, String value) {
+        stringOptions.put(key, value);
     }
 
     public void setColor(int index, int color) {
         colors.add(index, color);
-    }
-
-    public void setOption(String key, Object value) {
-        this.options.put(key, value);
     }
 
     public void addColor(int color){

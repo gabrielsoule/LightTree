@@ -37,6 +37,13 @@ public class KeyboardListener {
 
     void tick() {
         for (int i = 0; i < KEYCODE_RANGE; i++) {
+            if(pressedKeys[i]) {
+//                LightTree.log("Resetting pressed key %s", pressedKeys[i]);
+            }
+            if(releasedKeys[i]) {
+//                LightTree.log("Resetting released key %s", releasedKeys[i]);
+            }
+
             this.pressedKeys[i] = this.releasedKeys[i] = false;
         }
     }
@@ -52,16 +59,18 @@ public class KeyboardListener {
 //        }
 //    }
 
-    void handleKeyPressed(int keyCode) {
-        pressedKeys[keyCode] = activeKeys[keyCode] = true;
+    void handleKeyPress(int keycode) {
+        LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
+        pressedKeys[keycode] = activeKeys[keycode] = true;
     }
 
-    void handleKeyReleased(int keyCode) {
-        activeKeys[keyCode] = false;
-        releasedKeys[keyCode] = true;
+    void handleKeyReleased(int keycode) {
+        activeKeys[keycode] = false;
+        releasedKeys[keycode] = true;
     }
 
     public boolean keyPressed(String key) {
+//        LightTree.log("Checking whether key %s (keycode %s) is pressed", key, keycodes.get(key.toUpperCase()));
         return activeKeys[keycodes.get(key.toUpperCase())];
     }
 

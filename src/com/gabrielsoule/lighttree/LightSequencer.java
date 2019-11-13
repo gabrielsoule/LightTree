@@ -25,16 +25,40 @@ public class LightSequencer {
         for(String key : effectKeybindsSection.keySet()) {
             HashMap<String, Object> effectSection = (HashMap<String, Object>) effectKeybindsSection.get(key);
             try {
-                LightTree.log("Instantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("name") + " and binding to key \'" + key + "\'");
-                LightEffect e = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("name")).getConstructor().newInstance();
-                e.p = this.p;
+                LightTree.log("\nInstantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("name") + " and binding to key \'" + key + "\'");
+                LightEffect effect = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("name")).getConstructor().newInstance();
+                effect.p = this.p;
+
+                //load colors
+                List<String> colorStrings = (List<String>) effectSection.get("colors");
+
+
+                //load options
                 HashMap<String, Object> effectOptions = (HashMap<String, Object>) effectSection.get("options");
                 for(String optionName : effectOptions.keySet()) {
-                    LightTree.log(String.format("Setting option \'%s\' to value \'%s\'",optionName, effectOptions.get(optionName)));
-                    e.config.setOption(optionName, effectOptions.get(optionName));
+                    String value = effectOptions.get(optionName).toString();
+                    try {
+                        float floatValue = Float.parseFloat(value);
+                        effect.config.setFloat(optionName, floatValue);
+                        LightTree.log(String.format("Setting float option \'%s\' to value \'%s\'",optionName, floatValue));
+
+                    } catch (NumberFormatException ex) {
+                        if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                            boolean booleanValue = Boolean.parseBoolean(value);
+                            effect.config.setBoolean(optionName, booleanValue);
+                            LightTree.log(String.format("Setting boolean option \'%s\' to value \'%s\'",optionName, booleanValue));
+                        } else {
+                            effect.config.setString(optionName, value);
+                            LightTree.log(String.format("Setting string option \'%s\' to value \'%s\'",optionName, value));
+
+                        }
+                    }
                 }
 
+                effects.put(key, effect);
+
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                System.out.println("ERROR: Something went wrong while loading effects from the configuration file. See stack trace for details: ");
                 ex.printStackTrace();
             }
 

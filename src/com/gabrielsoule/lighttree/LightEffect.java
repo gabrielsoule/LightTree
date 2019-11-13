@@ -8,7 +8,6 @@ public abstract class LightEffect {
     public BeatDetector beatDetector;
     private int[] lightColors;
     private boolean sleeping = false;
-    public ColorProvider colorProvider;
     public LightEffectConfig config;
 
     public LightEffect() {

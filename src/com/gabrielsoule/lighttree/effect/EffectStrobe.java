@@ -37,7 +37,7 @@ public class EffectStrobe extends LightEffect {
     @Override
     public void draw() {
         int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloat("frequency")));
-        int numLightsToFlash = config.getInt("lights-per-segment") * config.getInt("segments-per-flash");
+        int numLightsToFlash = (int) (config.getFloat("lights-per-segment") * config.getFloat("segments-per-flash"));
         int turnOffLightsFrame = (int) ((p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("strobe-on-mult"));
         if(turnOffLightsFrame == 0) {
             turnOffLightsFrame = 1;

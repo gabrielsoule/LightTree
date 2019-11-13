@@ -51,6 +51,11 @@ public class MathUtil {
         return (float) (-20 * Math.pow(x, 7) + 70 * Math.pow(x, 6) - 84 * Math.pow(x, 5) + 35 * Math.pow(x, 4));
     }
 
+    public static int parsePColorRGB(String hexColor) {
+        return (0xFF << 24) | Integer.decode("0x" + hexColor);
+
+    }
+
     public static boolean between(int a, int b1, int b2) {
         return (b1 <= a && b2 >= a) || (b2 <= a && b1 >= a);
     }
