@@ -1,9 +1,7 @@
 package com.gabrielsoule.lighttree.effect;
 
-import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.ColorGradient;
 import com.gabrielsoule.lighttree.LightEffect;
-import com.gabrielsoule.lighttree.LightTree;
 
 import java.util.*;
 
@@ -34,6 +32,7 @@ public class EffectFlashSegments extends LightEffect {
     @Override
     public void setup() {
         ArrayList<Segment> segmentArray = new ArrayList<>();
+        this.gradient = new ColorGradient(p.color(0, 255, 255), 0, p.color(0, 0, 0), 1);
 
         for (int i = 0; i < p.NUM_LIGHTS / LIGHTS_PER_SEGMENT; i++) {
             segmentArray.add(new Segment(i * LIGHTS_PER_SEGMENT, gradient));
@@ -42,13 +41,6 @@ public class EffectFlashSegments extends LightEffect {
         segments = new ArrayDeque<>(segmentArray);
     }
 
-    @Override
-    public void configure(int[] integerConfig, Color[] colorConfig) {
-        this.segmentsPerFlash = integerConfig[0];
-//        this.duration =
-    }
-
-    @Override
     public void configure(int[] integerConfig, int[] colorConfig) {
         this.segmentsPerFlash = integerConfig[0];
         this.duration = 0.5f + integerConfig[1] / 3.33f;
@@ -67,8 +59,10 @@ public class EffectFlashSegments extends LightEffect {
 
     @Override
     public void draw() {
+        flushColors();
         if(p.beatDetector.beat()) {
 //            segments.get(0).start();
+//            LightTree.log("Flashing segment!!");
             for (int i = 0; i < segmentsPerFlash; i++) {
                 Segment segment = segments.removeLast();
                 segment.start();
@@ -93,7 +87,7 @@ public class EffectFlashSegments extends LightEffect {
         }
 
         public void start() {
-            System.out.println("Starting segment " + this.startLight);
+//            System.out.println("Starting segment " + this.startLight);
             active = true;
             this.startTime = p.millis();
         }
@@ -108,7 +102,7 @@ public class EffectFlashSegments extends LightEffect {
                 float progress =
                         (p.millis() - startTime) / (p.beatDetector.getLastBeatDelta() == 0 ? 500f : p.beatDetector.getLastBeatDelta());
                 progress /= duration; //divide by duration factor
-                System.out.println(progress);
+//                System.out.println(progress);
                 if(progress >= 1) {
                     active = false;
                     return;

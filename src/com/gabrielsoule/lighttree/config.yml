@@ -41,8 +41,18 @@ effect-keybinds:
     options:
       lights-per-segment: 64
       segments-per-flash: 1
-      frequency: 10 #in HZ
-      strobe-on-mult: 0.5
+      frequency: 15 #in HZ
+      strobe-on-mult: 0.2
+  s:
+    name: EffectMitchellStrobe
+    colors: [WHITE]
+  d:
+    name: EffectFlashSegments
+    colors: [WHITE]
+  f:
+    name: EffectMitchellVisualizer
+    colors: [WHITE]
+
 #  a:
 #    name: EffectVisualizer
 #    options: [0]

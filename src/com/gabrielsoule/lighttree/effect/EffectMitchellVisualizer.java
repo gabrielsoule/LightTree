@@ -1,6 +1,5 @@
 package com.gabrielsoule.lighttree.effect;
 
-import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
 
@@ -22,18 +21,8 @@ public class EffectMitchellVisualizer extends LightEffect {
     }
 
     @Override
-    public void configure(int[] integerConfig, Color[] colorConfig) {
-
-    }
-
-    @Override
-    public void configure(int[] integerConfig, int[] colorConfig) {
-
-    }
-
-    @Override
     public void draw() {
-        colorMod += (1 / (float) p.FRAME_RATE) * 2;
+        colorMod += (1 / (float) p.FRAME_RATE) * 16;
         colorMod = colorMod % 360;
 
         if (p.millis() - lastMove > 200) {
@@ -86,7 +75,7 @@ public class EffectMitchellVisualizer extends LightEffect {
             float b = localScore + inScores[0]/2;
             if(localScore < 0.25) b *= 0.5;
             b = LightTree.constrain(b, 0, 1);
-            setLight((i+rotator)%(p.NUM_LIGHTS-1), p.color(hue,  50+(b*205), b*255));
+            setLight((i+rotator)%(p.NUM_LIGHTS-1), p.color(hue,  50+(b*205), b*255 * 1.05f));
         }
 
     }

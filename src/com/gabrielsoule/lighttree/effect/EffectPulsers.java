@@ -30,13 +30,7 @@ public class EffectPulsers extends LightEffect {
         this.collisionArray = new Pulser[p.NUM_LIGHTS];
     }
 
-    @Override
-    public void configure(int[] integerConfig, Color[] colorConfig) {
-
-    }
-
     //arguments: SPEED, GRADIENTFALLOFF, FOCI...
-    @Override
     public void configure(int[] integerConfig, int[] colorConfig) {
         this.speed = 50 + integerConfig[0] * 60;
         this.gradientFalloff = integerConfig[1] * 0.333f;

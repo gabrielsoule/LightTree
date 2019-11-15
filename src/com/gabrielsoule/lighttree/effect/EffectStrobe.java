@@ -1,16 +1,11 @@
 package com.gabrielsoule.lighttree.effect;
 
-import com.gabrielsoule.lighttree.Color;
 import com.gabrielsoule.lighttree.LightEffect;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Deque;
 
 public class EffectStrobe extends LightEffect {
 
-    int[] segments;
-    int segmentPointer = 0;
+    private int[] segments;
+    private int segmentPointer = 0;
 
     @Override
     public void setup() {
@@ -21,16 +16,6 @@ public class EffectStrobe extends LightEffect {
 //
 //        Collections.shuffle(segmentArray);
 //        this.segments = segmentArray.toArray();
-
-    }
-
-    @Override
-    public void configure(int[] integerConfig, Color[] colorConfig) {
-
-    }
-
-    @Override
-    public void configure(int[] integerConfig, int[] colorConfig) {
 
     }
 
@@ -52,7 +37,8 @@ public class EffectStrobe extends LightEffect {
                 setLight(i % p.NUM_LIGHTS, 0);
             }
 
-            segmentPointer = (segmentPointer + numLightsToFlash);
+            segmentPointer = (segmentPointer + numLightsToFlash) % p.NUM_LIGHTS;
+//            System.out.println(frameModPeriod + " " + segmentPointer);
         }
     }
 }

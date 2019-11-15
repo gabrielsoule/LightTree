@@ -24,15 +24,19 @@ public class Config {
             keybinds = (Map<String, String>) yamlObject.get("general-keybinds");
             Map<String, String> hexColors = (Map<String, String>) yamlObject.get("color-names");
             for(String key : hexColors.keySet()) {
-                colors.put(key, MathUtil.parsePColorRGB(hexColors.get(key)));
+                colors.put(key, MathUtil.decodePColorRGB(hexColors.get(key)));
             }
-            colors.put("RANDOM", -1);
+            colors.put("RANDOM", 0);
         } catch (FileNotFoundException e) {
             System.out.println("Unable to find configuration file at " + filePath);
         } catch (Exception e) {
             System.out.println("An unknown error occurred:");
             e.printStackTrace();
         }
+    }
+
+    public Map<String, Integer> getColors() {
+        return colors;
     }
 
     public Map<String, Object> getYamlObject() {

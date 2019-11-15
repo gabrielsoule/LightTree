@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class KeyboardListener {
-    private boolean[] activeKeys;
+    private boolean[] heldKeys;
     private boolean[] pressedKeys;
     public  boolean[] releasedKeys;
     private HashMap<String, Integer> keycodes;
@@ -14,7 +14,7 @@ public class KeyboardListener {
 
     public KeyboardListener() {
         this.keycodes = new HashMap<>();
-        this.activeKeys = new boolean[KEYCODE_RANGE];
+        this.heldKeys = new boolean[KEYCODE_RANGE];
         this.pressedKeys = new boolean[KEYCODE_RANGE];
         this.releasedKeys = new boolean[KEYCODE_RANGE];
         LightTree.log("Importing keyboard codes from KeyEvent.class");
@@ -37,12 +37,12 @@ public class KeyboardListener {
 
     void tick() {
         for (int i = 0; i < KEYCODE_RANGE; i++) {
-            if(pressedKeys[i]) {
-//                LightTree.log("Resetting pressed key %s", pressedKeys[i]);
-            }
-            if(releasedKeys[i]) {
-//                LightTree.log("Resetting released key %s", releasedKeys[i]);
-            }
+//            if(pressedKeys[i]) {
+////                LightTree.log("Resetting pressed key %s", pressedKeys[i]);
+//            }
+//            if(releasedKeys[i]) {
+////                LightTree.log("Resetting released key %s", releasedKeys[i]);
+//            }
 
             this.pressedKeys[i] = this.releasedKeys[i] = false;
         }
@@ -60,22 +60,24 @@ public class KeyboardListener {
 //    }
 
     void handleKeyPress(int keycode) {
-        LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
-        pressedKeys[keycode] = activeKeys[keycode] = true;
+        if(keycode < KEYCODE_RANGE) {
+            LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
+            pressedKeys[keycode] = heldKeys[keycode] = true;
+        }
     }
 
     void handleKeyReleased(int keycode) {
-        activeKeys[keycode] = false;
+        heldKeys[keycode] = false;
         releasedKeys[keycode] = true;
     }
 
     public boolean keyPressed(String key) {
 //        LightTree.log("Checking whether key %s (keycode %s) is pressed", key, keycodes.get(key.toUpperCase()));
-        return activeKeys[keycodes.get(key.toUpperCase())];
+        return pressedKeys[keycodes.get(key.toUpperCase())];
     }
 
     public boolean keyDown(String key) {
-        return pressedKeys[keycodes.get(key.toUpperCase())];
+        return heldKeys[keycodes.get(key.toUpperCase())];
     }
 
     public boolean keyReleased(String key) {

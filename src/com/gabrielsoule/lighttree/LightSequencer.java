@@ -19,6 +19,8 @@ public class LightSequencer {
         this.activeEffects = new ArrayList<>();
     }
 
+
+    //TODO Migrate this method into Config.java
     public void loadFromConfig(Config config) {
         LightTree.log("Loading effects from config... OK");
         HashMap<String, Object> effectKeybindsSection = (HashMap<String, Object>) config.getYamlObject().get("effect-keybinds");
@@ -31,42 +33,54 @@ public class LightSequencer {
 
                 //load colors
                 List<String> colorStrings = (List<String>) effectSection.get("colors");
-
+                for(String colorString : colorStrings) {
+                    if(config.getColors().containsKey(colorString)) {
+                        LightTree.log("Adding color %s to effect", colorString);
+                        effect.config.addColor(config.getColors().get(colorString));
+                    } else {
+                        LightTree.log("Adding color %s to effect", colorString);
+                        effect.config.addColor(MathUtil.decodePColorRGB(colorString));
+                    }
+                }
 
                 //load options
                 HashMap<String, Object> effectOptions = (HashMap<String, Object>) effectSection.get("options");
-                for(String optionName : effectOptions.keySet()) {
-                    String value = effectOptions.get(optionName).toString();
-                    try {
-                        float floatValue = Float.parseFloat(value);
-                        effect.config.setFloat(optionName, floatValue);
-                        LightTree.log(String.format("Setting float option \'%s\' to value \'%s\'",optionName, floatValue));
+                if(effectOptions != null) {
+                    for(String optionName : effectOptions.keySet()) {
+                        String value = effectOptions.get(optionName).toString();
+                        try {
+                            float floatValue = Float.parseFloat(value);
+                            effect.config.setFloat(optionName, floatValue);
+                            LightTree.log(String.format("Setting float option \'%s\' to value \'%s\'",optionName, floatValue));
 
-                    } catch (NumberFormatException ex) {
-                        if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
-                            boolean booleanValue = Boolean.parseBoolean(value);
-                            effect.config.setBoolean(optionName, booleanValue);
-                            LightTree.log(String.format("Setting boolean option \'%s\' to value \'%s\'",optionName, booleanValue));
-                        } else {
-                            effect.config.setString(optionName, value);
-                            LightTree.log(String.format("Setting string option \'%s\' to value \'%s\'",optionName, value));
+                        } catch (NumberFormatException ex) {
+                            if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+                                boolean booleanValue = Boolean.parseBoolean(value);
+                                effect.config.setBoolean(optionName, booleanValue);
+                                LightTree.log(String.format("Setting boolean option \'%s\' to value \'%s\'",optionName, booleanValue));
+                            } else {
+                                effect.config.setString(optionName, value);
+                                LightTree.log(String.format("Setting string option \'%s\' to value \'%s\'",optionName, value));
 
+                            }
                         }
                     }
                 }
 
                 effects.put(key, effect);
+                effect.setup();
 
             } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
                 System.out.println("ERROR: Something went wrong while loading effects from the configuration file. See stack trace for details: ");
                 ex.printStackTrace();
             }
-
         }
+
+        LightTree.log("Done loading light effects! Total effects loaded: %s", effects.keySet().size());
     }
 
     public void testLoad() {
-        EffectChasers chasers = new EffectChasers();
+        EffectMitchellChasers chasers = new EffectMitchellChasers();
         chasers.setup();
         EffectFlashSegments flashSegments = new EffectFlashSegments();
         flashSegments.setup();
@@ -104,14 +118,14 @@ public class LightSequencer {
 //                    effect.wake();
 //                }
             }
+        }
 
-            for(LightEffect effect : activeEffects) {
-                if(effect.isSleeping()) {
-                    LightTree.log("Deactivating sleeping effect " + effect.getClass().getSimpleName());
-                    activeEffects.remove(effect);
-                }
-                effect.draw();
+        for(LightEffect effect : activeEffects) {
+            if(effect.isSleeping()) {
+                LightTree.log("Deactivating sleeping effect " + effect.getClass().getSimpleName());
+                activeEffects.remove(effect);
             }
+            effect.draw();
         }
 
         return null; //TODO literally anything but this

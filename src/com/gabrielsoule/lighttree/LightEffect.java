@@ -28,13 +28,7 @@ public abstract class LightEffect {
         return sleeping;
     }
 
-    public abstract void configure(int[] integerConfig, Color[] colorConfig);
-
-    public abstract void configure(int[] integerConfig, int[] colorConfig);
-
     public abstract void draw();
-
-    public boolean instant() {return false;}
 
     public void keyPressed() {}
 
@@ -75,6 +69,7 @@ public abstract class LightEffect {
     public  void flushColors() {
         for(int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
+            p.setLight(i, 0);
         }
     }
 }

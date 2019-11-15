@@ -59,7 +59,7 @@ public class LightEffectConfig {
 
 
     public int getColor(int i) {
-        if(colors.get(i) == -1) {
+        if(colors.get(i) == 0) {
             return LightTree.getInstance().color(LightTree.getInstance().random(0, 360), 255, 255);
         } else {
             return colors.get(i);

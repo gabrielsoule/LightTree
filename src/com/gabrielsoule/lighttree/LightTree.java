@@ -12,8 +12,8 @@ public class LightTree extends PApplet {
 
     private static LightTree instance;
     private static boolean DEBUG = true;
-    public final int NUM_LIGHTS = 512 - 64;
-    public final int FRAME_RATE = 60;
+    public final int NUM_LIGHTS = 512;
+    public final int FRAME_RATE = 30;
 
     public OPC opc;
     public Minim minim;
@@ -35,7 +35,7 @@ public class LightTree extends PApplet {
 
     @Override
     public void settings() {
-        size(1200, 400);
+        size((20 + 10) * 16 + 10, (20+10) * 32 + 10);
     }
 
 
@@ -79,7 +79,8 @@ public class LightTree extends PApplet {
 
         beatDetector.tick();
         int[] sequencerResult = sequencer.sequence();
-        drawSimulator();
+//        drawSimulator();
+        drawSimulator2();
         opc.writePixels();
 
         keyboardListener.tick();
@@ -91,6 +92,47 @@ public class LightTree extends PApplet {
         }
     }
 
+    private void drawSimulator2() {
+        int lightBoxSize = 20;
+        int lightBoxMarginHoriz = 10;
+        int lightBoxMarginVert = 10;
+        int numLightBoxesWide = 16;
+        int numLightBoxesHigh = 32;
+        int lightBoxAreaWidth = ((lightBoxSize + lightBoxMarginHoriz) * numLightBoxesWide) - lightBoxMarginHoriz;
+        int lightBoxAreaHeight = ((lightBoxSize + lightBoxMarginVert) * numLightBoxesHigh) - lightBoxMarginVert;
+        int frameMargin = lightBoxMarginVert;
+
+//        int x = (width / 2) - (lightBoxAreaWidth / 2) ;/
+        int x = 10;
+        int y = frameMargin;
+
+        noStroke();
+        rectMode(CENTER);
+
+        int lightIndex = 0;
+        for (int i = 0; i < numLightBoxesWide; i++) {
+            for (int j = 0; j < numLightBoxesHigh; j++) {
+//                fill(lightColors[((i + 1) * (j + 1)) - 1]);
+                fill(lightColors[lightIndex]);
+                float scaleFactor = ColorUtil.brightness(lightColors[lightIndex]);
+                scaleFactor = scaleFactor / 128f;
+                scaleFactor = scaleFactor / 4;
+                scaleFactor = scaleFactor + 0.75f;
+//                System.out.println(scaleFactor);
+//                scaleFactor *= 0.2;
+//                print(scaleFactor);
+
+                lightIndex++;
+//                rect(x + lightBoxSize / 2, y + lightBoxSize / 2, lightBoxSize * scaleFactor, lightBoxSize * scaleFactor, (lightBoxSize * scaleFactor) / 2f);
+                circle(x + lightBoxSize / 2, y + lightBoxSize / 2, lightBoxSize * scaleFactor);
+                y += lightBoxSize + lightBoxMarginVert;
+            }
+            y = frameMargin;
+            x += lightBoxSize + lightBoxMarginHoriz;
+        }
+
+
+    }
     private void drawSimulator() {
         rectMode(CORNER);
         fill(60, 255, 255);
