@@ -32,7 +32,7 @@ public class EffectFlashSegments extends LightEffect {
     @Override
     public void setup() {
         ArrayList<Segment> segmentArray = new ArrayList<>();
-        this.gradient = new ColorGradient(p.color(0, 255, 255), 0, p.color(0, 0, 0), 1);
+        this.gradient = new ColorGradient(p.color(0, 255, 255), 0, p.color(160, 255, 0), 1);
 
         for (int i = 0; i < p.NUM_LIGHTS / LIGHTS_PER_SEGMENT; i++) {
             segmentArray.add(new Segment(i * LIGHTS_PER_SEGMENT, gradient));

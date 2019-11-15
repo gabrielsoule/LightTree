@@ -67,8 +67,10 @@ public class KeyboardListener {
     }
 
     void handleKeyReleased(int keycode) {
-        heldKeys[keycode] = false;
-        releasedKeys[keycode] = true;
+        if(keycode < KEYCODE_RANGE) {
+            heldKeys[keycode] = false;
+            releasedKeys[keycode] = true;
+        }
     }
 
     public boolean keyPressed(String key) {
