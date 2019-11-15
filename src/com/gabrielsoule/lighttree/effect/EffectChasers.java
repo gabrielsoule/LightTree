@@ -25,8 +25,8 @@ public class EffectChasers extends LightEffect {
     }
 
     @Override
-    public void draw() {
-
+    public void draw()  {
+        for(Chaser )
     }
 
     private void spawnChaser() {
@@ -51,7 +51,7 @@ public class EffectChasers extends LightEffect {
         }
 
         public void moveAndDraw() {
-            this.position += velocity;
+            this.position += velocity / (float) p.FRAME_RATE;
             int lightPosition = Math.round(position);
             for(int i = lightPosition; i < lightPosition + length; i+= direction){
                 setLight(i, color.get((i - lightPosition) / (float) length));
