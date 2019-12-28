@@ -13,27 +13,40 @@ public class EffectChasers extends LightEffect {
     @Override
     public void setup() {
         chasers = new ArrayList<>();
-        for(int i = 0; i < config.getFloat("num-chasers"); i++) {
+        for (int i = 0; i < config.getFloat("num-chasers"); i++) {
             chasers.add(
                     new Chaser(
-                            new ColorGradient(this.config.getColor(0), 0 , this.config.getColor(1), 1),
+                            new ColorGradient(this.config.getColor(0), 0, this.config.getColor(1), 1),
                             (int) p.random(0, p.NUM_LIGHTS),
                             (int) p.random(this.config.getFloat("min-length"), this.config.getFloat("max-length")),
                             p.random(this.config.getFloat("min-velocity"), this.config.getFloat("max-velocity")))
-                    );
+            );
         }
     }
+//
 
     @Override
-    public void draw()  {
-        for(Chaser )
-    }
-
-    private void spawnChaser() {
+    public void draw() {
 
     }
 
-    private class Chaser {
+//    }f\ /
+//
+//    @Override///////////////////
+//    public void draw() {
+//        for)
+//    }
+
+//    @Override
+//    public void draw()  {
+//        for(Chaser )
+//    }
+
+     private void spawnChaser() {
+
+    }
+
+    public class Chaser {
         public boolean outOfBounds;
         public float position;
         public int length;
