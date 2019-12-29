@@ -32,7 +32,7 @@ public class ColorGradient {
 
     public int get(float position) {
         if(position < 0 || position > 1) {
-            throw new IllegalArgumentException("Color position not between 0 and 1");
+            throw new IllegalArgumentException("Gradient position " + position + " is not between 0 and 1");
         }
         //want to find adjacent colors to the specified location
         //first we must find adjacent indices
@@ -51,7 +51,7 @@ public class ColorGradient {
 
         return lerpColor(position, colors.get(leftIndex), colors.get(rightIndex), leftIndex, rightIndex);
     }
-    //lerp RGB values
+    //lerp RGB values, properly lerping alpha
     private int lerpColor(float index, int lColor, int rColor, float leftIndex, float rightIndex) {
         float t = (index - leftIndex) / (rightIndex - leftIndex);
         float a1 = (lColor >> 24) & 0xFF;
@@ -62,7 +62,8 @@ public class ColorGradient {
         float g2 = (rColor >>  8) & 0xFF;
         float b1 = lColor & 0xFF;
         float b2 = rColor & 0xFF;
-        
+
+        //lol I have no idea what is going on here. What the shit was I thinking? Don't touch it!
         int a =  Math.round(fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
 //        System.out.println(a);
 

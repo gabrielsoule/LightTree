@@ -24,6 +24,10 @@ public abstract class LightEffect {
 
     public void wake() {this.sleeping = false;}
 
+    public void onWake() {}
+
+    public void onSleep() {}
+
     public boolean isSleeping() {
         return sleeping;
     }
@@ -34,7 +38,7 @@ public abstract class LightEffect {
 
     public void setLight(int index, int color)
     {
-        if(index < p.NUM_LIGHTS) {
+        if(index >= 0 && index < p.NUM_LIGHTS) {
             this.lightColors[index] = color;
             p.setLight(index,  color);
         }

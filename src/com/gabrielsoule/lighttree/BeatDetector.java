@@ -8,12 +8,13 @@ public class BeatDetector {
     private final AudioInput audio;
     private BeatDetect minimDetector;
     //Configuration options
-    private int ENGAGE_LOCK_TIME = 1500; //time to wait without a keypress before engaging
-    private int OVERLAP_THRESHOLD = 400; //if a manual beat and an auto beat both trigger in this time, ignore one
-    private int BEATS_TO_IGNORE = 3;
-    private int BEATS_BEFORE_AUTO_GENERATE = 8;
-    private int SYNC_NEW_BEAT_THRESHOLD;
+    private final int ENGAGE_LOCK_TIME = 1500; //time to wait without a keypress before engaging
+    private final int OVERLAP_THRESHOLD = 400; //if a manual beat and an auto beat both trigger in this time, ignore one
+    private final int BEATS_TO_IGNORE = 3;
+    private final int BEATS_BEFORE_AUTO_GENERATE = 8;
+
     private float TUNING = 0f;
+
     public boolean manualMode = false;
     private boolean beat = false;
     private int lastManualBeatTime = 0;
@@ -24,6 +25,7 @@ public class BeatDetector {
     private float estPeriod;
     private DetectionPhase phase = DetectionPhase.SLEEPING;
     private boolean debug = true;
+    private float beatMultiplier = 1;
 
     BeatDetector(LightTree p, AudioInput audioStream) {
         this.p = p;
@@ -56,7 +58,7 @@ public class BeatDetector {
             }
             if ((phase == DetectionPhase.ENGAGED || phase == DetectionPhase.ADJUSTING ||
                     (phase == DetectionPhase.SYNCHRONIZING && manualBeatCount > BEATS_BEFORE_AUTO_GENERATE))
-                    && p.millis() - lastBeatTime > estPeriod) {
+                    && p.millis() - lastBeatTime > estPeriod / beatMultiplier) {
                 beat = true;
                 print("Auto beat: " + p.millis());
                 lastDelta = p.millis() - lastBeatTime;
@@ -69,6 +71,14 @@ public class BeatDetector {
         if (debug) System.out.println("[Beat Generator] " + message);
     }
 
+    public void setTempoMultiplier(float multiplier) {
+        this.beatMultiplier = beatMultiplier * 2;
+    }
+    private float getTempoMultiplier() {
+        return beatMultiplier;
+    }
+    //TODO migrate this to use the KeyboardListener class, condensing this into the tick method
+    // this class came along well before KeyboardListener was written
     void handleKeyPress() {
         if(manualMode) {
             this.beat = true;

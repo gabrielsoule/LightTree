@@ -43,8 +43,11 @@ public class Config {
         return yamlObject;
     }
 
-    public String getBinding(String key) {
-        return keybinds.get(key);
+    /**
+     * @return the key bound to the top
+     */
+    public String getKeybind(String name) {
+        return keybinds.get(name);
     }
 
 //    public class EffectConfiguration {

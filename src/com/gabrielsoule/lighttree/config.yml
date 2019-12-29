@@ -1,3 +1,14 @@
+options:
+  doRGBtoGRBfix: false
+  beat-increment-amount: 0.2 #each time KEY_FASTER_BEAT or KEY_SLOWER_BEAT is hit, increase the tempo by this amount of the original
+general-keybinds:b
+  x: KEY_TOGGLE_LIGHTS
+  c: KEY_DO_BEAT
+  v: KEY_TOGGLE_BEAT
+  b: KEY_DOUBLE_BEAT
+  n: KEY_HALF_BEAT
+  m: KEY_FASTER_BEAT
+  ',': KEY_SLOWER_BEAT
 color-names:
   WHITE: FFFFFF
   PINK: FFC3C3
@@ -11,14 +22,6 @@ color-names:
   BLUE: 0000FF
   VIOLET: 4B0082
   PURPLE: 9400D3
-general-keybinds:
-  z: KEY_NEW_EFFECT
-  x: KEY_TOGGLE_LIGHTS
-  c: KEY_DO_BEAT
-  v: KEY_DO_BEAT
-  b: KEY_TOGGLE_BEAT
-  n: KEY_DOUBLE_BEAT
-  m: KEY_QUADRUPLE_BEAT
 color-keybinds:
   q: RANDOM
   w: WHITE
@@ -33,7 +36,6 @@ color-keybinds:
   ']': BLUE
   '[': VIOLET
   '\': PURPLE
-
 effect-keybinds:
   a:
     name: EffectStrobe
@@ -52,6 +54,17 @@ effect-keybinds:
   f:
     name: EffectMitchellVisualizer
     colors: [WHITE]
+  g:
+    name: EffectChasers
+    colors: [GOLD, PURPLE]
+    options:
+      num-chasers: 15
+      min-length: 8
+      max-length: 12
+      min-velocity: 5
+      max-velocity: 10
+      tail-alpha: 0.2
+
 
 #  a:
 #    name: EffectVisualizer

@@ -1,49 +1,53 @@
 package com.gabrielsoule.lighttree.effect;
 
-import com.gabrielsoule.lighttree.ColorGradient;
-import com.gabrielsoule.lighttree.LightEffect;
-import com.gabrielsoule.lighttree.MathUtil;
+import com.gabrielsoule.lighttree.*;
 
 import java.util.ArrayList;
 
 public class EffectChasers extends LightEffect {
 
     private ArrayList<Chaser> chasers;
+    private ArrayList<Chaser> chasersToRemove;
 
     @Override
     public void setup() {
         chasers = new ArrayList<>();
+        chasersToRemove = new ArrayList<>();
         for (int i = 0; i < config.getFloat("num-chasers"); i++) {
-            chasers.add(
-                    new Chaser(
-                            new ColorGradient(this.config.getColor(0), 0, this.config.getColor(1), 1),
-                            (int) p.random(0, p.NUM_LIGHTS),
-                            (int) p.random(this.config.getFloat("min-length"), this.config.getFloat("max-length")),
-                            p.random(this.config.getFloat("min-velocity"), this.config.getFloat("max-velocity")))
-            );
+            spawnChaser();
         }
     }
 //
 
     @Override
     public void draw() {
+        flushColors();
+        int chasersToSpawn = 0;
+        for(Chaser chaser : chasers) {
+            chaser.moveAndDraw();
+            if(chaser.outOfBounds) {
+                chasersToSpawn++;
+            }
+        }
 
+        for (int i = 0; i < chasersToSpawn; i++) {
+            spawnChaser();
+        }
+        chasers.removeIf(chaser -> chaser.outOfBounds);
     }
 
-//    }f\ /
-//
-//    @Override///////////////////
-//    public void draw() {
-//        for)
-//    }
-
-//    @Override
-//    public void draw()  {
-//        for(Chaser )
-//    }
-
-     private void spawnChaser() {
-
+    private void spawnChaser() {
+        float velocity = p.random(this.config.getFloat("min-velocity"), this.config.getFloat("max-velocity"));
+        velocity = p.random(0, 1) > 0.5f ? velocity : -velocity; //random direction
+        int c2 = this.config.getColor(1);
+        c2 = ColorUtil.setAlpha(c2, (int) (255 * this.config.getFloat("tail-alpha")));
+        chasers.add(
+                new Chaser(
+                        new ColorGradient(this.config.getColor(0), 0, c2, 1),
+                        (int) p.random(0, p.NUM_LIGHTS),
+                        (int) p.random(this.config.getFloat("min-length"), this.config.getFloat("max-length")),
+                        velocity)
+        );
     }
 
     public class Chaser {
@@ -55,6 +59,7 @@ public class EffectChasers extends LightEffect {
         public ColorGradient color;
 
         public Chaser(ColorGradient color, float position, int length, float velocity) {
+            LightTree.log("New chaser spawned at position %s", position);
             this.color = color;
             this.position = position;
             this.length = length;
@@ -65,12 +70,16 @@ public class EffectChasers extends LightEffect {
 
         public void moveAndDraw() {
             this.position += velocity / (float) p.FRAME_RATE;
-            int lightPosition = Math.round(position);
-            for(int i = lightPosition; i < lightPosition + length; i+= direction){
-                setLight(i, color.get((i - lightPosition) / (float) length));
+            int chaserHeadPosition = Math.round(position); //actual light index to draw head
+            int drawPosition = chaserHeadPosition;
+            for(int i = 0; i < length; i++) {
+                setLight(drawPosition, color.get(i / (float) length));
+                drawPosition -= direction;
             }
 
-            if(!MathUtil.between(lightPosition, 0 - length, p.NUM_LIGHTS + length)) {
+
+            if(!MathUtil.between(chaserHeadPosition, 0 - length, p.NUM_LIGHTS + length)) {
+                LightTree.log("Chaser out of bounds, marking for removal");
                 this.outOfBounds = true;
             }
         }

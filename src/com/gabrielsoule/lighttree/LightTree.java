@@ -79,11 +79,11 @@ public class LightTree extends PApplet {
 
         beatDetector.tick();
         int[] sequencerResult = sequencer.sequence();
-//        drawSimulator();
         drawSimulator2();
         opc.writePixels();
 
         keyboardListener.tick();
+
     }
 
     public static void log(String msg, Object... args) {
@@ -114,7 +114,7 @@ public class LightTree extends PApplet {
             for (int j = 0; j < numLightBoxesHigh; j++) {
 //                fill(lightColors[((i + 1) * (j + 1)) - 1]);
                 fill(lightColors[lightIndex]);
-                float scaleFactor = ColorUtil.brightness(lightColors[lightIndex]);
+                float scaleFactor = ColorUtil.getBrightness(lightColors[lightIndex]);
                 scaleFactor = scaleFactor / 128f;
                 scaleFactor = scaleFactor / 4;
                 scaleFactor = scaleFactor + 0.75f;
@@ -133,6 +133,8 @@ public class LightTree extends PApplet {
 
 
     }
+
+    //old visualizer, no longer used
     private void drawSimulator() {
         rectMode(CORNER);
         fill(60, 255, 255);
@@ -185,7 +187,8 @@ public class LightTree extends PApplet {
 
     void setLight(int index, int c) {
 
-        //quietly fail if desired light is invalid
+        //quietly fail if desired light is invalid.
+        //This makes dynamic effects much easier to write
         if(index < 0 || index >= NUM_LIGHTS) {
             return;
         }
@@ -198,7 +201,8 @@ public class LightTree extends PApplet {
         lightColors[index] = c;
         c = fixColor(c);
 
-        //tree-specific mapping, since segments are out of order
+        //tree-specific mapping, since segments are out of order.
+        //TODO make this configurable, right now every installation needs a source edit... not good
         int segment = (int) (index / 64f);
         switch(segment){
             case 0:
@@ -236,13 +240,13 @@ public class LightTree extends PApplet {
 
 //        activeEffect.key = key;
 //        activeEffect.keyPressed();
-        System.out.println("key: ["+key+"]");
-        if (key == 'b') {
-            beatDetector.handleKeyPress();
-        }
-        for(LightEffect e : sequencer.getActiveEffects()) {
-            e.keyPressed();
-        }
+//        System.out.println("key: ["+key+"]");
+//        if (key == 'b') {
+//            beatDetector.handleKeyPress();
+//        }
+//        for(LightEffect e : sequencer.getActiveEffects()) {
+//            e.keyPressed();
+//        }
         keyboardListener.handleKeyPress(keyCode);
     }
 
