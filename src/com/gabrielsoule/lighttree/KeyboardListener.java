@@ -10,6 +10,11 @@ public class KeyboardListener {
     public  boolean[] releasedKeys;
     private HashMap<String, Integer> keycodes;
 
+
+    private int keysHeld = 0;
+    private boolean keyPressedFlag = false;
+    private String lastKeyPressed;
+
     private final int KEYCODE_RANGE = 223;
 
     public KeyboardListener() {
@@ -36,6 +41,7 @@ public class KeyboardListener {
     }
 
     void tick() {
+        keyPressedFlag = false;
         for (int i = 0; i < KEYCODE_RANGE; i++) {
 //            if(pressedKeys[i]) {
 ////                LightTree.log("Resetting pressed key %s", pressedKeys[i]);
@@ -59,13 +65,19 @@ public class KeyboardListener {
 //        }
 //    }
 
+    /**
+     * Internal method called by the keypress method of PApplet.class
+     */
     void handleKeyPress(int keycode) {
         if(keycode < KEYCODE_RANGE) {
             LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
-            pressedKeys[keycode] = heldKeys[keycode] = true;
+            pressedKeys[keycode] = heldKeys[keycode] = keyPressedFlag = true;
         }
     }
 
+    /**
+     * Internal method called by the keypress method of PApplet.class
+     */
     void handleKeyReleased(int keycode) {
         if(keycode < KEYCODE_RANGE) {
             heldKeys[keycode] = false;
@@ -74,9 +86,19 @@ public class KeyboardListener {
     }
 
     public boolean keyPressed(String key) {
-//        LightTree.log("Checking whether key %s (keycode %s) is pressed", key, keycodes.get(key.toUpperCase()));
+        this.lastKeyPressed = key;
         return pressedKeys[keycodes.get(key.toUpperCase())];
     }
+
+    public boolean keyPressed() {
+        return keyPressedFlag;
+    }
+
+    public String getLastKeyPressed() {
+        return lastKeyPressed;
+    }
+
+
 
     public boolean keyDown(String key) {
         return heldKeys[keycodes.get(key.toUpperCase())];

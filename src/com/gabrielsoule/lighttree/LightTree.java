@@ -78,6 +78,9 @@ public class LightTree extends PApplet {
         stroke(255);
 
         beatDetector.tick();
+//        if(keyboardListener.keyPressed(config.getKeybind("KEY_DOUBLE_TEMPO"))) {
+//            beatDetector.setTempoMultiplier(beatDetector.get);
+//        }
         int[] sequencerResult = sequencer.sequence();
         drawSimulator2();
         opc.writePixels();

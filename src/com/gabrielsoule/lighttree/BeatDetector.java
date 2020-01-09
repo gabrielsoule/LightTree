@@ -72,11 +72,12 @@ public class BeatDetector {
     }
 
     public void setTempoMultiplier(float multiplier) {
-        this.beatMultiplier = beatMultiplier * 2;
+        this.beatMultiplier = beatMultiplier * multiplier;
     }
-    private float getTempoMultiplier() {
+    public float getTempoMultiplier() {
         return beatMultiplier;
     }
+    
     //TODO migrate this to use the KeyboardListener class, condensing this into the tick method
     // this class came along well before KeyboardListener was written
     void handleKeyPress() {

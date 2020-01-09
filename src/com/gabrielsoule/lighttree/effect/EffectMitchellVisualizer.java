@@ -3,6 +3,8 @@ package com.gabrielsoule.lighttree.effect;
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
 
+import java.util.ArrayDeque;
+
 public class EffectMitchellVisualizer extends LightEffect {
     private int rowmax = 24;
     private float[] rawScores = new float[rowmax];
@@ -14,6 +16,8 @@ public class EffectMitchellVisualizer extends LightEffect {
     private float colorMod = 120f;
     private int rotator = 0;
     private float lastMove = 0;
+
+    private float EWMAFactor = 0.98f;
 
     @Override
     public void setup() {
@@ -50,6 +54,7 @@ public class EffectMitchellVisualizer extends LightEffect {
 
             // get average of "band" (out of 100)
             rawScores[i] = rawScore;
+            max[i] = EWMAFactor * max[i] + (1 - EWMAFactor) * rawScore;
             if(rawScore > max[i]) max[i] = rawScore;
             float score = (rawScore/max[i]);
             total += score;
@@ -62,6 +67,13 @@ public class EffectMitchellVisualizer extends LightEffect {
             inScores[i] += score;
 
         }
+
+        int totalMaxScore = 0;
+        for (int i = 0; i < max.length; i++) {
+            totalMaxScore += max[i];
+        }
+
+        LightTree.log("%s", totalMaxScore);
 
         total /= 24;
     }

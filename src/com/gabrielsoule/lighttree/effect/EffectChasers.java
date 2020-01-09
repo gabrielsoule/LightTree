@@ -59,7 +59,6 @@ public class EffectChasers extends LightEffect {
         public ColorGradient color;
 
         public Chaser(ColorGradient color, float position, int length, float velocity) {
-            LightTree.log("New chaser spawned at position %s", position);
             this.color = color;
             this.position = position;
             this.length = length;
@@ -79,7 +78,6 @@ public class EffectChasers extends LightEffect {
 
 
             if(!MathUtil.between(chaserHeadPosition, 0 - length, p.NUM_LIGHTS + length)) {
-                LightTree.log("Chaser out of bounds, marking for removal");
                 this.outOfBounds = true;
             }
         }
