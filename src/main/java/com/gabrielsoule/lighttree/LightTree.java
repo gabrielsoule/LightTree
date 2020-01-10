@@ -42,6 +42,8 @@ public class LightTree extends PApplet {
 
     @Override
     public void setup() {
+        String myPathToDataFolder = dataPath("");
+        println(myPathToDataFolder);
         instance = this;
         System.out.println(System.getProperty("user.dir"));
         this.opc = new OPC(this, "lightpi.local", 7890);
@@ -53,7 +55,7 @@ public class LightTree extends PApplet {
         this.fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
         fft.window(FFT.BARTLETT);
 
-        this.config = new Config(new File(this.getClass().getClassLoader().getResource("config.yml").getFile()));
+        this.config = new Config("config.yml");
         colorMode(HSB, 360, 255, 255, 255);
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);

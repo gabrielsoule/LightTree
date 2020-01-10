@@ -14,12 +14,12 @@ public class Config {
     private Map<String, Integer> colors;
     private Map<String, Object> yamlObject;
 
-    public Config(File file) {
+    public Config(String filename) {
         Yaml yaml = new Yaml();
         keybinds = new HashMap<>();
         colors = new HashMap<>();
         try {
-            this.yamlObject = yaml.load(new FileInputStream(file));
+            this.yamlObject = yaml.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));
             System.out.println(yamlObject.get("general-keybinds"));
             keybinds = (Map<String, String>) yamlObject.get("general-keybinds");
             Map<String, String> hexColors = (Map<String, String>) yamlObject.get("color-names");
@@ -27,8 +27,8 @@ public class Config {
                 colors.put(key, MathUtil.decodePColorRGB(hexColors.get(key)));
             }
             colors.put("RANDOM", 0);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to find configuration file config.yml");
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Unable to find configuration file config.yml");
         } catch (Exception e) {
             System.out.println("An unknown error occurred:");
             e.printStackTrace();
