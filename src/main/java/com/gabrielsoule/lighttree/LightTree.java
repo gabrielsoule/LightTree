@@ -28,6 +28,7 @@ public class LightTree extends PApplet {
     public LightSequencer sequencer;
     public Config config;
     public FFT fft;
+    public VisualizerUI ui;
 
 
     public static void main(String[] args) {
@@ -36,16 +37,16 @@ public class LightTree extends PApplet {
 
     @Override
     public void settings() {
-        size((20 + 10) * 16 + 10, (20+10) * 32 + 10);
+        size(1920, 1080);
     }
 
 
     @Override
     public void setup() {
+        surface.setResizable(true);
         String myPathToDataFolder = dataPath("");
         println(myPathToDataFolder);
         instance = this;
-        System.out.println(System.getProperty("user.dir"));
         this.opc = new OPC(this, "lightpi.local", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
@@ -61,6 +62,7 @@ public class LightTree extends PApplet {
             lightColors[i] = color(0, 0, 0);
         }
         Color.p = this;
+        ui = new VisualizerUI();
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
@@ -86,7 +88,7 @@ public class LightTree extends PApplet {
 //            beatDetector.setTempoMultiplier(beatDetector.get);
 //        }
         int[] sequencerResult = sequencer.sequence();
-        drawSimulator2();
+        ui.drawUI();
         opc.writePixels();
 
         keyboardListener.tick();
