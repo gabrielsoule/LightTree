@@ -2,7 +2,7 @@
 
 Powers the lights in my tree. Though there is a very small amount of code specifically tuned to the tree in the backyard, it should work with any WS2811/2812 LED strips plugged into a Fadecandy chip. 
 
-To install and use, you'll need to add the .jar libraries for Processing, Minim, and smakeyaml to your project since they aren't included in the repo, and I haven't yet integrated Maven or anything fancy like that. Sorry.
+The project works out of the box with Maven. Clone it from GitHub and give it a whirl.
 
 Everything is likely to break and change. watch out 
 
