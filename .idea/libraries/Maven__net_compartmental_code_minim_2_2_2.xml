@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: net.compartmental.code:minim:2.2.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/compartmental/code/minim/2.2.2/minim-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/net/compartmental/code/minim/2.2.2/minim-2.2.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/net/compartmental/code/minim/2.2.2/minim-2.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
