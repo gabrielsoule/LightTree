@@ -1,6 +1,6 @@
 # LightTree
 
-Powers the lights in my tree. Though there is a very small amount of code specifically tuned to the tree in the backyard, it should work with any WS2811/2812 LED strips plugged into a Fadecandy chip. 
+Powers the lights in my tree. Though there is a very small amount of code specifically tuned to the tree in the backyard, it should work with any WS2811/2812 LED strips plugged into a Fadecandy chip. It runs on Processing (processing.org) to power the visualizer UI.
 
 The project works out of the box with Maven. Clone it from GitHub and give it a whirl. Processing is still stuck on Java 1.8, so make sure your environment is configured to use that. 
 
