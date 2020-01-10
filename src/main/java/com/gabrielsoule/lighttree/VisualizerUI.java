@@ -7,6 +7,15 @@ public class VisualizerUI {
     private LightTree p;
     private PFont font;
 
+    int lightBoxSize = 20;
+    int lightBoxMarginHoriz = 22;
+    int lightBoxMarginVert = 11;
+    int numLightBoxesWide = 16;
+    int numLightBoxesHigh = 32;
+
+    private int visualizerSectionStartX;
+    private int visualizerSectionEndX;
+
     public VisualizerUI() {
         p = LightTree.getInstance();
         font = p.createFont("Exo2-Regular.ttf", 32);
@@ -16,15 +25,6 @@ public class VisualizerUI {
     public void drawUI() {
 
         /* === draw LED visualizer in center === */
-        int lightBoxSize = 20;
-        int lightBoxMarginHoriz = 10;
-        int lightBoxMarginVert = 10;
-        int numLightBoxesWide = 16;
-        int numLightBoxesHigh = 32;
-        int lightBoxAreaWidth = ((lightBoxSize + lightBoxMarginHoriz) * numLightBoxesWide) - lightBoxMarginHoriz;
-        int lightBoxAreaHeight = ((lightBoxSize + lightBoxMarginVert) * numLightBoxesHigh) - lightBoxMarginVert;
-
-//        int x = (width / 2) - (lightBoxAreaWidth / 2) ;/
         int x = (int) ((p.width / 2f) -
                 ((numLightBoxesWide / 2f) * (lightBoxMarginHoriz + lightBoxSize) - lightBoxMarginHoriz / 2));
         int y = (int) ((p.height / 2f) -
