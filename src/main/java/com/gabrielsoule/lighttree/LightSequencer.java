@@ -1,6 +1,7 @@
 package com.gabrielsoule.lighttree;
 
 import com.gabrielsoule.lighttree.effect.*;
+import com.gabrielsoule.lighttree.util.MathUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class LightSequencer {
         for(String key : effectKeybindsSection.keySet()) {
             HashMap<String, Object> effectSection = (HashMap<String, Object>) effectKeybindsSection.get(key);
             try {
-                LightTree.log("\nInstantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("name") + " and binding to key \'" + key + "\'");
-                LightEffect effect = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("name")).getConstructor().newInstance();
+                LightTree.log("\nInstantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("effect") + " and binding to key \'" + key + "\'");
+                LightEffect effect = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("effect")).getConstructor().newInstance();
                 effect.p = this.p;
 
                 //load colors
@@ -106,17 +107,15 @@ public class LightSequencer {
             if(p.keyboardListener.keyPressed(key)) {
                 LightTree.log("Activating effect bound to " + key);
                 LightEffect effect = effects.get(key);
-                activeEffects.clear();
-                activeEffects.add(effect);
-//                if(activeEffects.contains(effect)) {
-//                    LightTree.log("Deactivating effect " + effect.getClass().getSimpleName());
-//                    activeEffects.remove(effect);
-//                    effect.sleep();
-//                } else {
-//                    LightTree.log("Activating effect " + effect.getClass().getSimpleName());
-//                    activeEffects.add(effect);
-//                    effect.wake();
-//                }
+                if(activeEffects.contains(effect)) {
+                    LightTree.log("Deactivating effect " + effect.getClass().getSimpleName());
+                    activeEffects.remove(effect);
+                    effect.sleep();
+                } else {
+                    LightTree.log("Activating effect " + effect.getClass().getSimpleName());
+                    activeEffects.add(effect);
+                    effect.wake();
+                }
             }
         }
 

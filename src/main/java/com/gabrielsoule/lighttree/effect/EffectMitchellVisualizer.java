@@ -73,7 +73,7 @@ public class EffectMitchellVisualizer extends LightEffect {
             totalMaxScore += max[i];
         }
 
-        LightTree.log("%s", totalMaxScore);
+//        LightTree.log("%s", totalMaxScore);
 
         total /= 24;
     }

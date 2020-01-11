@@ -1,5 +1,7 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.util.MathUtil;
+
 import java.util.HashMap;
 
 public class ColorGradient {
@@ -8,7 +10,6 @@ public class ColorGradient {
     private boolean fixBrightness = true;
     private float curveLerpExponent = 2f;
 
-    @Deprecated
     public ColorGradient(float... args) {
         if(args.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of arguments. Each color must be paired with a float in between 0 and 1");
@@ -20,15 +21,6 @@ public class ColorGradient {
             colors.put(args[i+1], (int) args[i]);
         }
     }
-
-    public ColorGradient(Color... colors) {
-        this.colors = new HashMap<>();
-
-
-    }
-
-//    public ColorGradient setPositions(Float... positions) {}
-
 
     public int get(float position) {
         if(position < 0 || position > 1) {
@@ -63,9 +55,8 @@ public class ColorGradient {
         float b1 = lColor & 0xFF;
         float b2 = rColor & 0xFF;
 
-        //lol I have no idea what is going on here. What the shit was I thinking? Don't touch it!
+        //I have no idea what is going on here. What the fuck was I thinking? What does it do? Don't touch it!
         int a =  Math.round(fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
-//        System.out.println(a);
 
         return  a << 24 |
                     (Math.round(r1 + (r2 - r1) * t) << 16) |
@@ -74,7 +65,7 @@ public class ColorGradient {
 
     }
 
-    public ColorGradient addColor(int color, float position) {
+    public ColorGradient putColor(int color, float position) {
         colors.put(position, color);
         return this;
     }

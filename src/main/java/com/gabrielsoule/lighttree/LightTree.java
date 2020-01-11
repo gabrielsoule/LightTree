@@ -1,12 +1,12 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.util.ColorUtil;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
-import java.io.File;
 import java.util.HashMap;
 
 public class LightTree extends PApplet {

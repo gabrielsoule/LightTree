@@ -38,7 +38,8 @@ color-keybinds:
   '\': PURPLE
 effect-keybinds:
   a:
-    name: EffectStrobe
+    effect: EffectStrobe
+    name: STROBE
     colors: [WHITE]
     options:
       lights-per-segment: 64
@@ -46,26 +47,26 @@ effect-keybinds:
       frequency: 15 #in HZ
       strobe-on-mult: 0.2
   s:
-    name: EffectMitchellStrobe
+    effect: EffectFlashSegments
+    name: FLASH SEGMENTS
     colors: [WHITE]
   d:
-    name: EffectFlashSegments
+    effect: EffectMitchellVisualizer
+    name: VISUALIZER
     colors: [WHITE]
   f:
-    name: EffectMitchellVisualizer
-    colors: [WHITE]
-  g:
-    name: EffectChasers
-    colors: [RANDOM, PURPLE]
+    effect: EffectChasers
+    name: RANDOM CHASERS
+    colors: [RANDOM, RANDOM]
     options:
       num-chasers: 15
       min-length: 8
       max-length: 12
-      min-velocity: 10
-      max-velocity: 15
+      min-velocity: 20
+      max-velocity: 30
       tail-alpha: 0.2
-  h:
-    name: TestEffectVisualizeFrequencies
+  g:
+    effect: TestEffectVisualizeFrequencies
     colors: [RANDOM]
 
 

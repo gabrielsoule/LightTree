@@ -1,4 +1,4 @@
-package com.gabrielsoule.lighttree;
+package com.gabrielsoule.lighttree.util;
 
 public class MathUtil {
 

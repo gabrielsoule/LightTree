@@ -1,6 +1,7 @@
 package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.*;
+import com.gabrielsoule.lighttree.util.MathUtil;
 
 import java.util.ArrayList;
 

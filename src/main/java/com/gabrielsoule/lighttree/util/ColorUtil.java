@@ -1,6 +1,12 @@
-package com.gabrielsoule.lighttree;
+package com.gabrielsoule.lighttree.util;
+
+import processing.core.PApplet;
+
+import java.util.ArrayList;
 
 public class ColorUtil {
+
+
     public static int getRed(int color) {
         return (color >> 16) & 0xFF;
     }
@@ -28,6 +34,34 @@ public class ColorUtil {
 
     }
 
+    /**
+     * Returns an average of the supplied colors using the sum-of-squares method.
+     * Ignores black.
+     * Does not ignore alpha--keep this in mind.
+     */
+    public static int getAverageColor(int[] colors) {
+        int count = 0;
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+        int alpha = 0;
+        for (int i = 0; i < colors.length; i++) {
+            int color = colors[i];
+            if((color >> 8) != 0 && (color & 0xFF) != 0) {
+                count++;
+                red += getRed(color);
+                green += getGreen(color);
+                blue += getBlue(color);
+                alpha += getAlpha(color);
+            }
+        }
+
+        return count == 0 ? 0 : ((alpha / count) & 0xFF) << 24 |
+                ((red / count) & 0xFF) << 16 |
+                ((green / count) & 0xFF) << 8 |
+                ((blue / count) & 0xFF);
+    }
+
     public static int setGreen(int color, int green) {
         if(green < 0 || green > 255) {
             throw new IllegalArgumentException("Cannot set a color's green value to " + green + " [0-255]");
@@ -37,6 +71,20 @@ public class ColorUtil {
                 green << 8 |
                 getBlue(color);
 
+    }
+
+    /**
+     * Processing supports colors with an alpha value (opacity), but the lights do not!
+     * This method bakes a color's alpha value into its RGB values (assuming a black background--this works well for the lights)
+     * by reducing RGB as appropiate and setting the return alpha value to 255.
+     * Against a black background, both input and output should look identical.
+     */
+    public static int bakeAlpha(int color) {
+        float alphaFrac = getAlpha(color) / 255f;
+        return  (0xFF << 24) |
+                ((int)(((color >> 16) & 0xFF) * alphaFrac) << 16) |
+                ((int)(((color >> 8) & 0xFF) * alphaFrac) << 8) |
+                ((int) ((color & 0xFF) * alphaFrac));
     }
 
     public static int setBlue(int color, int blue) {
@@ -66,10 +114,10 @@ public class ColorUtil {
     }
 
     public static int getSaturation(int color) {
-        return Math.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
+        return PApplet.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
     }
 
     public static int getBrightness(int color) {
-        return Math.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
+        return PApplet.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
     }
 }

@@ -16,7 +16,7 @@ public class TestEffectVisualizeFrequencies extends LightEffect {
     public void setup() {
         for(int i = 0; i < frequencies.length; i++) {
             frequencies[i] = (int) ((i / ((float) frequencies.length - 1)) * MAX_FREQ);
-            LightTree.log("freq %s", frequencies[i]);
+//            LightTree.log("freq %s", frequencies[i]);
         }
     }
 
@@ -53,7 +53,7 @@ public class TestEffectVisualizeFrequencies extends LightEffect {
         for (int i = 0; i < maxAmplitudes.length; i++) {
             totalMaxScore += maxAmplitudes[i];
         }
-        LightTree.log("%s", totalMaxScore);
+//        LightTree.log("%s", totalMaxScore);
 
         for (int i = 0; i < amplitudes.length; i++) {
             setLight(i, p.color(0, 255, relativeScores[i]));

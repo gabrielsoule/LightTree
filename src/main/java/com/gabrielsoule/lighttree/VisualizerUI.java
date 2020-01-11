@@ -1,5 +1,6 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.util.ColorUtil;
 import processing.core.PFont;
 
 public class VisualizerUI {
@@ -13,16 +14,33 @@ public class VisualizerUI {
     int numLightBoxesWide = 16;
     int numLightBoxesHigh = 32;
 
-    private int visualizerSectionStartX;
-    private int visualizerSectionEndX;
+    private int visualizerSectionWidth;
+    private int backgroundColor;
+
+    private ColorGradient backgroundGradient;
 
     public VisualizerUI() {
         p = LightTree.getInstance();
+        backgroundGradient = new ColorGradient(p.color(0, 0, 255), 0, p.color(0, 0, 0), 1);
         font = p.createFont("Exo2-Regular.ttf", 32);
         p.textFont(font);
     }
 
     public void drawUI() {
+
+        /* === draw background ===*/
+        backgroundColor = ColorUtil.bakeAlpha(ColorUtil.setAlpha(ColorUtil.getAverageColor(p.lightColors), 60));
+
+        backgroundGradient.putColor(backgroundColor, 0);
+        backgroundGradient.putColor(backgroundColor, 1);
+
+        p.loadPixels();
+        for(int j = 0; j < p.height; j++) {
+            for(int i = 0; i < p.width; i++) {
+                p.pixels[j * p.width + i] = this.backgroundGradient.get(j / (float) p.height);
+            }
+        }
+        p.updatePixels();
 
         /* === draw LED visualizer in center === */
         int x = (int) ((p.width / 2f) -
@@ -37,7 +55,7 @@ public class VisualizerUI {
         for (int i = 0; i < numLightBoxesWide; i++) {
             for (int j = 0; j < numLightBoxesHigh; j++) {
 //                fill(lightColors[((i + 1) * (j + 1)) - 1]);
-                p.fill(p.lightColors[lightIndex]);
+                p.fill((p.lightColors[lightIndex] & (0xFFFFFF)) > 0 ? p.lightColors[lightIndex] : backgroundColor);
                 float scaleFactor = ColorUtil.getBrightness(p.lightColors[lightIndex]);
                 scaleFactor = scaleFactor / 128f;
                 scaleFactor = scaleFactor / 4;
@@ -46,9 +64,11 @@ public class VisualizerUI {
 //                scaleFactor *= 0.2;
 //                print(scaleFactor);
 
-                lightIndex++;
 //                rect(x + lightBoxSize / 2, y + lightBoxSize / 2, lightBoxSize * scaleFactor, lightBoxSize * scaleFactor, (lightBoxSize * scaleFactor) / 2f);
-                p.ellipse(x + lightBoxSize / 2f, y + lightBoxSize / 2f, lightBoxSize * scaleFactor, lightBoxSize * scaleFactor);
+                if((p.lightColors[lightIndex] & 0xFFFFFF) > 0)
+                    p.ellipse(x + lightBoxSize / 2f, y + lightBoxSize / 2f, lightBoxSize * scaleFactor, lightBoxSize * scaleFactor);
+                lightIndex++;
+
                 y += lightBoxSize + lightBoxMarginVert;
             }
             y = (int) ((p.height / 2f) -
