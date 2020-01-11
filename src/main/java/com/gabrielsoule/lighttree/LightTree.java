@@ -1,6 +1,6 @@
 package com.gabrielsoule.lighttree;
 
-import com.gabrielsoule.lighttree.util.ColorUtil;
+import com.gabrielsoule.lighttree.util.Color;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
@@ -61,7 +61,7 @@ public class LightTree extends PApplet {
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
-        Color.p = this;
+        com.gabrielsoule.lighttree.Color.p = this;
         ui = new VisualizerUI();
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
@@ -123,7 +123,7 @@ public class LightTree extends PApplet {
             for (int j = 0; j < numLightBoxesHigh; j++) {
 //                fill(lightColors[((i + 1) * (j + 1)) - 1]);
                 fill(lightColors[lightIndex]);
-                float scaleFactor = ColorUtil.getBrightness(lightColors[lightIndex]);
+                float scaleFactor = Color.getBrightness(lightColors[lightIndex]);
                 scaleFactor = scaleFactor / 128f;
                 scaleFactor = scaleFactor / 4;
                 scaleFactor = scaleFactor + 0.75f;

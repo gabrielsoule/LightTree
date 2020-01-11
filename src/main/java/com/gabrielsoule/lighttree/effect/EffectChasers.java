@@ -1,7 +1,7 @@
 package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.*;
-import com.gabrielsoule.lighttree.util.ColorUtil;
+import com.gabrielsoule.lighttree.util.Color;
 import com.gabrielsoule.lighttree.util.MathUtil;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class EffectChasers extends LightEffect {
         float velocity = p.random(this.config.getFloat("min-velocity"), this.config.getFloat("max-velocity"));
         velocity = p.random(0, 1) > 0.5f ? velocity : -velocity; //random direction
         int c2 = this.config.getColor(1);
-        c2 = ColorUtil.setAlpha(c2, (int) (255 * this.config.getFloat("tail-alpha")));
+        c2 = Color.setAlpha(c2, (int) (255 * this.config.getFloat("tail-alpha")));
         chasers.add(
                 new Chaser(
                         new ColorGradient(this.config.getColor(0), 0, c2, 1),

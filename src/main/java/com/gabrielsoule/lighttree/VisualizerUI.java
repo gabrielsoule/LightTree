@@ -1,6 +1,7 @@
 package com.gabrielsoule.lighttree;
 
-import com.gabrielsoule.lighttree.util.ColorUtil;
+import com.gabrielsoule.lighttree.util.Color;
+import com.gabrielsoule.lighttree.util.RenderingUtil;
 import processing.core.PFont;
 
 public class VisualizerUI {
@@ -29,10 +30,13 @@ public class VisualizerUI {
     public void drawUI() {
 
         /* === draw background ===*/
-        backgroundColor = ColorUtil.bakeAlpha(ColorUtil.setAlpha(ColorUtil.getAverageColor(p.lightColors), 60));
+        backgroundColor = Color.bakeAlpha(Color.setAlpha(Color.getAverageColor(p.lightColors), 60));
 
         backgroundGradient.putColor(backgroundColor, 0);
         backgroundGradient.putColor(backgroundColor, 1);
+
+        ColorGradient test1 = new ColorGradient(p.color(0, 255, 255), 0, p.color(125, 255, 255), 1);
+        ColorGradient test2 = new ColorGradient(p.color(180, 255, 255), 0, p.color(220, 255, 255), 1);
 
         p.loadPixels();
         for(int j = 0; j < p.height; j++) {
@@ -41,6 +45,9 @@ public class VisualizerUI {
             }
         }
         p.updatePixels();
+
+        RenderingUtil.drawGradientBox(10, 10, 200, 50, p.CORNER, test1, RenderingUtil.X_AXIS, 5, test2, RenderingUtil.Y_AXIS);
+
 
         /* === draw LED visualizer in center === */
         int x = (int) ((p.width / 2f) -
@@ -56,7 +63,7 @@ public class VisualizerUI {
             for (int j = 0; j < numLightBoxesHigh; j++) {
 //                fill(lightColors[((i + 1) * (j + 1)) - 1]);
                 p.fill((p.lightColors[lightIndex] & (0xFFFFFF)) > 0 ? p.lightColors[lightIndex] : backgroundColor);
-                float scaleFactor = ColorUtil.getBrightness(p.lightColors[lightIndex]);
+                float scaleFactor = Color.getBrightness(p.lightColors[lightIndex]);
                 scaleFactor = scaleFactor / 128f;
                 scaleFactor = scaleFactor / 4;
                 scaleFactor = scaleFactor + 0.75f;

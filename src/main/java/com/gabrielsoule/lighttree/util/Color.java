@@ -1,10 +1,15 @@
 package com.gabrielsoule.lighttree.util;
 
+import com.gabrielsoule.lighttree.LightTree;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
 
-public class ColorUtil {
+public class Color {
+
+    public static int HSB(int hue, int saturation, int brightness) {
+        return LightTree.getInstance().color(hue, saturation, brightness);
+    }
 
 
     public static int getRed(int color) {
@@ -76,7 +81,7 @@ public class ColorUtil {
     /**
      * Processing supports colors with an alpha value (opacity), but the lights do not!
      * This method bakes a color's alpha value into its RGB values (assuming a black background--this works well for the lights)
-     * by reducing RGB as appropiate and setting the return alpha value to 255.
+     * by reducing RGB as appropriate and setting the return alpha value to 255.
      * Against a black background, both input and output should look identical.
      */
     public static int bakeAlpha(int color) {
