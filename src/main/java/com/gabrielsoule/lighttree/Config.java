@@ -18,7 +18,7 @@ public class Config {
         colors = new HashMap<>();
         try {
             this.yamlObject = yaml.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(filename));
-            System.out.println(yamlObject.get("general-keybinds"));
+//            System.out.println(yamlObject.get("general-keybinds"));
             keybinds = (Map<String, String>) yamlObject.get("general-keybinds");
             Map<String, String> hexColors = (Map<String, String>) yamlObject.get("color-names");
             for(String key : hexColors.keySet()) {

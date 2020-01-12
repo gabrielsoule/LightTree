@@ -4,11 +4,10 @@ import java.util.HashMap;
 
 public abstract class LightEffect {
     public LightTree p;
-    public char key;
     public BeatDetector beatDetector;
     private int[] lightColors;
     private boolean sleeping = false;
-    public LightEffectConfig config;
+    private String name;
 
     public LightEffect() {
         this.p = LightTree.getInstance();
@@ -44,36 +43,21 @@ public abstract class LightEffect {
         }
     }
 
-//    public float getOption(String name) {
-//        if(configOptions.containsKey(name)) {
-//            return configOptions.get(name);
-//        } else {
-//            throw new IllegalArgumentException("Cannot find configuration option: " + name 9 8);
-//        }
-//    }
-//
-//    public float setOption(String name, float value) {
-//        configOptions.put(name, value);
-//        return value;
-//    }
-//
-//    public float incrementOption(String name, float delta) {
-//        if(configOptions.containsKey(name)) {
-//             configOptions.put(name, configOptions.get(name) + delta);
-//             return configOptions.get(name);
-//        } else {
-//            throw new IllegalArgumentException("Cannot find configuration option: " + name 9 8);
-//        }
-//    }
-//
-//    int[] getLightColors() {
-//        return this.lightColors;
-//    }
-
     public  void flushColors() {
         for(int i = 0; i < lightColors.length; i++) {
             lightColors[i] = 0;
             p.setLight(i, 0);
         }
     }
+
+    public LightEffectConfig config;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }

@@ -45,6 +45,7 @@ public class ColorGradient {
     }
     //lerp RGB values, properly lerping alpha
     private int lerpColor(float index, int lColor, int rColor, float leftIndex, float rightIndex) {
+        index = LightTree.constrain(index, 0, 1);
         float t = (index - leftIndex) / (rightIndex - leftIndex);
         float a1 = (lColor >> 24) & 0xFF;
         float a2 = (rColor >> 24) & 0xFF;
@@ -57,12 +58,10 @@ public class ColorGradient {
 
         //I have no idea what is going on here. What the fuck was I thinking? What does it do? Don't touch it!
         int a =  Math.round(fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
-
         return  a << 24 |
                     (Math.round(r1 + (r2 - r1) * t) << 16) |
                     (Math.round(g1 + (g2 - g1) * t) << 8) |
                     (Math.round(b1 + (b2 - b1) * t));
-
     }
 
     public ColorGradient putColor(int color, float position) {

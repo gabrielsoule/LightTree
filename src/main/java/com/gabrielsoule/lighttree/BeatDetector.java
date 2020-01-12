@@ -22,7 +22,7 @@ public class BeatDetector {
     private int lastBeatTime;
     private int elapsed;
     private float lastDelta;
-    private float estPeriod;
+    private float estPeriod = 0;
     private DetectionPhase phase = DetectionPhase.SLEEPING;
     private boolean debug = true;
     private float beatMultiplier = 1;
@@ -143,7 +143,7 @@ public class BeatDetector {
      * @return the estimated BPM based on user beat input
      */
     public int getEstBPM() {
-        return (int) (60000 / estPeriod);
+        return estPeriod == 0? 0 : (int) (60000 / estPeriod);
     }
 
     /**

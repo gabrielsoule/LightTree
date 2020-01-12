@@ -70,7 +70,7 @@ public class KeyboardListener {
      */
     void handleKeyPress(int keycode) {
         if(keycode < KEYCODE_RANGE) {
-            LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
+//            LightTree.log("Handling hardware key press for keycode (keycode)", keycode);
             pressedKeys[keycode] = heldKeys[keycode] = keyPressedFlag = true;
         }
     }

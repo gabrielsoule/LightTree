@@ -31,6 +31,7 @@ public class LightSequencer {
                 LightTree.log("\nInstantiating LightEffect: com.gabrielsoule.lighttree.effect." + effectSection.get("effect") + " and binding to key \'" + key + "\'");
                 LightEffect effect = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("effect")).getConstructor().newInstance();
                 effect.p = this.p;
+                effect.setName((String) effectSection.get("name"));
 
                 //load colors
                 List<String> colorStrings = (List<String>) effectSection.get("colors");

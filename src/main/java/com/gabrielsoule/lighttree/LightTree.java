@@ -28,7 +28,7 @@ public class LightTree extends PApplet {
     public LightSequencer sequencer;
     public Config config;
     public FFT fft;
-    public VisualizerUI ui;
+    public LightUI ui;
 
 
     public static void main(String[] args) {
@@ -61,8 +61,7 @@ public class LightTree extends PApplet {
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
-        com.gabrielsoule.lighttree.Color.p = this;
-        ui = new VisualizerUI();
+        ui = new LightUI();
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
         this.sequencer = new LightSequencer(this);
@@ -97,7 +96,9 @@ public class LightTree extends PApplet {
 
     public static void log(String msg, Object... args) {
         if(DEBUG) {
-            System.out.println(String.format(msg, args));
+            msg = String.format(msg, args);
+            System.out.println(msg);
+            instance.ui.addLogEntry(msg);
         }
     }
 

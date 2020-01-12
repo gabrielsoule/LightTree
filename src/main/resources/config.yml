@@ -53,21 +53,22 @@ effect-keybinds:
   d:
     effect: EffectMitchellVisualizer
     name: VISUALIZER
-    colors: [WHITE]
+    colors: [RANDOM, RANDOM]
   f:
     effect: EffectChasers
     name: RANDOM CHASERS
-    colors: [RANDOM, RANDOM]
+    colors: [GOLD, PURPLE]
     options:
       num-chasers: 15
       min-length: 8
-      max-length: 12
-      min-velocity: 20
-      max-velocity: 30
+      max-length: 18
+      min-velocity: 40
+      max-velocity: 60
       tail-alpha: 0.2
   g:
     effect: TestEffectVisualizeFrequencies
-    colors: [RANDOM]
+    name: TEST EFFECT VISUALIZER
+    colors: [RANDOM, RANDOM]
 
 
 #  a:

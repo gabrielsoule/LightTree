@@ -1,5 +1,7 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.util.Color;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -57,9 +59,12 @@ public class LightEffectConfig {
         return getColor(nextColorIndex);
     }
 
+    public ArrayList<Integer> getColors() {
+        return colors;
+    }
 
     public int getColor(int i) {
-        if(colors.get(i) == 0) {
+        if(colors.get(i) == Color.RANDOM) {
             return LightTree.getInstance().color(LightTree.getInstance().random(0, 360), 255, 255);
         } else {
             return colors.get(i);

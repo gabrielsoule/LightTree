@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class Color {
 
+    public static int RANDOM = 0x00000000;
+    public static int BLACK  = 0x000000FF;
+    public static int WHITE  = 0xFFFFFFFF;
+
     public static int HSB(int hue, int saturation, int brightness) {
         return LightTree.getInstance().color(hue, saturation, brightness);
     }
@@ -125,4 +129,8 @@ public class Color {
     public static int getBrightness(int color) {
         return PApplet.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
     }
+//
+//    public static int setBrightness(int color, int brightness) {
+//        float mult = brightness / (float) getBrightness(color);
+
 }
