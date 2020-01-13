@@ -362,6 +362,7 @@ public class OPC implements Runnable
                     output = pending;                   // rest of code given access.
                     // pending not set null, more config packets are OK!
                 } catch (IOException e) {
+                    e.printStackTrace();
                     dispose();
                 }
             }

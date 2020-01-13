@@ -47,7 +47,7 @@ public class LightTree extends PApplet {
         String myPathToDataFolder = dataPath("");
         println(myPathToDataFolder);
         instance = this;
-        this.opc = new OPC(this, "lightpi.local", 7890);
+        this.opc = new OPC(this, "10.0.1.4", 7890);
         minim = new Minim(this);
         audioInput = minim.getLineIn();
         frameRate(FRAME_RATE);
