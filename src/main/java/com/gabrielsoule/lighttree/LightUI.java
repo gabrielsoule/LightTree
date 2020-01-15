@@ -24,7 +24,7 @@ public class LightUI {
     private int effectBoxMarginVert = 20;
     private int effectBoxHeight = 70;
     private int effectBoxBorderSize = 5;
-    private int effectBoxTextMarginLeft = 26;
+    private int effectBoxTextMarginLeft = 21;
     private int effectBoxColorIndicatorSize = 36;
     private int effectBoxColorIndicatorMargin = 10;
 
@@ -132,6 +132,7 @@ public class LightUI {
                     effectBoxBorderSize,
                     effectGradient,
                     RenderingUtil.X_AXIS);
+            p.textFont(fontBold, 30);
             p.textAlign(p.LEFT);
             p.fill(textColor);
             p.text(activeEffect.getName(), effectBoxMarginHoriz + effectBoxTextMarginLeft + effectBoxBorderSize, boxY + 45);

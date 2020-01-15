@@ -57,7 +57,7 @@ effect-keybinds:
   f:
     effect: EffectChasers
     name: RANDOM CHASERS
-    colors: [GOLD, PURPLE]
+    colors: [RED, PURPLE]
     options:
       num-chasers: 15
       min-length: 8
