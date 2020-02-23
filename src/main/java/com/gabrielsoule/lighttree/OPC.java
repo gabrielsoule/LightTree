@@ -364,6 +364,7 @@ public class OPC implements Runnable
                 } catch (IOException e) {
                     e.printStackTrace();
                     dispose();
+                    break;
                 }
             }
 

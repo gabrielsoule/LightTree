@@ -43,6 +43,7 @@ public class LightTree extends PApplet {
 
     @Override
     public void setup() {
+
         surface.setResizable(true);
         String myPathToDataFolder = dataPath("");
         println(myPathToDataFolder);
@@ -55,17 +56,16 @@ public class LightTree extends PApplet {
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         this.fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
         fft.window(FFT.BARTLETT);
-
+        ui = new LightUI();
         this.config = new Config("config.yml");
+        this.sequencer = new LightSequencer(this);
+        this.sequencer.loadFromConfig(config);
         colorMode(HSB, 360, 255, 255, 255);
         for(int i = 0; i < NUM_LIGHTS; i++) {
             lightColors[i] = color(0, 0, 0);
         }
-        ui = new LightUI();
         beatDetector = new BeatDetector(this, audioInput);
         keyboardListener = new KeyboardListener();
-        this.sequencer = new LightSequencer(this);
-        this.sequencer.loadFromConfig(config);
     }
 
 
