@@ -1,0 +1,108 @@
+options:
+  doRGBtoGRBfix: false
+  beat-increment-amount: 0.2 #each time KEY_FASTER_BEAT or KEY_SLOWER_BEAT is hit, increase the tempo by this amount of the original
+general-keybinds:
+  x: KEY_TOGGLE_LIGHTS
+  c: KEY_DO_BEAT
+  v: KEY_TOGGLE_BEAT
+  b: KEY_DOUBLE_BEAT
+  n: KEY_HALF_BEAT
+  m: KEY_FASTER_BEAT
+  ',': KEY_SLOWER_BEAT
+color-names:
+  WHITE: FFFFFF
+  PINK: FFC3C3
+  RED: FF0000
+  ORANGE: FF7F00
+  GOLD: FFDA00
+  YELLOW: FFFF00
+  GREEN: 00FF00
+  TEAL: 00FFC3
+  SKY: 00DDFF
+  BLUE: 0000FF
+  VIOLET: 4B0082
+  PURPLE: 9400D3
+color-keybinds:
+  q: RANDOM
+  w: WHITE
+  e: PINK
+  r: RED
+  t: ORANGE
+  y: GOLD
+  u: YELLOW
+  i: GREEN
+  o: TEAL
+  p: SKY
+  ']': BLUE
+  '[': VIOLET
+  '\': PURPLE
+effect-keybinds:
+  a:
+    effect: EffectStrobe
+    name: STROBE
+    colors: [RANDOM]
+    options:
+      lights-per-segment: 64
+      color-mode: PER_SEGMENT
+      segments-per-flash: 1
+      frequency: 15 #in HZ
+      strobe-on-mult: 0.5
+  s:
+    effect: EffectStrobe
+    name: STROBE
+    colors: [WHITE]
+    options:
+      lights-per-segment: 64
+      color-mode: PER_SEGMENT
+      segments-per-flash: 1
+      frequency: 15 #in HZ
+      strobe-on-mult: 0.5
+  f:
+    effect: EffectMitchellVisualizer
+    name: VISUALIZER
+    colors: [RANDOM, RANDOM]
+  g:
+    effect: EffectChasers
+    name: RANDOM CHASERS
+    colors: [RANDOM, RANDOM]
+    options:
+      num-chasers: 15
+      min-length: 8
+      max-length: 18
+      min-velocity: 40
+      max-velocity: 60
+      tail-alpha: 0.2
+  h:
+    effect: EffectFlicker
+    name: FLICKER
+    colors: [ffdc96, ffcc96, ffdbb5]
+  j:
+    effect: EffectRainbowPulse
+    name: RAINBOW PULSE
+    colors: [RANDOM]
+
+
+#  a:
+#    name: EffectVisualizer
+#    options: [0]
+#    colors: [RED, ORANGE, YELLOW]
+#  s:
+#    name: EffectChasers
+#    options:
+#      speed: 20
+#      count: 10
+#      length: 5
+#    colors: [-1]
+#  d:
+#    name: EffectPulsers
+##    options: [6, 9, 5]
+#    opti
+#    colors: [GOLD, PURPLE]
+#  f:
+#    name: EffectFlashSegments
+#    options: [2, 1]
+#    colors: [-1]
+#  g:
+#    name: EffectStrobe
+#    options: [0]
+#    colors: [WHITE]
