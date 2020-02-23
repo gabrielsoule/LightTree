@@ -24,21 +24,22 @@ public class EffectStrobe extends LightEffect {
         int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloat("frequency")));
         int numLightsToFlash = (int) (config.getFloat("lights-per-segment") * config.getFloat("segments-per-flash"));
         int turnOffLightsFrame = (int) ((p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("strobe-on-mult"));
-        if(turnOffLightsFrame == 0) {
+        if (turnOffLightsFrame == 0) {
             turnOffLightsFrame = 1;
         }
         if (frameModPeriod == 0) {
             //green light
+            int color = config.nextColor();
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
-                setLight(i % p.NUM_LIGHTS, config.nextColor());
+                setLight(i % p.NUM_LIGHTS,
+                        config.getString("color-mode").equalsIgnoreCase("PER_SEGMENT") ? color : config.nextColor());
             }
-        } else if(frameModPeriod == turnOffLightsFrame) {
+        } else if (frameModPeriod == turnOffLightsFrame) {
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
                 setLight(i % p.NUM_LIGHTS, 0);
             }
 
             segmentPointer = (segmentPointer + numLightsToFlash) % p.NUM_LIGHTS;
-//            System.out.println(frameModPeriod + " " + segmentPointer);
         }
     }
 }

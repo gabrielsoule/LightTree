@@ -109,10 +109,11 @@ public class LightSequencer {
                 LightTree.log("Activating effect bound to " + key);
                 LightEffect effect = effects.get(key);
                 if(activeEffects.contains(effect)) {
-                    LightTree.log("Deactivating effect " + effect.getClass().getSimpleName());
-                    activeEffects.remove(effect);
-                    effect.sleep();
+//                    LightTree.log("Deactivating effect " + effect.getClass().getSimpleName());
+//                    activeEffects.remove(effect);
+//                    effect.sleep();
                 } else {
+                    activeEffects.clear();
                     LightTree.log("Activating effect " + effect.getClass().getSimpleName());
                     activeEffects.add(effect);
                     effect.wake();
