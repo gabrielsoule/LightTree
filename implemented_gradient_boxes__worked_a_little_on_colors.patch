@@ -1,0 +1,74 @@
+Index: src/main/java/com/gabrielsoule/lighttree/OPC.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/gabrielsoule/lighttree/OPC.java	(revision 8e0f4b16c2d03707d97d4a6c053ede5d631f0512)
++++ src/main/java/com/gabrielsoule/lighttree/OPC.java	(date 1581008023112)
+@@ -364,6 +364,7 @@
+                 } catch (IOException e) {
+                     e.printStackTrace();
+                     dispose();
++                    break;
+                 }
+             }
+ 
+Index: src/main/java/com/gabrielsoule/lighttree/effect/EffectFlicker.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/gabrielsoule/lighttree/effect/EffectFlicker.java	(date 1581008919845)
++++ src/main/java/com/gabrielsoule/lighttree/effect/EffectFlicker.java	(date 1581008919845)
+@@ -0,0 +1,15 @@
++package com.gabrielsoule.lighttree.effect;
++
++import com.gabrielsoule.lighttree.LightEffect;
++
++public class EffectFlicker extends LightEffect {
++    @Override
++    public void setup() {
++
++    }
++
++    @Override
++    public void draw() {
++
++    }
++}
+Index: src/main/java/com/gabrielsoule/lighttree/LightTree.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/gabrielsoule/lighttree/LightTree.java	(revision 8e0f4b16c2d03707d97d4a6c053ede5d631f0512)
++++ src/main/java/com/gabrielsoule/lighttree/LightTree.java	(date 1581008200791)
+@@ -43,6 +43,7 @@
+ 
+     @Override
+     public void setup() {
++
+         surface.setResizable(true);
+         String myPathToDataFolder = dataPath("");
+         println(myPathToDataFolder);
+@@ -55,17 +56,16 @@
+         beat.detectMode(BeatDetect.SOUND_ENERGY);
+         this.fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
+         fft.window(FFT.BARTLETT);
+-
++        ui = new LightUI();
+         this.config = new Config("config.yml");
++        this.sequencer = new LightSequencer(this);
++        this.sequencer.loadFromConfig(config);
+         colorMode(HSB, 360, 255, 255, 255);
+         for(int i = 0; i < NUM_LIGHTS; i++) {
+             lightColors[i] = color(0, 0, 0);
+         }
+-        ui = new LightUI();
+         beatDetector = new BeatDetector(this, audioInput);
+         keyboardListener = new KeyboardListener();
+-        this.sequencer = new LightSequencer(this);
+-        this.sequencer.loadFromConfig(config);
+     }
+ 
+ 
