@@ -23,9 +23,11 @@ public class ColorGradient {
     }
 
     public int get(float position) {
-        if(position < 0 || position > 1) {
+/*        if(position < 0 || position > 1) {
             throw new IllegalArgumentException("Gradient position " + position + " is not between 0 and 1");
-        }
+        }*/
+
+        position = LightTree.constrain(position, 0, 1);
         //want to find adjacent colors to the specified location
         //first we must find adjacent indices
         float leftIndex  = 0;

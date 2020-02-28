@@ -29,6 +29,7 @@ public class LightTree extends PApplet {
     public Config config;
     public FFT fft;
     public LightUI ui;
+    private boolean stopLights = false;
 
 
     public static void main(String[] args) {
@@ -83,9 +84,17 @@ public class LightTree extends PApplet {
         stroke(255);
 
         beatDetector.tick();
-//        if(keyboardListener.keyPressed(config.getKeybind("KEY_DOUBLE_TEMPO"))) {
-//            beatDetector.setTempoMultiplier(beatDetector.get);
+//        if(keyboardListener.keyPressed(config.getKeybind("KEY_TOGGLE_LIGHTS"))) {
+//            this.stopLight = !stopLight;
 //        }
+
+        if(keyPressed && key == 'x') {
+            stopLights = true;
+        }
+
+//        if(keyboardListener.key)
+        
+        
         int[] sequencerResult = sequencer.sequence();
         ui.drawUI();
         opc.writePixels();
@@ -207,8 +216,8 @@ public class LightTree extends PApplet {
 //        if(c == -1) {
 //            c = color(random(0, 360), 255, 255);
 //        }
-
         lightColors[index] = c;
+//        else lightColors[index] = 0;
         c = fixColor(c);
 
         //tree-specific mapping, since segments are out of order.

@@ -57,11 +57,11 @@ effect-keybinds:
       segments-per-flash: 1
       frequency: 15 #in HZ
       strobe-on-mult: 0.5
-  f:
+  d:
     effect: EffectMitchellVisualizer
     name: VISUALIZER
     colors: [RANDOM, RANDOM]
-  g:
+  f:
     effect: EffectChasers
     name: RANDOM CHASERS
     colors: [RANDOM, RANDOM]
@@ -72,13 +72,17 @@ effect-keybinds:
       min-velocity: 40
       max-velocity: 60
       tail-alpha: 0.2
+  g:
+    effect: EffectRainbowPulse
+    name: RAINBOW PULSE
+    colors: [RANDOM]
   h:
     effect: EffectFlicker
     name: FLICKER
     colors: [ffdc96, ffcc96, ffdbb5]
-  j:
-    effect: EffectRainbowPulse
-    name: RAINBOW PULSE
+  x:
+    effect: EffectNull
+    name: NULL EFFECT
     colors: [RANDOM]
 
 
