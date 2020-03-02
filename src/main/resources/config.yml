@@ -80,8 +80,8 @@ effect-keybinds:
     name: FLASH SEGMENTS
     colors: [RANDOM, RANDOM]
     options:
-      segments-per-flash: 2
-      duration-factor: 2
+      segments-per-flash: 1
+      duration-factor: 6
   i:
     effect: EffectFlicker
     name: FLICKER
