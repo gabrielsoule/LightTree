@@ -13,7 +13,7 @@ public class BeatDetector {
     private final int BEATS_TO_IGNORE = 3;
     private final int BEATS_BEFORE_AUTO_GENERATE = 8;
 
-    private float TUNING = 0f;
+    private float TUNING = 0.0f;
 
     public boolean manualMode = false;
     private boolean beat = false;

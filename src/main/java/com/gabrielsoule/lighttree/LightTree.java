@@ -14,7 +14,7 @@ public class LightTree extends PApplet {
     private static LightTree instance;
     private static boolean DEBUG = true;
     public final int NUM_LIGHTS = 512;
-    public final int FRAME_RATE = 30;
+    public final int FRAME_RATE = 50;
 
     public OPC opc;
     public Minim minim;
@@ -66,6 +66,7 @@ public class LightTree extends PApplet {
             lightColors[i] = color(0, 0, 0);
         }
         beatDetector = new BeatDetector(this, audioInput);
+        beat.setSensitivity(200);
         keyboardListener = new KeyboardListener();
     }
 
@@ -79,26 +80,26 @@ public class LightTree extends PApplet {
     @Override
     public void draw() {
         opc.writePixels();
-
+//        beat.detect(audioInput.mix);
+//        if ( beat.isKick() ) System.out.println("Auto Beat" + millis());
         background(0);
         stroke(255);
 
-        beatDetector.tick();
 //        if(keyboardListener.keyPressed(config.getKeybind("KEY_TOGGLE_LIGHTS"))) {
 //            this.stopLight = !stopLight;
 //        }
 
-        if(keyPressed && key == 'x') {
-            stopLights = true;
-        }
 
 //        if(keyboardListener.key)
-        
-        
+
+        beatDetector.tick();
+        if(keyboardListener.keyPressed(config.getKeybind("KEY_DO_BEAT"))) {
+            beatDetector.handleKeyPress();
+        }
+
         int[] sequencerResult = sequencer.sequence();
         ui.drawUI();
         opc.writePixels();
-
         keyboardListener.tick();
 
     }

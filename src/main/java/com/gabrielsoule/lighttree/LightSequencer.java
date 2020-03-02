@@ -81,27 +81,6 @@ public class LightSequencer {
         LightTree.log("Done loading light effects! Total effects loaded: %s", effects.keySet().size());
     }
 
-    public void testLoad() {
-        EffectMitchellChasers chasers = new EffectMitchellChasers();
-        chasers.setup();
-        EffectFlashSegments flashSegments = new EffectFlashSegments();
-        flashSegments.setup();
-        EffectMitchellVisualizer visualizer = new EffectMitchellVisualizer();
-        visualizer.setup();
-        EffectPulsers pulsers = new EffectPulsers();
-        pulsers.setup();
-        EffectMitchellStrobe strobe = new EffectMitchellStrobe();
-        strobe.setup();
-
-        flashSegments.configure(new int[]{2, 2}, new int[]{0, 0});
-        pulsers.configure(new int[]{5, 3, 0}, new int[]{0, 0});
-        effects.put("1", visualizer);
-        effects.put("2", chasers);
-        effects.put("3", strobe);
-        effects.put("4", pulsers);
-        effects.put("5", flashSegments);
-    }
-
 
     int[] sequence() {
         for(String key : effects.keySet()) {

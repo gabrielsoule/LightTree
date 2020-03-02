@@ -57,6 +57,7 @@ public class LightUI {
     public void drawUI() {
         /* === draw background ===*/
         backgroundColor = Color.bakeAlpha(Color.setAlpha(Color.getAverageColor(p.lightColors), 60));
+//        if(backgroundColor == 0xFF000000) backgroundColor = p.color(100, 0, 60);
         p.background(backgroundColor);
 
         /* === draw LED visualizer in center === */
@@ -90,7 +91,10 @@ public class LightUI {
 
         /* === Draw effect boxes on left of display */
 
-        int textColor = p.color(p.hue(backgroundColor), 90, 255);
+        int textColor;
+        if (Color.getRed(backgroundColor) == Color.getGreen(backgroundColor) && Color.getGreen(backgroundColor) == Color.getBlue(backgroundColor))
+            textColor = p.color(100, 0, 120);
+        else textColor = p.color(p.hue(backgroundColor), 90, 255);
 
         int effectBoxWidth = ((p.displayWidth / 2) - (visualizerSectionWidth / 2)) - effectBoxMarginHoriz * 2;
         int boxY = p.displayHeight - (((p.displayHeight / 2) - (visualizerSectionHeight / 2)) + effectBoxHeight );
@@ -143,8 +147,9 @@ public class LightUI {
         p.fill(textColor);
         p.textAlign(p.CENTER);
         p.textFont(fontBold, 130);
-        p.text(122, (p.width /2 - visualizerSectionWidth / 2) / 2, bpmTextY);
-        float bpmTextWidth = p.textWidth(Integer.toString(122));
+        int bpm = p.beatDetector.getEstBPM();
+        p.text(bpm, (p.width /2 - visualizerSectionWidth / 2) / 2, bpmTextY);
+        float bpmTextWidth = p.textWidth(Integer.toString(bpm));
         p.textFont(fontBold, 30);
         p.text("BPM", (p.width / 2 - visualizerSectionWidth / 2) / 2 + bpmTextWidth / 2 + 40f, bpmTextY);
 

@@ -2,15 +2,15 @@ package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.ColorGradient;
 import com.gabrielsoule.lighttree.LightEffect;
+import com.gabrielsoule.lighttree.util.Color;
 
 import java.util.*;
 
 public class EffectFlashSegments extends LightEffect {
 
     //change this based on actual hardware setup
+    //TODO this is a BIG todo when we add hardware configuration... for now, whatever
     private final int LIGHTS_PER_SEGMENT = 64;
-    private float duration = 2f;
-    private int segmentsPerFlash = 2;
     private ColorGradient gradient;
 
     //we scramble this array during setup so that segments turn on randomly
@@ -41,30 +41,16 @@ public class EffectFlashSegments extends LightEffect {
         segments = new ArrayDeque<>(segmentArray);
     }
 
-    public void configure(int[] integerConfig, int[] colorConfig) {
-        this.segmentsPerFlash = integerConfig[0];
-        this.duration = 0.5f + integerConfig[1] / 3.33f;
-    }
-
-
-//    @Override
-//    public void configure(int[] integerConfig, Color[] colorConfig) {
-//        this.duration = integerConfig.length >= 1 ? integerConfig[0] : 2;
-//        this.gradient = new ColorGradient(
-//                colorConfig.length >= 1 ? colorConfig[0] : new Color("RANDOM"),
-//                0,
-//                colorConfig.length >= 2 ? colorConfig[1] : new Color(0)
-//        );
-//    }
-
     @Override
     public void draw() {
         flushColors();
         if(p.beatDetector.beat()) {
 //            segments.get(0).start();
 //            LightTree.log("Flashing segment!!");
-            for (int i = 0; i < segmentsPerFlash; i++) {
+            for (int i = 0; i < (int) config.getFloat("segments-per-flash"); i++) {
                 Segment segment = segments.removeLast();
+                segment.gradient.putColor(config.getColor(0), 0);
+                segment.gradient.putColor(Color.setAlpha(config.getColor(1), 0), 1);
                 segment.start();
                 segments.addFirst(segment); //back of the line
             }
@@ -101,7 +87,7 @@ public class EffectFlashSegments extends LightEffect {
 //                System.out.println(this.startLight+ ":" + p.beatDetector.getLastBeatDelta());
                 float progress =
                         (p.millis() - startTime) / (p.beatDetector.getLastBeatDelta() == 0 ? 500f : p.beatDetector.getLastBeatDelta());
-                progress /= duration; //divide by duration factor
+                progress /= config.getFloat("duration-factor"); //divide by duration factor
 //                System.out.println(progress);
                 if(progress >= 1) {
                     active = false;

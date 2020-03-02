@@ -118,7 +118,7 @@ public class Color {
 
     }
 
-    public static int hue (int color) {
+    public static int getHue(int color) {
         return 0;
     }
 
