@@ -2,11 +2,10 @@ options:
   doRGBtoGRBfix: false
   beat-increment-amount: 1 #each time KEY_FASTER_BEAT or KEY_SLOWER_BEAT is hit, increase the tempo by this amount of the original
 general-keybinds:
-  KEY_DO_BEAT: c
+  KEY_DO_BEAT: b
   KEY_TOGGLE_BEAT: v
-  KEY_DOUBLE_BEAT: b
-  KEY_HALF_BEAT: n
-  KEY_FASTER_BEAT: m
+  KEY_HALF_TEMPO: n
+  KEY_DOUBLE_TEMPO: m
   KEY_SLOWER_BEAT: ','
 color-names:
   WHITE: FFFFFF
@@ -80,9 +79,13 @@ effect-keybinds:
     name: FLASH SEGMENTS
     colors: [RANDOM, RANDOM]
     options:
-      segments-per-flash: 1
-      duration-factor: 6
+      segments-per-flash: 2
+      duration-factor: 2
   i:
+    effect: EffectBuildup
+    name: ILLUMINATE
+    colors: [WHITE]
+  j:
     effect: EffectFlicker
     name: FLICKER
     colors: [ffdc96, ffcc96, ffdbb5]

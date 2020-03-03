@@ -19,9 +19,13 @@ public abstract class LightEffect {
 
     public void sleep() {
         this.sleeping = true;
+        this.onSleep();
     }
 
-    public void wake() {this.sleeping = false;}
+    public void wake() {
+        this.sleeping = false;
+        this.onWake();
+    }
 
     public void onWake() {}
 

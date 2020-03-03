@@ -148,6 +148,9 @@ public class LightUI {
         p.textAlign(p.CENTER);
         p.textFont(fontBold, 130);
         int bpm = p.beatDetector.getEstBPM();
+        String bpmText;
+//        if(p.beatDetector.getTempoMultiplier() != 1) bpmText =  (bpm / p.beatDetector.getTempoMultiplier())+ "x" + (int) p.beatDetector.getTempoMultiplier();
+//        else bpmText = Integer.toString(p.beatDetector.getEstBPM());
         p.text(bpm, (p.width /2 - visualizerSectionWidth / 2) / 2, bpmTextY);
         float bpmTextWidth = p.textWidth(Integer.toString(bpm));
         p.textFont(fontBold, 30);

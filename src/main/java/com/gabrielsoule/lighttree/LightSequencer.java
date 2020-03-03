@@ -92,6 +92,7 @@ public class LightSequencer {
 //                    activeEffects.remove(effect);
 //                    effect.sleep();
                 } else {
+                    if(!activeEffects.isEmpty())
                     activeEffects.clear();
                     LightTree.log("Activating effect " + effect.getClass().getSimpleName());
                     activeEffects.add(effect);

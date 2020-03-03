@@ -42,6 +42,15 @@ public class BeatDetector {
     }
 
     void tick() {
+
+        if(p.keyboardListener.keyPressed(p.config.getKeybind("KEY_DOUBLE_TEMPO"))) {
+            this.beatMultiplier = beatMultiplier  * 2;
+        }
+
+        if(p.keyboardListener.keyPressed(p.config.getKeybind("KEY_HALF_TEMPO"))) {
+            this.beatMultiplier = beatMultiplier  / 2f;
+        }
+
         beat = false;
         if(!manualMode) {
             if (phase == DetectionPhase.ADJUSTING && p.millis() - lastManualBeatTime > ENGAGE_LOCK_TIME) {
@@ -143,7 +152,7 @@ public class BeatDetector {
      * @return the estimated BPM based on user beat input
      */
     public int getEstBPM() {
-        return estPeriod == 0? 0 : (int) (60000 / estPeriod);
+        return (int) ((estPeriod == 0 ? 0 : (int) (60000 / estPeriod)) * beatMultiplier);
     }
 
     /**
