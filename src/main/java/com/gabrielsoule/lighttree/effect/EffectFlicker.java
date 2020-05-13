@@ -3,7 +3,6 @@ package com.gabrielsoule.lighttree.effect;
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
 import com.gabrielsoule.lighttree.util.Color;
-import sun.plugin2.util.ColorUtil;
 
 public class EffectFlicker extends LightEffect {
 
@@ -27,7 +26,7 @@ public class EffectFlicker extends LightEffect {
         for(int i = 0; i < p.NUM_LIGHTS; i++) {
             float brightness =
                     brightnessFunc((((i / (float) p.NUM_LIGHTS) + p.millis() * 0.000009f) % 1.0f) - minAmplitude) / maxAmplitude;
-            setLight(i, Color.setAlpha(config.nextColor(), (int) LightTree.abs(brightness * 255)));
+            setLight(i, Color.setAlpha(config.getColors().get(i % config.getColors().size()), (int) LightTree.abs((0.4f + brightness) * 255)));
         }
     }
 

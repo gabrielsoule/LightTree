@@ -7,6 +7,8 @@ import processing.core.PFont;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+//Oh, the days before the lightui library...
+@Deprecated
 public class LightUI {
 
     private LightTree p;
@@ -40,7 +42,7 @@ public class LightUI {
 
     private int visualizerSectionWidth;
     private int visualizerSectionHeight;
-    private int backgroundColor;
+    public int backgroundColor;
 
     private ColorGradient backgroundGradient;
 
@@ -107,10 +109,10 @@ public class LightUI {
                 if(color == Color.RANDOM) {
                     color = p.color((p.millis() * 0.1f) % 360, 255, 255);
                 }
-                effectGradient.putColor(color, i / ((float) activeEffect.config.getColors().size() - 1));
+                effectGradient.putColor(i / ((float) activeEffect.config.getColors().size() - 1), color);
 
                 p.fill(color);
-                p.ellipse(colorIndicatorX, boxY + effectBoxHeight  / 2, effectBoxColorIndicatorSize, effectBoxColorIndicatorSize);
+                p.ellipse(colorIndicatorX, boxY + effectBoxHeight / 2, effectBoxColorIndicatorSize, effectBoxColorIndicatorSize);
                 colorIndicatorX += effectBoxColorIndicatorSize + effectBoxColorIndicatorMargin;
             }
 
@@ -118,13 +120,13 @@ public class LightUI {
             if(color == Color.RANDOM) {
                 color = p.color((p.millis() * 0.1f) % 360, 255, 255);
             }
-            effectGradient.putColor(color, 1);
+            effectGradient.putColor(1, color);
 
             color = activeEffect.config.getColors().get(0);
             if(color == Color.RANDOM) {
                 color = p.color((p.millis() * 0.1f) % 360, 255, 255);
             }
-            effectGradient.putColor(color, 0);
+            effectGradient.putColor(0, color);
 
             RenderingUtil.drawGradientBox(
                     effectBoxMarginHoriz,

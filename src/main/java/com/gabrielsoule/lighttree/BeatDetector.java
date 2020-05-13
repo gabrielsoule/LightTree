@@ -4,6 +4,9 @@ import ddf.minim.AudioInput;
 import ddf.minim.analysis.BeatDetect;
 
 public class BeatDetector {
+
+    private enum DetectionPhase {SLEEPING, ADJUSTING, SYNCHRONIZING, ENGAGED}
+
     private final LightTree p;
     private final AudioInput audio;
     private BeatDetect minimDetector;
@@ -60,7 +63,7 @@ public class BeatDetector {
             if (phase == DetectionPhase.SYNCHRONIZING && p.millis() - lastManualBeatTime > ENGAGE_LOCK_TIME) {
                 print("System locked and engaged at " + this.getEstBPM() + " BPM with a period of " + estPeriod + "ms.");
                 if (manualBeatCount > 0) {
-                    this.estPeriod = 1000 / (Math.round(60000 / estPeriod + TUNING) / 60f);
+//                    this.estPeriod = 1000 / (Math.round(60000 / estPeriod + TUNING) / 60f);
                     print("Rounded to " + this.getEstBPM() + " with a period of " + estPeriod + "ms.");
                 }
                 phase = DetectionPhase.ENGAGED;
@@ -163,5 +166,4 @@ public class BeatDetector {
         return lastDelta;
     }
 
-    private enum DetectionPhase {SLEEPING, ADJUSTING, SYNCHRONIZING, ENGAGED}
 }

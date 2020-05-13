@@ -47,11 +47,11 @@ public class EffectFlashSegments extends LightEffect {
         if(p.beatDetector.beat()) {
 //            segments.get(0).start();
 //            LightTree.log("Flashing segment!!");
-            for (int i = 0; i < (int) config.getFloat("segments-per-flash"); i++) {
+            for (int i = 0; i < (int) config.getFloatFromConfig("segments-per-flash"); i++) {
                 Segment segment = segments.removeLast();
 //                segment.gradient = new ColorGradient(config.getColor(0), 0, Color.setAlpha(config.getColor(1), 0), 1);
-                segment.gradient.putColor(config.getColor(0), 0);
-                segment.gradient.putColor(Color.setAlpha(config.getColor(1), 0), 1);
+                segment.gradient.putColor(0, config.getColor(0));
+                segment.gradient.putColor(1, Color.setAlpha(config.getColor(1), 0));
                 segment.start();
                 segments.addFirst(segment); //back of the line
             }
@@ -88,7 +88,7 @@ public class EffectFlashSegments extends LightEffect {
 //                System.out.println(this.startLight+ ":" + p.beatDetector.getLastBeatDelta());
                 float progress =
                         (p.millis() - startTime) / (p.beatDetector.getLastBeatDelta() == 0 ? 500f : p.beatDetector.getLastBeatDelta());
-                progress /= config.getFloat("duration-factor"); //divide by duration factor
+                progress /= config.getFloatFromConfig("duration-factor"); //divide by duration factor
 //                System.out.println(progress);
                 if(progress >= 1) {
                     active = false;

@@ -3,23 +3,29 @@ package com.gabrielsoule.lighttree;
 import com.gabrielsoule.lighttree.util.MathUtil;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class ColorGradient {
 
-    private HashMap<Float, Integer> colors;
-    private boolean fixBrightness = true;
+    private HashMap<Float, Supplier<Integer>> colors;
+    private boolean fixBrightness = false;
     private float curveLerpExponent = 2f;
 
     public ColorGradient(float... args) {
+        this();
         if(args.length % 2 != 0) {
             throw new IllegalArgumentException("Odd number of arguments. Each color must be paired with a float in between 0 and 1");
         }
-        colors = new HashMap<>();
-        colors.put(0f, 0);
-        colors.put(1f, 1);
         for (int i = 0; i < args.length; i += 2) {
-            colors.put(args[i+1], (int) args[i]);
+            int color = (int) args[i];
+            colors.put(args[i+1], () -> (color));
         }
+    }
+
+    public ColorGradient() {
+        colors = new HashMap<>();
+        colors.put(0f, () -> 0xFF000000);
+        colors.put(1f, () -> 0xFFFFFFFF);
     }
 
     public int get(float position) {
@@ -27,7 +33,11 @@ public class ColorGradient {
             throw new IllegalArgumentException("Gradient position " + position + " is not between 0 and 1");
         }*/
 
-        position = LightTree.constrain(position, 0, 1);
+        if(position < 0) {
+            position = 0;
+        } else if(position > 1) {
+            position = 1;
+        }
         //want to find adjacent colors to the specified location
         //first we must find adjacent indices
         float leftIndex  = 0;
@@ -43,7 +53,7 @@ public class ColorGradient {
             }
         }
 
-        return lerpColor(position, colors.get(leftIndex), colors.get(rightIndex), leftIndex, rightIndex);
+        return lerpColor(position, colors.get(leftIndex).get(), colors.get(rightIndex).get(), leftIndex, rightIndex);
     }
     //lerp RGB values, properly lerping alpha
     private int lerpColor(float index, int lColor, int rColor, float leftIndex, float rightIndex) {
@@ -59,14 +69,18 @@ public class ColorGradient {
         float b2 = rColor & 0xFF;
 
         //I have no idea what is going on here. What the fuck was I thinking? What does it do? Don't touch it!
-        int a =  Math.round(fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
+        int a =  (int) (fixBrightness ? MathUtil.curvedLerp(a1, a2, t, curveLerpExponent) : a1 + (a2 - a1) * t);
         return  a << 24 |
-                    (Math.round(r1 + (r2 - r1) * t) << 16) |
-                    (Math.round(g1 + (g2 - g1) * t) << 8) |
-                    (Math.round(b1 + (b2 - b1) * t));
+                    ((int) (r1 + (r2 - r1) * t) << 16) |
+                    ((int) (g1 + (g2 - g1) * t) << 8) |
+                    ((int) (b1 + (b2 - b1) * t));
     }
 
-    public ColorGradient putColor(int color, float position) {
+    public ColorGradient putColor(float position, int color) {
+        return putColor(position, () -> color);
+    }
+
+    public ColorGradient putColor( float position, Supplier<Integer> color) {
         colors.put(position, color);
         return this;
     }

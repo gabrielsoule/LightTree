@@ -5,7 +5,8 @@ import com.gabrielsoule.lighttree.util.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class LightEffectConfig {
+@Deprecated
+public class LegacyLightEffectConfig {
     private HashMap<String, Float> floatOptions     = new HashMap<>();
     private HashMap<String, Boolean> booleanOptions = new HashMap<>();
     private HashMap<String, String> stringOptions   = new HashMap<>();

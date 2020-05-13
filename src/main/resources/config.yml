@@ -62,13 +62,13 @@ effect-keybinds:
   f:
     effect: EffectChasers
     name: RANDOM CHASERS
-    colors: [RANDOM, RANDOM]
+    colors: [RED, GREEN]
     options:
       num-chasers: 15
       min-length: 8
       max-length: 18
-      min-velocity: 40
-      max-velocity: 60
+      min-velocity: 15
+      max-velocity: 25
       tail-alpha: 0.2
   g:
     effect: EffectRainbowPulse
@@ -88,11 +88,26 @@ effect-keybinds:
   j:
     effect: EffectFlicker
     name: FLICKER
-    colors: [ffdc96, ffcc96, ffdbb5]
+    colors: [ffdc96, ffc157, ffec80]
+  k:
+    effect: EffectNeoVisualizerLogAverages
+    name: NEOVISUALIZER
+    colors: [RANDOM]
+  l:
+    effect: EffectNeoVisualizer
+    name: NEOVISUALIZER
+    colors: [RANDOM]
+    options:
+      colorChangeSpeed: 10
+      divisionsPerBand: 2
+      minBeatFreq: 25
+      maxBeatFreq: 65
+      beatDelay: 200
+      doBeatFlash: true
   x:
     effect: EffectNull
     name: NULL EFFECT
-    colors: [RANDOM]
+    colors: [RED, GREEN]
 
 
 #  a:

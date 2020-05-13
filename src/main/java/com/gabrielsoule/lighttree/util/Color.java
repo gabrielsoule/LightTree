@@ -56,7 +56,7 @@ public class Color {
         int alpha = 0;
         for (int i = 0; i < colors.length; i++) {
             int color = colors[i];
-            if((color >> 8) != 0 && (color & 0xFF) != 0) {
+            if((color >> 8) != 0 && ((color >> 24) & 0xFF) != 0) {
                 count++;
                 red += getRed(color);
                 green += getGreen(color);
@@ -108,9 +108,7 @@ public class Color {
     }
 
     public static int setAlpha(int color, int alpha) {
-        if(alpha < 0 || alpha > 255) {
-            throw new IllegalArgumentException("Cannot set a color's alpha value to " + alpha + " [0-255]");
-        }
+        alpha = PApplet.constrain(alpha, 0, 255);
         return alpha << 24 |
                 getRed(color) << 16 |
                 getGreen(color) << 8 |
@@ -118,12 +116,46 @@ public class Color {
 
     }
 
+    //Borrowed from https://stackoverflow.com/questions/23090019/fastest-formula-to-get-hue-from-rgb
     public static int getHue(int color) {
-        return 0;
+
+        int red = getRed(color);
+        int green = getGreen(color);
+        int blue = getBlue(color);
+
+        float min = LightTree.min(LightTree.min(red, green), blue);
+        float max = LightTree.max(LightTree.max(red, green), blue);
+
+        if (min == max) {
+            return 0;
+        }
+
+        float hue = 0f;
+        if (max == red) {
+            hue = (green - blue) / (max - min);
+
+        } else if (max == green) {
+            hue = 2f + (blue - red) / (max - min);
+
+        } else {
+            hue = 4f + (red - green) / (max - min);
+        }
+
+        hue = hue * 60;
+        if (hue < 0) hue = hue + 360;
+
+        return LightTree.round(hue);
     }
 
     public static int getSaturation(int color) {
-        return PApplet.max(getRed(color), Math.max(getGreen(color), getBlue(color)));
+        int red = getRed(color);
+        int green = getGreen(color);
+        int blue = getBlue(color);
+
+        float min = LightTree.min(LightTree.min(red, green), blue);
+        float max = LightTree.max(LightTree.max(red, green), blue);
+        if(max == 0) return 0;
+        else return LightTree.round(((max - min) / max) * 255);
     }
 
     public static int getBrightness(int color) {

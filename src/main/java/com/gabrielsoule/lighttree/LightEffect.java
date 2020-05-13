@@ -1,6 +1,6 @@
 package com.gabrielsoule.lighttree;
 
-import java.util.HashMap;
+import com.gabrielsoule.lighttree.effect.config.LightEffectConfig;
 
 public abstract class LightEffect {
     public LightTree p;
@@ -8,6 +8,7 @@ public abstract class LightEffect {
     private int[] lightColors;
     private boolean sleeping = false;
     private String name;
+    public LightEffectConfig config;
 
     public LightEffect() {
         this.p = LightTree.getInstance();
@@ -54,7 +55,10 @@ public abstract class LightEffect {
         }
     }
 
-    public LightEffectConfig config;
+
+    public LightEffectConfig getConfig() {
+        return config;
+    }
 
     public String getName() {
         return name;

@@ -1,5 +1,6 @@
 package com.gabrielsoule.lighttree;
 
+import com.gabrielsoule.lighttree.ui.LightTreeUI;
 import com.gabrielsoule.lighttree.util.Color;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
@@ -9,12 +10,16 @@ import processing.core.PApplet;
 
 import java.util.HashMap;
 
+/**
+ * Main class for the app. This was the first class that was ever written;
+ * thus at this point it's a bit of a bloated mess. But it gets the job done.
+ */
 public class LightTree extends PApplet {
 
     private static LightTree instance;
     private static boolean DEBUG = true;
     public final int NUM_LIGHTS = 512;
-    public final int FRAME_RATE = 50;
+    public final int FRAME_RATE = 60;
 
     public OPC opc;
     public Minim minim;
@@ -29,6 +34,7 @@ public class LightTree extends PApplet {
     public Config config;
     public FFT fft;
     public LightUI ui;
+    public LightTreeUI newUI;
     private boolean stopLights = false;
 
 
@@ -56,6 +62,8 @@ public class LightTree extends PApplet {
         beat = new BeatDetect();
         beat.detectMode(BeatDetect.SOUND_ENERGY);
         this.fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
+        System.out.println(audioInput.bufferSize());
+        System.out.println(audioInput.sampleRate());
         fft.window(FFT.BARTLETT);
         ui = new LightUI();
         this.config = new Config("config.yml");
@@ -68,6 +76,8 @@ public class LightTree extends PApplet {
         beatDetector = new BeatDetector(this, audioInput);
         beat.setSensitivity(200);
         keyboardListener = new KeyboardListener();
+        newUI = new LightTreeUI();
+        newUI.loadUI();
     }
 
 
@@ -80,28 +90,26 @@ public class LightTree extends PApplet {
     @Override
     public void draw() {
         opc.writePixels();
-//        beat.detect(audioInput.mix);
-//        if ( beat.isKick() ) System.out.println("Auto Beat" + millis());
+        fft.forward(audioInput.mix);
         background(0);
         stroke(255);
-
-//        if(keyboardListener.keyPressed(config.getKeybind("KEY_TOGGLE_LIGHTS"))) {
-//            this.stopLight = !stopLight;
-//        }
-
-
-//        if(keyboardListener.key)
-
         beatDetector.tick();
         if(keyboardListener.keyPressed(config.getKeybind("KEY_DO_BEAT"))) {
             beatDetector.handleKeyPress();
         }
 
+
         int[] sequencerResult = sequencer.sequence();
-        ui.drawUI();
+        newUI.draw();
+
+
+
+//        ui.drawUI();
+//        rect(100, 100, 1000, 1000);
+
+
         opc.writePixels();
         keyboardListener.tick();
-
     }
 
     public static void log(String msg, Object... args) {

@@ -2,6 +2,8 @@ package com.gabrielsoule.lighttree.effect;
 
 import com.gabrielsoule.lighttree.LightEffect;
 import com.gabrielsoule.lighttree.LightTree;
+import ddf.minim.analysis.HammingWindow;
+import ddf.minim.analysis.WindowFunction;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -12,7 +14,9 @@ public class EffectMitchellVisualizer extends LightEffect {
     float[] rawScores = new float[rowmax];
     float[] inScores = new float[rowmax];
     float[] avg = new float[rowmax];
-    int[] limits = {0, 100, 200, 300, 400, 510, 630, 770, 920, 1080, 1270, 1480, 1720, 2000, 2320, 2700, 3150, 3700, 4400, 5300, 6400, 7700, 9500, 12000, 15000};
+//    int[] limits = {0, 100, 200, 300, 400, 510, 630, 770, 920, 1080, 1270, 1480, 1720, 2000, 2320, 2700, 3150, 3700, 4400, 5300, 6400, 7700, 9500, 12000, 15000};
+
+    int[] limits = {0, 25, 50, 77, 150, 200, 225, 250, 275, 300, 400, 600, 900, 1300, 1700, 2200, 2950, 3400, 4000, 5000, 6100, 7700, 9500, 12000, 15000};
     float total = 0;
     float rawScore;
     float colorMod = 120;
@@ -30,6 +34,8 @@ public class EffectMitchellVisualizer extends LightEffect {
 
     int mode = 0;
     boolean dir = true;
+
+    WindowFunction window = new HammingWindow();
 
     @Override
     public void setup() {

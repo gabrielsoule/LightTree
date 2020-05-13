@@ -15,7 +15,7 @@ public class EffectChasers extends LightEffect {
     public void setup() {
         chasers = new ArrayList<>();
         chasersToRemove = new ArrayList<>();
-        for (int i = 0; i < config.getFloat("num-chasers"); i++) {
+        for (int i = 0; i < config.getFloatFromConfig("num-chasers"); i++) {
             spawnChaser();
         }
     }
@@ -39,15 +39,15 @@ public class EffectChasers extends LightEffect {
     }
 
     private void spawnChaser() {
-        float velocity = p.random(this.config.getFloat("min-velocity"), this.config.getFloat("max-velocity"));
+        float velocity = p.random(this.config.getFloatFromConfig("min-velocity"), this.config.getFloatFromConfig("max-velocity"));
         velocity = p.random(0, 1) > 0.5f ? velocity : -velocity; //random direction
         int c2 = this.config.getColor(1);
-        c2 = Color.setAlpha(c2, (int) (255 * this.config.getFloat("tail-alpha")));
+        c2 = Color.setAlpha(c2, (int) (255 * this.config.getFloatFromConfig("tail-alpha")));
         chasers.add(
                 new Chaser(
                         new ColorGradient(this.config.getColor(0), 0, c2, 1),
                         (int) p.random(0, p.NUM_LIGHTS),
-                        (int) p.random(this.config.getFloat("min-length"), this.config.getFloat("max-length")),
+                        (int) p.random(this.config.getFloatFromConfig("min-length"), this.config.getFloatFromConfig("max-length")),
                         velocity)
         );
     }

@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.gabrielsoule:lightui:0.1" level="project" />
     <orderEntry type="library" name="Maven: net.compartmental.code:minim:2.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-javadoc-plugin:2.10.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven:maven-core:2.2.1" level="project" />

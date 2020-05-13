@@ -21,9 +21,9 @@ public class EffectStrobe extends LightEffect {
 
     @Override
     public void draw() {
-        int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloat("frequency")));
-        int numLightsToFlash = (int) (config.getFloat("lights-per-segment") * config.getFloat("segments-per-flash"));
-        int turnOffLightsFrame = (int) ((p.FRAME_RATE / config.getFloat("frequency")) * config.getFloat("strobe-on-mult"));
+        int frameModPeriod = p.frameCount % ((int) (p.FRAME_RATE / config.getFloatFromConfig("frequency")));
+        int numLightsToFlash = (int) (config.getFloatFromConfig("lights-per-segment") * config.getFloatFromConfig("segments-per-flash"));
+        int turnOffLightsFrame = (int) ((p.FRAME_RATE / config.getFloatFromConfig("frequency")) * config.getFloatFromConfig("strobe-on-mult"));
         if (turnOffLightsFrame == 0) {
             turnOffLightsFrame = 1;
         }
@@ -32,7 +32,7 @@ public class EffectStrobe extends LightEffect {
             int color = config.nextColor();
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {
                 setLight(i % p.NUM_LIGHTS,
-                        config.getString("color-mode").equalsIgnoreCase("PER_SEGMENT") ? color : config.nextColor());
+                        config.getStringFromConfig("color-mode").equalsIgnoreCase("PER_SEGMENT") ? color : config.nextColor());
             }
         } else if (frameModPeriod == turnOffLightsFrame) {
             for (int i = segmentPointer; i < segmentPointer + numLightsToFlash; i++) {

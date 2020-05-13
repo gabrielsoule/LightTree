@@ -1,5 +1,7 @@
 package com.gabrielsoule.lighttree.util;
 
+import com.gabrielsoule.lighttree.LightTree;
+
 public class MathUtil {
 
     /**
@@ -16,7 +18,7 @@ public class MathUtil {
     public static float curvedLerp(float a, float b, float t, float k) {
 //        System.out.println(a + " " + b + " " + t + " " + k);
 //        if(a < b) {
-            return (float) (a + (b - a) * Math.pow(t, k));
+            return (float) (a + (b - a) * LightTree.pow(t, k));
 //        } else {
 //            return (float) (a - (a - b) * Math.pow(t, k));
 //        }

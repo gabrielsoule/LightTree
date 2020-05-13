@@ -21,7 +21,8 @@ public class LightSequencer {
     }
 
 
-    //TODO Migrate this method into Config.java
+    //TODO Migrate this method into Config.java. This entire class is stupid and should be eliminated;
+    // it was designed for a feature that will never be implemented... most likely.
     public void loadFromConfig(Config config) {
         LightTree.log("Loading effects from config... OK");
         HashMap<String, Object> effectKeybindsSection = (HashMap<String, Object>) config.getYamlObject().get("effect-keybinds");
@@ -32,16 +33,19 @@ public class LightSequencer {
                 LightEffect effect = (LightEffect) Class.forName("com.gabrielsoule.lighttree.effect." + effectSection.get("effect")).getConstructor().newInstance();
                 effect.p = this.p;
                 effect.setName((String) effectSection.get("name"));
+                if(effect.getName().equals("NULL EFFECT")) {
+                    this.activeEffects.add(effect);
+                }
 
                 //load colors
                 List<String> colorStrings = (List<String>) effectSection.get("colors");
                 for(String colorString : colorStrings) {
                     if(config.getColors().containsKey(colorString)) {
                         LightTree.log("Adding color %s to effect", colorString);
-                        effect.config.addColor(config.getColors().get(colorString));
+                        effect.getConfig().addColor(config.getColors().get(colorString));
                     } else {
                         LightTree.log("Adding color %s to effect", colorString);
-                        effect.config.addColor(MathUtil.decodePColorRGB(colorString));
+                        effect.getConfig().addColor(MathUtil.decodePColorRGB(colorString));
                     }
                 }
 
@@ -52,16 +56,16 @@ public class LightSequencer {
                         String value = effectOptions.get(optionName).toString();
                         try {
                             float floatValue = Float.parseFloat(value);
-                            effect.config.setFloat(optionName, floatValue);
+                            effect.getConfig().setFloatFromConfig(optionName, floatValue);
                             LightTree.log(String.format("Setting float option \'%s\' to value \'%s\'",optionName, floatValue));
 
                         } catch (NumberFormatException ex) {
                             if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
                                 boolean booleanValue = Boolean.parseBoolean(value);
-                                effect.config.setBoolean(optionName, booleanValue);
+                                effect.getConfig().setBooleanFromConfig(optionName, booleanValue);
                                 LightTree.log(String.format("Setting boolean option \'%s\' to value \'%s\'",optionName, booleanValue));
                             } else {
-                                effect.config.setString(optionName, value);
+                                effect.getConfig().setStringFromConfig(optionName, value);
                                 LightTree.log(String.format("Setting string option \'%s\' to value \'%s\'",optionName, value));
 
                             }
@@ -110,6 +114,13 @@ public class LightSequencer {
         }
 
         return null; //TODO literally anything but this
+    }
+
+    public void setActiveEffect(LightEffect effect) {
+        activeEffects.clear();
+        LightTree.log("Activating effect " + effect.getClass().getSimpleName());
+        activeEffects.add(effect);
+        effect.wake();
     }
 
 

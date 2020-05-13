@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static edu.emory.mathcs.backport.java.util.Collections.*;
-
 public class EffectBuildup extends LightEffect {
     private ArrayList<Integer> lightOrder = new ArrayList<>();
     private int index = 0;
