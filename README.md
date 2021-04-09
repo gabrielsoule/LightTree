@@ -1,3 +1,5 @@
+![alt text](https://github.com/gabrielsoule/LightTree/blob/master/screenshot.jpg)
+
 # LightTree
 
 Powers the lights in my tree. Though there is a very small amount of code specifically tuned to the tree in the backyard, it should work with any WS2811/2812 LED strips plugged into a Fadecandy chip. It runs on Processing (processing.org) to power the visualizer UI. You can run the visualizer without connecting to a Fadecandy server, though obviously it doesn't look as cool without the actual lights...
