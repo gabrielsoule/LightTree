@@ -1,4 +1,7 @@
 ![alt text](https://github.com/gabrielsoule/LightTree/blob/master/screenshot.jpg)
+![alt text](https://github.com/gabrielsoule/LightTree/blob/master/photo.jpg)
+
+_apologies for the poor quality, as of 2021 the tree has fallen down in a windstorm and therefore no new photos can be taken..._
 
 # LightTree
 
